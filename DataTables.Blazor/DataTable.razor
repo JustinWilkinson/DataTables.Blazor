@@ -1,0 +1,49 @@
+﻿@inject DataTablesInterop Datatables
+
+<CascadingValue Value="this">
+    <table id="@Id" class="@Class" style="@Style">
+        <thead>
+            <tr>@ChildContent</tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</CascadingValue>
+
+@code{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public string Class { get; set; }
+
+    [Parameter]
+    public string Style { get; set; }
+
+    [Parameter]
+    public string Source { get; set; }
+
+    [Parameter]
+    public string DOM { get; set; }
+
+    [Parameter]
+    public bool Order { get; set; }
+
+    [Parameter]
+    public bool Search { get; set; }
+
+    [Parameter]
+    public bool Paging { get; set; }
+
+    public List<Column> Columns { get; set; } = new List<Column>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Datatables.InitialiseAsync(Id, DataTableOptions.FromComponent(this));
+        }
+    }
+}
