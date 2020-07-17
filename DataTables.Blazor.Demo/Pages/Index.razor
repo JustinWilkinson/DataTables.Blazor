@@ -1,7 +1,11 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<h1>Weather forecast</h1>
 
-Welcome to your new app.
+<p>This component demonstrates use of a DataTable</p>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<DataTable Id="MyTable" SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
+    <Column Title="Date" Data="Date" />
+    <Column Title="Temp. (C)" Data="TemperatureC" />
+    <Column Title="Summary" ClassName="dt-body-center" Data="Summary" />
+</DataTable>
