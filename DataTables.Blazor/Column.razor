@@ -20,16 +20,34 @@
     public string ClassName { get; set; }
 
     [Parameter]
-    public bool Searchable { get; set; }
+    public string CellType { get; set; }
 
     [Parameter]
-    public bool Orderable { get; set; }
+    public string ContentPadding { get; set; }
+
+    [Parameter]
+    public bool? Searchable { get; set; }
+
+    [Parameter]
+    public bool? Orderable { get; set; }
 
     [Parameter]
     public string OrderData { get; set; }
 
     [Parameter]
-    public bool Visible { get; set; } = true;
+    public string OrderDataType { get; set; }
+
+    [Parameter]
+    public object CreatedCell { get; set; }
+
+    [Parameter]
+    public object Render { get; set; }
+
+    [Parameter]
+    public string Type { get; set; }
+
+    [Parameter]
+    public bool? Visible { get; set; }
 
     [Parameter]
     public string Width { get; set; }

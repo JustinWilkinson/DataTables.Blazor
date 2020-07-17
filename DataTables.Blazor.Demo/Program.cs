@@ -1,3 +1,4 @@
+using DataTables.Blazor.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;

@@ -23,19 +23,10 @@
     public string Style { get; set; }
 
     [Parameter]
-    public string Source { get; set; }
+    public string SourceUrl { get; set; }
 
     [Parameter]
-    public string DOM { get; set; }
-
-    [Parameter]
-    public bool Order { get; set; }
-
-    [Parameter]
-    public bool Search { get; set; }
-
-    [Parameter]
-    public bool Paging { get; set; }
+    public DataTableOptions Options { get; set; }
 
     public List<Column> Columns { get; set; } = new List<Column>();
 

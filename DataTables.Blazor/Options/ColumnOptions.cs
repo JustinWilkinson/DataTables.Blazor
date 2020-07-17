@@ -1,24 +1,36 @@
 ﻿namespace DataTables.Blazor.Options
 {
     public class ColumnOptions
-    {
-        public string Title { get; set; }
+    { 
+        public string CellType { get; set; }
 
-        public string Name { get; set; }
+        public string ClassName { get; set; }
+
+        public string ContentPadding { get; set; }
+
+        //public object CreatedCell { get; set; }
 
         public string Data { get; set; }
 
         public string DefaultContent { get; set; }
 
-        public string ClassName { get; set; }
+        public string Name { get; set; }
 
-        public bool Searchable { get; set; }
-
-        public bool Orderable { get; set; }
+        public bool? Orderable { get; set; }
 
         public string OrderData { get; set; }
 
-        public bool Visible { get; set; } = true;
+        public string OrderDataType { get; set; }
+
+        //public object Render { get; set; }
+
+        public bool? Searchable { get; set; }
+
+        public string Title { get; set; }
+
+        public string Type { get; set; }
+
+        public bool? Visible { get; set; }
 
         public string Width { get; set; }
 
@@ -26,14 +38,20 @@
         {
             return new ColumnOptions
             {
-                Title = column.Title,
-                Name = column.Name,
+                CellType = column.CellType,
+                ClassName = column.ClassName,
+                ContentPadding = column.ContentPadding,
+                // CreatedCell = column.CreatedCell,
                 Data = column.Data,
                 DefaultContent = column.DefaultContent,
-                ClassName = column.ClassName,
-                Searchable = column.Searchable,
+                Name = column.Name,
                 Orderable = column.Orderable,
                 OrderData = column.OrderData,
+                OrderDataType = column.OrderDataType,
+                // Render = column.Render,
+                Searchable = column.Searchable,
+                Title = column.Title,
+                Type = column.Type,
                 Visible = column.Visible,
                 Width = column.Width,
             };
