@@ -1,5 +1,8 @@
 ﻿namespace DataTables.Blazor.Options
 {
+    /// <summary>
+    /// Represents a DataTable column. See <a href="https://datatables.net/reference/option/columns">DataTables Reference</a> for more info.
+    /// </summary>
     public class ColumnOptions
     { 
         public string CellType { get; set; }

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace DataTables.Blazor.Options
 {
     /// <summary>
-    /// See <a href="https://datatables.net/reference/option/">DataTables Reference</a> for more info.
+    /// Represents a DataTable. See <a href="https://datatables.net/reference/option/">DataTables Reference</a> for more info.
     /// </summary>
     public class DataTableOptions
     {
@@ -93,6 +93,8 @@ namespace DataTables.Blazor.Options
 
         public int? TabIndex { get; set; }
         #endregion
+
+        public LanguageOptions Language { get; set; }
 
         public static DataTableOptions FromComponent(DataTable table)
         {
