@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -6,7 +6,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
+    <Description>A basic port for jquery DataTables into Blazor.</Description>
+    <Copyright>Justin Wilkinson (2020)</Copyright>
+    <Authors>Justin Wilkinson</Authors>
+    <Company />
   </PropertyGroup>
 
   <ItemGroup>
