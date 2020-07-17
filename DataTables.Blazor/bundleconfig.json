@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/datatables.blazor.min.js",
+    "inputFiles": [
+      "wwwroot/datatables.blazor.js"
+    ]
+  }
+]
