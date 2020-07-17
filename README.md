@@ -37,8 +37,8 @@ You should now be ready to get started with DataTables.Blazor!
 #### Usage:
 * At the moment there are two basic components, `DataTable` and `Column`.
 * `Column` components should be nested inside the `DataTable` component.
-* This is then transformed into a jquery DataTable configured with the defaults.
-As is shown in the demo (on the fetch data page), adding a datatable is then as easy as adding the below to your page/component.
+* This is then transformed into a jquery DataTable configured with the DataTable defaults.
+As is shown in the demo, adding a datatable is then as easy as adding the below to your page/component.
 ```html
 <DataTable Id="MyTable" SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
     <Column Title="Date" Data="Date" />
