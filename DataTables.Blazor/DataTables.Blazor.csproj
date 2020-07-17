@@ -11,6 +11,7 @@
     <Copyright>Justin Wilkinson (2020)</Copyright>
     <Authors>Justin Wilkinson</Authors>
     <Company />
+	<RepositoryUrl>https://github.com/JustinWilkinson/DataTables.Blazor</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
