@@ -40,7 +40,7 @@ You should now be ready to get started with DataTables.Blazor!
 * This is then transformed into a jquery DataTable configured with the DataTable defaults.
 As is shown in the demo, adding a datatable is then as easy as adding the below to your page/component.
 ```html
-<DataTable Id="MyTable" SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
+<DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
     <Column Title="Date" Data="Date" />
     <Column Title="Temp. (C)" Data="TemperatureC" />
     <Column Title="Summary" ClassName="dt-body-center" Data="Summary" />
