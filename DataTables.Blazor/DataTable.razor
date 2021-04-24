@@ -10,13 +10,13 @@
 </CascadingValue>
 
 @code{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
     private ElementReference TableReference;
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> TableAttributes { get; set; }
-
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
 
     [Parameter]
     public string SourceUrl { get; set; }
