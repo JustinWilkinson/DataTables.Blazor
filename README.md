@@ -9,7 +9,7 @@ A basic port for jquery [DataTables](https://datatables.net/) into Blazor.
 
 #### Setup:
 ##### Prerequisites:
-You will need to include jquery Datatables in your project, some of the options are not available to older versions so to be on the safe side, v1.10.21 would be best.
+You will need to include jquery Datatables in your project, some of the options are not available to older versions so to be on the safe side, v1.10.24 would be best.
 Steps to complete can be found [here](https://datatables.net/manual/installation).
 
 ##### Configuration:
