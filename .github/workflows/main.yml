@@ -34,10 +34,10 @@ jobs:
 
   publish-package:
     runs-on: ubuntu-latest
-    #if: github.event_name == 'push'
+    if: github.event_name == 'push'
     
     steps:
-      - name: publish on version change
+      - name: publish to nuget.org on version change
         id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:
@@ -71,6 +71,7 @@ jobs:
           # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
           # INCLUDE_SYMBOLS: false
         
+      - name: publish to github packages
         uses: tanaka-takayoshi/nuget-publish-to-github-packages-action@v2.1
         with:
           nupkg-path:  './**/*.nupkg'
