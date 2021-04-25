@@ -37,6 +37,16 @@ jobs:
     if: github.event_name == 'push'
     
     steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
       - name : machine echo $GITHUB_WORKSPACE
         run : "echo $GITHUB_WORKSPACE"
       - name : machine echo $HOME
