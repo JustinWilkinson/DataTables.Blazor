@@ -26,9 +26,9 @@ namespace DataTables.Blazor.Tests.Components
             {
                 [attributeName] = attributeValue
             }));
-            var value = datatable.Find("table").GetAttribute(attributeName);
 
             // Assert
+            var value = datatable.Find("table").GetAttribute(attributeName);
             Assert.Equal(attributeValue, value);
         }
 
@@ -45,6 +45,22 @@ namespace DataTables.Blazor.Tests.Components
             // Assert
             Assert.NotNull(options.Ajax);
             Assert.Equal("some url", options.Ajax.Url);
+        }
+
+        [Fact]
+        public void DataTable_WithTwoColumns_RendersTwoColumnsWithCorrectTitles()
+        {
+            // Arrange
+            using var context = CreateContext();
+
+            // Act
+            var datatable = context.RenderComponent<DataTable>(p => p
+                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 1"))
+                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 2")));
+
+            // Assert
+            var headers = datatable.Find("tr").Children;
+            Assert.Collection(headers, x => Assert.Equal("Title 1", x.TextContent), y => Assert.Equal("Title 2", y.TextContent));
         }
 
         [Fact]
