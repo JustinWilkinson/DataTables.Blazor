@@ -99,7 +99,7 @@ namespace DataTables.Blazor.Options
         public static DataTableOptions FromComponent(DataTable table)
         {
             var options = table.Options ?? new DataTableOptions();
-            options.Columns = table.Columns.Select(c => ColumnOptions.FromComponent(c));
+            options.Columns = table.Columns.Select(ColumnOptions.FromComponent);
             if (table.SourceUrl != null && options.Ajax == null)
             {
                 options.Ajax = new AjaxOptions(table.SourceUrl);
