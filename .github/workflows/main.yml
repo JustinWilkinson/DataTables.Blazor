@@ -38,12 +38,12 @@ jobs:
     
     steps:
       - name: publish to nuget.org on version change
-        id: publish_nuget
         uses: brandedoutcast/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
           PROJECT_FILE_PATH: DataTables.Blazor/DataTables.Blazor.csproj
-          
+
+          INPUT_PROJECT_FILE_PATH: DataTables.Blazor/DataTables.Blazor.csproj
           # NuGet package id, used for version detection & defaults to project name
           PACKAGE_NAME: DataTables.Blazor
           
