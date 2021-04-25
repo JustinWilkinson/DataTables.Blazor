@@ -14,7 +14,7 @@ on:
       - master
 jobs:
 
-  # Build and unit test.
+  # Build, test and publuish (if this is a push/merge).
   build-test-and-publish:
     runs-on: ubuntu-latest
   
@@ -28,8 +28,8 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
-      # - name: Test
-      #   run: dotnet test --no-restore --verbosity normal
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
       - name: Pack
         run: dotnet pack --no-build --configuration Release DataTables.Blazor/DataTables.Blazor.csproj --output .
 

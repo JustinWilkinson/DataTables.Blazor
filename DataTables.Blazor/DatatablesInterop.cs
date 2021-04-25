@@ -9,7 +9,13 @@ namespace DataTables.Blazor
     /// <summary>
     /// Controls the communication between .NET and JS for DataTables.Blazor.
     /// </summary>
-    internal class DataTablesInterop
+    public interface IDataTablesInterop
+    {
+        ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options);
+    }
+
+    /// <inheritdoc/>
+    internal class DataTablesInterop : IDataTablesInterop
     {
         /// <summary>
         /// Runtime used by the interop.
