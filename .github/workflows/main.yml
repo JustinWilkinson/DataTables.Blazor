@@ -15,7 +15,7 @@ on:
 jobs:
 
   # Build and unit test.
-  build-and-unit-test:
+  build-test-and-publish:
     runs-on: ubuntu-latest
   
     steps:
@@ -30,6 +30,8 @@ jobs:
         run: dotnet build --configuration Release --no-restore
       # - name: Test
       #   run: dotnet test --no-restore --verbosity normal
+      - name: Pack
+        run: dotnet pack --no-build --configuration Release DataTables.Blazor/DataTables.Blazor.csproj --output .
 
       - name: publish to nuget.org on version change
         if: github.event_name == 'push'
