@@ -37,6 +37,8 @@ jobs:
     if: github.event_name == 'push'
     
     steps:
+      - name: List Files (Debug)
+        run: ls -R
       - name: Pack
         run: dotnet pack --no-build --configuration Release DataTables.Blazor/DataTables.Blazor.csproj --output .
       - name: Publish to nuget.org
