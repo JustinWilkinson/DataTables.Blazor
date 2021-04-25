@@ -8,7 +8,7 @@ on:
     tags:
       - v*
 
-  # Run tests for any PRs.
+  # Testing - run for any PRs.
   pull_request:
     branches:
       - master
@@ -31,15 +31,21 @@ jobs:
       # - name: Test
       #   run: dotnet test --no-restore --verbosity normal
             # Publish
+
+  publish-package:
+    runs-on: ubuntu-latest
+    #if: github.event_name == 'push'
+    
+    steps:
       - name: publish on version change
         id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: RazorTabs/RazorTabs.csproj
+          PROJECT_FILE_PATH: DataTables.Blazor/DataTables.Blazor.csproj
           
           # NuGet package id, used for version detection & defaults to project name
-          PACKAGE_NAME: RazorTabs
+          PACKAGE_NAME: DataTables.Blazor
           
           # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
           # VERSION_FILE_PATH: Directory.Build.props
@@ -67,7 +73,7 @@ jobs:
         
         uses: tanaka-takayoshi/nuget-publish-to-github-packages-action@v2.1
         with:
-          nupkg-path:  './*/*.nupkg'
+          nupkg-path:  './**/*.nupkg'
           repo-owner:  'JustinWilkinson'
           gh-user:  'JustinWilkinson'
           token:  ${{secrets.GITHUB_TOKEN}}
