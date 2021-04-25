@@ -30,50 +30,21 @@ jobs:
         run: dotnet build --configuration Release --no-restore
       # - name: Test
       #   run: dotnet test --no-restore --verbosity normal
-
-  # Publish
-  publish-package:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 3.1.x
-      - name: Install dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-
-      - name : machine echo $GITHUB_WORKSPACE
-        run : "echo $GITHUB_WORKSPACE"
-      - name : machine echo $HOME
-        run : "echo $HOME"
-      - name : container ls $GITHUB_EVENT_PATH
-        with : { entrypoint : "/bin/sh" , args : '-c "ls -la $GITHUB_EVENT_PATH"' }
-        uses : "docker://alpine:latest"
-      - name : container ls $GITHUB_WORKSPACE
-        with : { entrypoint : "/bin/sh" , args : '-c "ls -la $GITHUB_WORKSPACE"' }
-        uses : "docker://alpine:latest"
-      - name : container ls $HOME
-        with : { entrypoint : "/bin/sh" , args : '-c "ls -la $HOME"' }
-        uses : "docker://alpine:latest"
-      - name : machine ls $GITHUB_EVENT_PATH
-        run : "ls -la $GITHUB_EVENT_PATH"
-      - name : machine ls $GITHUB_WORKSPACE
-        run : "ls -la $GITHUB_WORKSPACE"
-      - name : machine ls $HOME
-        working-directory : "."
-        run : "ls -la $HOME"
-
       - name: Pack
         run: dotnet pack --no-build --configuration Release DataTables.Blazor/DataTables.Blazor.csproj --output .
-      - name: Publish to nuget.org
-        run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_KEY}} --skip-duplicate
+
+      - name: publish to nuget.org on version change
+        if: github.event_name == 'push'
+        id: publish_nuget
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          VERSION_REGEX: <Version>(.*)<\/Version>
+          TAG_COMMIT: true
+          TAG_FORMAT: v*
+          NUGET_KEY: ${{secrets.NUGET_KEY}}
       
       - name: Publish to github packages
+        if: github.event_name == 'push'
         uses: tanaka-takayoshi/nuget-publish-to-github-packages-action@v2.1
         with:
           nupkg-path:  '*.nupkg'
