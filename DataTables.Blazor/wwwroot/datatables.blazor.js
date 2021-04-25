@@ -1,3 +1,5 @@
 window.datatablesInterop = {
-    initialiseDataTable: (id, options) => { $(`#${id}`).DataTable(JSON.parse(options)); }
+    initialiseDataTable: (tableElement, options) => {
+        $(tableElement).DataTable(JSON.parse(options));
+    }
 };

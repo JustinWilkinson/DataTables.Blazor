@@ -1,7 +1,7 @@
 ﻿@inject DataTablesInterop Datatables
 
 <CascadingValue Value="this">
-    <table id="@Id" class="@Class" style="@Style">
+    <table @ref="TableReference" @attributes=TableAttributes>
         <thead>
             <tr>@ChildContent</tr>
         </thead>
@@ -13,14 +13,10 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    [Parameter]
-    public string Id { get; set; }
+    private ElementReference TableReference;
 
-    [Parameter]
-    public string Class { get; set; }
-
-    [Parameter]
-    public string Style { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> TableAttributes { get; set; }
 
     [Parameter]
     public string SourceUrl { get; set; }
@@ -34,7 +30,7 @@
     {
         if (firstRender)
         {
-            await Datatables.InitialiseAsync(Id, DataTableOptions.FromComponent(this));
+            await Datatables.InitialiseAsync(TableReference, DataTableOptions.FromComponent(this));
         }
     }
 }

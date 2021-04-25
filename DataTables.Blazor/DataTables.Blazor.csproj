@@ -6,12 +6,17 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Description>A basic port for jquery DataTables into Blazor.</Description>
     <Copyright>Justin Wilkinson (2020)</Copyright>
     <Authors>Justin Wilkinson</Authors>
     <Company />
 	<RepositoryUrl>https://github.com/JustinWilkinson/DataTables.Blazor</RepositoryUrl>
+	<PackageReleaseNotes>Removed the need for users of DataTables.Blazor to add an ID element. Instead we use an ElementReference - where Blazor gives us a variable that is assigned the element itself, which can be handed to JS Interop.
+
+Also, instead of specifying Class and Style as two attributes that can be passed to the Table element, we allow any attributes to be passed down by catching all attributes (e.g., parameters) that don't have a match in the DataTable component.
+
+The ID can (optionally) still be assigned to the DataTable component, and if it is, it will be rendered as the id of the table element.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

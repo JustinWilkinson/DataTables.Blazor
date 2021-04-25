@@ -1,4 +1,5 @@
 using DataTables.Blazor.Options;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -40,14 +41,14 @@ namespace DataTables.Blazor
         }
 
         /// <summary>
-        /// Initialises a DataTable with the provided options on the element with the provided id.
+        /// Initialises a DataTable with the provided options on the provided element.
         /// </summary>
-        /// <param name="id">Id of element to add DataTable to.</param>
+        /// <param name="tableReference">Reference of element to add DataTable to.</param>
         /// <param name="options">Options for DataTable.</param>
         /// <returns></returns>
-        public async ValueTask InitialiseAsync(string id, DataTableOptions options)
+        public async ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options)
         {
-            await _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", id, JsonSerializer.Serialize(options, _serializerOptions));
+            await _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, JsonSerializer.Serialize(options, _serializerOptions));
         }
     }
 }
