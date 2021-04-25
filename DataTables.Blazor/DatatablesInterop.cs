@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace DataTables.Blazor
 {
+    /// <summary>
+    /// Controls the communication between .NET and JS for DataTables.Blazor.
+    /// </summary>
     public interface IDataTablesInterop
     {
         ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options);
     }
 
-    /// <summary>
-    /// Controls the communication between .NET and JS for DataTables.Blazor.
-    /// </summary>
+    /// <inheritdoc/>
     internal class DataTablesInterop : IDataTablesInterop
     {
         /// <summary>
