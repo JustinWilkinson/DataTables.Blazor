@@ -103,7 +103,7 @@ namespace DataTables.Blazor.Options
             // from those Column components.
             if (table.Columns.Count > 0)
             {
-                options.Columns = table.Columns.Select(c => ColumnOptions.FromComponent(c));
+                options.Columns = table.Columns.Select(ColumnOptions.FromComponent);
             }
             if (table.SourceUrl != null && options.Ajax == null)
             {

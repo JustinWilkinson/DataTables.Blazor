@@ -1,0 +1,54 @@
+name: Main
+on:
+  push:
+    branches:
+      - master
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+  # Testing - run for any PRs.
+  pull_request:
+    branches:
+      - master
+jobs:
+
+  # Build, test and publuish (if this is a push/merge).
+  build-test-and-publish:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+      - name: Pack
+        run: dotnet pack --no-build --configuration Release DataTables.Blazor/DataTables.Blazor.csproj --output .
+
+      - name: publish to nuget.org on version change
+        if: github.event_name == 'push'
+        id: publish_nuget
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: DataTables.Blazor/DataTables.Blazor.csproj
+          VERSION_REGEX: <Version>(.*)<\/Version>
+          TAG_COMMIT: true
+          TAG_FORMAT: v*
+          NUGET_KEY: ${{secrets.NUGET_KEY}}
+      
+      - name: Publish to github packages
+        if: github.event_name == 'push'
+        uses: tanaka-takayoshi/nuget-publish-to-github-packages-action@v2.1
+        with:
+          nupkg-path:  '*.nupkg'
+          repo-owner:  'JustinWilkinson'
+          gh-user:  'JustinWilkinson'
+          token:  ${{secrets.GITHUB_TOKEN}}
