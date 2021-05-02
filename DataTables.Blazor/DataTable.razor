@@ -1,4 +1,5 @@
 ﻿@inject IDataTablesInterop Datatables
+@implements IAsyncDisposable
 
 <CascadingValue Value="this">
     <table @ref="_tableReference" @attributes=TableAttributes>
@@ -33,4 +34,6 @@
             await Datatables.InitialiseAsync(_tableReference, DataTableOptions.FromComponent(this));
         }
     }
+
+    public ValueTask DisposeAsync() => Datatables.DestroyAsync(_tableReference);
 }

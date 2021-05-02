@@ -1,4 +1,5 @@
 using DataTables.Blazor.Extensions;
+using DataTables.Blazor.Interop;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System;

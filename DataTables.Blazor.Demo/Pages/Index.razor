@@ -2,10 +2,81 @@
 
 <h1>Weather forecast</h1>
 
-<p>This component demonstrates use of a DataTable</p>
+<p>This component demonstrates use of the DataTable component.</p>
 
-<DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
-    <Column Title="Date" Data="Date" />
-    <Column Title="Temp. (C)" Data="TemperatureC" />
-    <Column Title="Summary" ClassName="dt-body-center" Data="Summary" />
-</DataTable>
+<div class="row w-100 card border mb-2">
+    <TabControl>
+        <TabHeader>
+            <TabHeaderTemplate Class="card-header" ButtonGroupClass="w-100" />
+        </TabHeader>
+        <TabItems>
+            <TabItem Title="Basic Initialization">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header" />
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <TabItem Title="View Demo">
+                                <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
+                                    <Column Title="Date" Data="Date" />
+                                    <Column Title="Temp. (°C)" Data="TemperatureC" />
+                                    <Column Title="Summary" ClassName="dt-body-center" Data="Summary" />
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+&#x3C;DataTable SourceUrl=&#x22;sample-data/weather.json&#x22; Class=&#x22;table table-striped table-bordered w-100&#x22;&#x3E;
+    &#x3C;Column Title=&#x22;Date&#x22; Data=&#x22;Date&#x22; /&#x3E;
+    &#x3C;Column Title=&#x22;Temp. (&#xB0;C)&#x22; Data=&#x22;TemperatureC&#x22; /&#x3E;
+    &#x3C;Column Title=&#x22;Summary&#x22; ClassName=&#x22;dt-body-center&#x22; Data=&#x22;Summary&#x22; /&#x3E;
+&#x3C;/DataTable&#x3E;</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
+            <TabItem Title="Initialization with JavaScript Callbacks">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header" />
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <TabItem Title="View Demo">
+                                <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
+                                    <Column Title="Date" Data="Date" Render="@("demo.renderDate")" />
+                                    <Column Title="Temp. (°C)" Data="TemperatureC" />
+                                    <Column Title="Summary" ClassName="dt-body-center" Data="Summary" CreatedCell="@("demo.logSummary")" />
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+&#x3C;DataTable SourceUrl=&#x22;sample-data/weather.json&#x22; Class=&#x22;table table-striped table-bordered w-100&#x22;&#x3E;
+    &#x3C;Column Title=&#x22;Date&#x22; Data=&#x22;Date&#x22; Render=&#x22;@@(&#x22;demo.renderDate&#x22;)&#x22; /&#x3E;
+    &#x3C;Column Title=&#x22;Temp. (&#xB0;C)&#x22; Data=&#x22;TemperatureC&#x22; /&#x3E;
+    &#x3C;Column Title=&#x22;Summary&#x22; ClassName=&#x22;dt-body-center&#x22; Data=&#x22;Summary&#x22; CreatedCell=&#x22;@@(&#x22;demo.logSummary&#x22;)&#x22; /&#x3E;
+&#x3C;/DataTable&#x3E;</pre>
+                                </div>
+                            </TabItem>
+                            <TabItem Title="View JavaScript">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+window.demo = {
+    logSummary: (td, cellData, rowData, row, col) => {
+        console.log(`(Row ${(row + 1)}, Column ${(col + 1)}) = ${cellData}`);
+    },
+    renderDate: data => new Date(data).toLocaleString('en-GB')
+};</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
+        </TabItems>
+    </TabControl>
+</div>

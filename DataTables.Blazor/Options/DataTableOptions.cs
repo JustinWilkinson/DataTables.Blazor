@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 
@@ -38,7 +39,7 @@ namespace DataTables.Blazor.Options
         #region Data
         public AjaxOptions Ajax { get; set; }
 
-        public object Data { get; set; }
+        public IEnumerable<object> Data { get; set; }
         #endregion
 
         #region Columns
@@ -48,7 +49,22 @@ namespace DataTables.Blazor.Options
         #endregion
 
         #region Options
-        public object DeferLoading { get; set; } // Integer or integer array
+        private object _deferLoading;
+        public object DeferLoading 
+        { 
+            get => _deferLoading; 
+            set
+            {
+                if (value is null || value is int || value is IEnumerable<int>)
+                {
+                    _deferLoading = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Value must be a integer or an integer array.");
+                }
+            }
+        }
 
         public bool? Destroy { get; set; }
 

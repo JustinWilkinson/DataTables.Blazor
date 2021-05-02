@@ -1,5 +1,6 @@
 ﻿using Bunit;
 using DataTables.Blazor.Extensions;
+using DataTables.Blazor.Interop;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
