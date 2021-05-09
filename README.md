@@ -3,7 +3,7 @@ A basic port for jquery [DataTables](https://datatables.net/) into Blazor.
 
 #### Disclaimer.
 * This project is still pretty immature, and needs a lot of work and is liable to be buggy.
-* Its functionality may not yet fully replicate all the options available in DataTables, for example interacting with the DataTables api is also not yet supported.
+* Its functionality may not yet fully replicate all the options available in DataTables.
 * However, DataTables comes with a lot of great features out of the box which can be easily utilised straight away.
 
 #### Setup:
