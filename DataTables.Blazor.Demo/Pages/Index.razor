@@ -2,7 +2,7 @@
 
 <h1>Weather forecast</h1>
 
-<p>This component demonstrates use of the DataTable component.</p>
+<p>This page demonstrates some of the uses of the DataTable component.</p>
 
 <div class="row w-100 card border mb-2">
     <TabControl>
@@ -17,6 +17,11 @@
                     </TabHeader>
                     <TabItems>
                         <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of the basic initialization of a DataTable, with data coming from a statically served JSON file.</h6>
+                                </div>
+                            </div>
                             <TabItem Title="View Demo">
                                 <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
                                     <Column Title="Date" Data="Date" />
@@ -27,24 +32,127 @@
                             <TabItem Title="View Razor">
                                 <div class="col-12">
                                     <pre class="mb-0">
-&#x3C;DataTable SourceUrl=&#x22;sample-data/weather.json&#x22; Class=&#x22;table table-striped table-bordered w-100&#x22;&#x3E;
-    &#x3C;Column Title=&#x22;Date&#x22; Data=&#x22;Date&#x22; /&#x3E;
-    &#x3C;Column Title=&#x22;Temp. (&#xB0;C)&#x22; Data=&#x22;TemperatureC&#x22; /&#x3E;
-    &#x3C;Column Title=&#x22;Summary&#x22; ClassName=&#x22;dt-body-center&#x22; Data=&#x22;Summary&#x22; /&#x3E;
-&#x3C;/DataTable&#x3E;</pre>
+&lt;DataTable SourceUrl=&quot;sample-data/weather.json&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
+    &lt;Column Title=&quot;Date&quot; Data=&quot;Date&quot; /&gt;
+    &lt;Column Title=&quot;Temp. (&#xB0;C)&quot; Data=&quot;TemperatureC&quot; /&gt;
+    &lt;Column Title=&quot;Summary&quot; ClassName=&quot;dt-body-center&quot; Data=&quot;Summary&quot; /&gt;
+&lt;/DataTable&gt;</pre>
                                 </div>
                             </TabItem>
                         </div>
                     </TabItems>
                 </TabControl>
             </TabItem>
-            <TabItem Title="Initialization with JavaScript Callbacks">
+            <TabItem Title="DOM Sourced Data">
                 <TabControl>
                     <TabHeader>
                         <TabHeaderTemplate Class="card-header" />
                     </TabHeader>
                     <TabItems>
                         <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of the initialization of a DataTable, with data coming from the DOM itself.</h6>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                <DataTable Id="MyTableDomSourced" Class="table table-striped table-bordered w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Temp. (C)</th>
+                                            <th>Summary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2018-05-06</td>
+                                            <td>1</td>
+                                            <td>Freezing</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2018-05-07</td>
+                                            <td>14</td>
+                                            <td>Bracing</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2018-05-08</td>
+                                            <td>-13</td>
+                                            <td>Freezing</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2018-05-09</td>
+                                            <td>-16</td>
+                                            <td>Balmy</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2018-05-10</td>
+                                            <td>-2</td>
+                                            <td>Chilly</td>
+                                        </tr>
+                                    </tbody>
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+&lt;DataTable Id=&quot;MyTableDomSourced&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Date&lt;/th&gt;
+            &lt;th&gt;Temp. (C)&lt;/th&gt;
+            &lt;th&gt;Summary&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;2018-05-06&lt;/td&gt;
+            &lt;td&gt;1&lt;/td&gt;
+            &lt;td&gt;Freezing&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;2018-05-07&lt;/td&gt;
+            &lt;td&gt;14&lt;/td&gt;
+            &lt;td&gt;Bracing&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;2018-05-08&lt;/td&gt;
+            &lt;td&gt;-13&lt;/td&gt;
+            &lt;td&gt;Freezing&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;2018-05-09&lt;/td&gt;
+            &lt;td&gt;-16&lt;/td&gt;
+            &lt;td&gt;Balmy&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;2018-05-10&lt;/td&gt;
+            &lt;td&gt;-2&lt;/td&gt;
+            &lt;td&gt;Chilly&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/DataTable&gt;</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
+            <TabItem Title="JavaScript Callbacks">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header" />
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div>
+                                    <ul>
+                                        <li>One of the best things about jQuery DataTables is the degree of customization it allows for using callbacks.</li>
+                                        <li>DataTables.Blazor also supports this option, allowing users to specify a JS function to use as a callback.</li>
+                                    </ul>
+                                </div>
+                            </div>
                             <TabItem Title="View Demo">
                                 <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
                                     <Column Title="Date" Data="Date" Render="@("demo.renderDate")" />
@@ -55,11 +163,11 @@
                             <TabItem Title="View Razor">
                                 <div class="col-12">
                                     <pre class="mb-0">
-&#x3C;DataTable SourceUrl=&#x22;sample-data/weather.json&#x22; Class=&#x22;table table-striped table-bordered w-100&#x22;&#x3E;
-    &#x3C;Column Title=&#x22;Date&#x22; Data=&#x22;Date&#x22; Render=&#x22;@@(&#x22;demo.renderDate&#x22;)&#x22; /&#x3E;
-    &#x3C;Column Title=&#x22;Temp. (&#xB0;C)&#x22; Data=&#x22;TemperatureC&#x22; /&#x3E;
-    &#x3C;Column Title=&#x22;Summary&#x22; ClassName=&#x22;dt-body-center&#x22; Data=&#x22;Summary&#x22; CreatedCell=&#x22;@@(&#x22;demo.logSummary&#x22;)&#x22; /&#x3E;
-&#x3C;/DataTable&#x3E;</pre>
+&lt;DataTable SourceUrl=&quot;sample-data/weather.json&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
+    &lt;Column Title=&quot;Date&quot; Data=&quot;Date&quot; Render=&quot;@@(&quot;demo.renderDate&quot;)&quot; /&gt;
+    &lt;Column Title=&quot;Temp. (&#xB0;C)&quot; Data=&quot;TemperatureC&quot; /&gt;
+    &lt;Column Title=&quot;Summary&quot; ClassName=&quot;dt-body-center&quot; Data=&quot;Summary&quot; CreatedCell=&quot;@@(&quot;demo.logSummary&quot;)&quot; /&gt;
+&lt;/DataTable&gt;</pre>
                                 </div>
                             </TabItem>
                             <TabItem Title="View JavaScript">
@@ -71,6 +179,41 @@ window.demo = {
     },
     renderDate: data => new Date(data).toLocaleString('en-GB')
 };</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
+            <TabItem Title="A Larger Dataset">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header" />
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of the basic initialization of a DataTable, with a larger dataset to demonstrate its performance.</h6>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100">
+                                    <Column Title="Id" Data="id" />
+                                    <Column Title="First Name" Data="first_name" />
+                                    <Column Title="Last Name" Data="last_name" />
+                                    <Column Title="Email" Data="email" />
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+&lt;DataTable SourceUrl=&quot;sample-data/users.json&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
+	&lt;Column Title=&quot;Id&quot; Data=&quot;id&quot; /&gt;
+	&lt;Column Title=&quot;First Name&quot; Data=&quot;first_name&quot; /&gt;
+	&lt;Column Title=&quot;Last Name&quot; Data=&quot;last_name&quot; /&gt;
+	&lt;Column Title=&quot;Email&quot; Data=&quot;email&quot; /&gt;
+&lt;/DataTable&gt;</pre>
                                 </div>
                             </TabItem>
                         </div>

@@ -1,4 +1,3 @@
-using DataTables.Blazor.Abstractions;
 using DataTables.Blazor.Abstractions.JsonConverters;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
@@ -61,7 +60,7 @@ namespace DataTables.Blazor.Interop
         }
 
         /// <inheritdoc/>
-        public ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options) 
+        public ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options)
             => _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, JsonSerializer.Serialize(options, _serializerOptions));
 
         /// <inheritdoc/>

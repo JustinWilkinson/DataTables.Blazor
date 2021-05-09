@@ -1,11 +1,7 @@
 ﻿using DataTables.Blazor.Abstractions;
 using DataTables.Blazor.Abstractions.JsonConverters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DataTables.Blazor.Tests.Abstractions.JsonConverters
@@ -78,8 +74,8 @@ namespace DataTables.Blazor.Tests.Abstractions.JsonConverters
         public void Write_DiscriminatedUnionAsUserDefinedType_WritesValueAsJson()
         {
             // Arrange
-            DiscriminatedUnion<int, TestClass> union = new TestClass 
-            { 
+            DiscriminatedUnion<int, TestClass> union = new TestClass
+            {
                 Property1 = "Hello, World!",
                 Property2 = 1,
                 Property3 = 1.2M,
@@ -102,7 +98,7 @@ namespace DataTables.Blazor.Tests.Abstractions.JsonConverters
             {
                 Union = new DiscriminatedUnion<int, IEnumerable<int>> { Value = new[] { 1, 2, 3 } }
             };
-            
+
             // Act
             var result = JsonSerializer.Serialize(anonymous, _serializerOptions);
 

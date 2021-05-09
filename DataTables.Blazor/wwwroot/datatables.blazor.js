@@ -1,11 +1,13 @@
 window.datatablesInterop  = {
     initialiseDataTable: function(tableElement, options) {
         const opts = JSON.parse(options);
-
-        for (let i = 0; i < opts.columns.length; i++) {
-            const col = opts.columns[i];
-            col.createdCell = this.assignCallback(col.createdCell);
-            col.render = this.assignCallback(col.render);
+        console.log(opts);
+        if (opts.columns != null) {
+            for (let i = 0; i < opts.columns.length; i++) {
+                const col = opts.columns[i];
+                col.createdCell = this.assignCallback(col.createdCell);
+                col.render = this.assignCallback(col.render);
+            }
         }
 
         if (opts.ajax != null) {

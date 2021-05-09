@@ -1,5 +1,4 @@
 ﻿using DataTables.Blazor.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -101,7 +100,12 @@ namespace DataTables.Blazor.Options
         public static DataTableOptions FromComponent(DataTable table)
         {
             var options = table.Options ?? new DataTableOptions();
-            options.Columns = table.Columns.Select(ColumnOptions.FromComponent);
+
+            // If the datatable has column components defined inside it, set the columns options from those Column components.
+            if (table.Columns != null && table.Columns.Count > 0)
+            {
+                options.Columns = table.Columns.Select(ColumnOptions.FromComponent);
+            }
             if (table.SourceUrl != null && options.Ajax == null)
             {
                 options.Ajax = new AjaxOptions(table.SourceUrl);
