@@ -26,6 +26,11 @@ jobs:
         with:
           dotnet-version: 3.1.x
 
+    - name: Setup .NET Core 5.0
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
       - name: Install dependencies
         run: dotnet restore
 
@@ -35,15 +40,22 @@ jobs:
       - name: Test
         run: dotnet test --no-restore --verbosity normal
 
-      - name: Pack
-        run: dotnet pack --no-build --configuration Release DataTables.Blazor/DataTables.Blazor.csproj --output .
-
   publish-package:
     needs: build-and-test
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack --no-build --configuration Release Molecules/Molecules.csproj --output .
+
       - name: publish to nuget.org on version change
         id: publish_nuget
         uses: brandedoutcast/publish-nuget@v2
