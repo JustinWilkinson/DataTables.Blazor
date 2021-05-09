@@ -2,9 +2,8 @@
 A basic port for jquery [DataTables](https://datatables.net/) into Blazor.
 
 #### Disclaimer.
-* This project is still under development, and needs a lot of work and is liable to be buggy.
-* Its functionality is still very limited, as it does not yet fully support all options available in DataTables, in particular the callbacks etc are not yet supported.
-* Interacting with the DataTables api is also not yet supported.
+* This project is still pretty immature, and needs a lot of work and is liable to be buggy.
+* Its functionality may not yet fully replicate all the options available in DataTables, for example interacting with the DataTables api is also not yet supported.
 * However, DataTables comes with a lot of great features out of the box which can be easily utilised straight away.
 
 #### Setup:
@@ -55,3 +54,6 @@ A Razor class library that brings the functionality of jquery Datatables into Bl
 
 ### DataTables.Blazor.Demo
 A client-side Blazor WebAssembly application to demo the package.
+
+### DataTables.Blazor.Tests
+Xunit/Bunit tests for the DataTables.Blazor project.

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DataTables.Blazor.Interop;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System;
 
@@ -20,7 +21,7 @@ namespace DataTables.Blazor.Extensions
 
             if (service is null)
             {
-                throw new InvalidOperationException($"DataTables.Blazor requires an implementation of {typeof(IJSRuntime).FullName} in order to run.");
+                throw new InvalidOperationException($"DataTables.Blazor requires an implementation of {typeof(IJSRuntime).FullName} to be registered in order to run.");
             }
 
             return services.AddTransient<IDataTablesInterop, DataTablesInterop>();

@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>netstandard2.1;net5.0;</TargetFrameworks>
     <RazorLangVersion>3.0</RazorLangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.1.3</Version>
+    <Version>1.0.0</Version>
     <Description>A basic port for jquery DataTables into Blazor.</Description>
     <Copyright>Justin Wilkinson (2021)</Copyright>
     <Authors>Justin Wilkinson, Tim Larson</Authors>
     <Company />
 	  <RepositoryUrl>https://github.com/JustinWilkinson/DataTables.Blazor</RepositoryUrl>
-	  <PackageReleaseNotes>Adds an IDataTablesInterop interface. AddDataTables() method will now throw if no JSRuntime is registered.</PackageReleaseNotes>
+	  <PackageReleaseNotes>Basic support for JavaScript function callbacks.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

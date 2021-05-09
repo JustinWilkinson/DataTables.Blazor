@@ -1,17 +1,29 @@
+using DataTables.Blazor.Abstractions.JsonConverters;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DataTables.Blazor
+namespace DataTables.Blazor.Interop
 {
     /// <summary>
     /// Controls the communication between .NET and JS for DataTables.Blazor.
     /// </summary>
     public interface IDataTablesInterop
     {
+        /// <summary>
+        /// Initialises a DataTable with the provided options on the provided element.
+        /// </summary>
+        /// <param name="tableReference">Reference of element to add DataTable to.</param>
+        /// <param name="options">Options for DataTable.</param>
         ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options);
+
+        /// <summary>
+        /// Destroys the DataTable for the provided element.
+        /// </summary>
+        /// <param name="tableReference">Reference of element to add DataTable to.</param>
+        ValueTask DestroyAsync(ElementReference tableReference);
     }
 
     /// <inheritdoc/>
@@ -34,7 +46,8 @@ namespace DataTables.Blazor
 #if DEBUG
             WriteIndented = true,
 #endif
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Converters = { new DiscriminatedUnionJsonConverter() }
         };
 
         /// <summary>
@@ -46,15 +59,12 @@ namespace DataTables.Blazor
             _runtime = runtime;
         }
 
-        /// <summary>
-        /// Initialises a DataTable with the provided options on the provided element.
-        /// </summary>
-        /// <param name="tableReference">Reference of element to add DataTable to.</param>
-        /// <param name="options">Options for DataTable.</param>
-        /// <returns></returns>
-        public async ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options)
-        {
-            await _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, JsonSerializer.Serialize(options, _serializerOptions));
-        }
+        /// <inheritdoc/>
+        public ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options)
+            => _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, JsonSerializer.Serialize(options, _serializerOptions));
+
+        /// <inheritdoc/>
+        public ValueTask DestroyAsync(ElementReference tableReference)
+            => _runtime.InvokeVoidAsync("datatablesInterop.destroyDataTable", tableReference);
     }
 }

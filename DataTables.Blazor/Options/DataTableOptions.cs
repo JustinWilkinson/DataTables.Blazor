@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DataTables.Blazor.Abstractions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 
@@ -38,7 +39,7 @@ namespace DataTables.Blazor.Options
         #region Data
         public AjaxOptions Ajax { get; set; }
 
-        public object Data { get; set; }
+        public IEnumerable<object> Data { get; set; }
         #endregion
 
         #region Columns
@@ -48,7 +49,7 @@ namespace DataTables.Blazor.Options
         #endregion
 
         #region Options
-        public object DeferLoading { get; set; } // Integer or integer array
+        public DiscriminatedUnion<int, IEnumerable<int>> DeferLoading { get; set; }
 
         public bool? Destroy { get; set; }
 
@@ -99,9 +100,9 @@ namespace DataTables.Blazor.Options
         public static DataTableOptions FromComponent(DataTable table)
         {
             var options = table.Options ?? new DataTableOptions();
-            // If the datatable has Column components defined inside it, set the columns options 
-            // from those Column components.
-            if (table.Columns.Count > 0)
+
+            // If the datatable has column components defined inside it, set the columns options from those Column components.
+            if (table.Columns != null && table.Columns.Count > 0)
             {
                 options.Columns = table.Columns.Select(ColumnOptions.FromComponent);
             }

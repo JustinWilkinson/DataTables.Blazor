@@ -1,4 +1,6 @@
-﻿namespace DataTables.Blazor.Options
+﻿using DataTables.Blazor.Interop;
+
+namespace DataTables.Blazor.Options
 {
     /// <summary>
     /// Represents a DataTable column. See <a href="https://datatables.net/reference/option/columns">DataTables Reference</a> for more info.
@@ -11,7 +13,7 @@
 
         public string ContentPadding { get; set; }
 
-        //public object CreatedCell { get; set; }
+        public JavaScriptFunction CreatedCell { get; set; }
 
         public string Data { get; set; }
 
@@ -25,7 +27,7 @@
 
         public string OrderDataType { get; set; }
 
-        //public object Render { get; set; }
+        public JavaScriptFunction Render { get; set; }
 
         public bool? Searchable { get; set; }
 
@@ -44,14 +46,14 @@
                 CellType = column.CellType,
                 ClassName = column.ClassName,
                 ContentPadding = column.ContentPadding,
-                // CreatedCell = column.CreatedCell,
+                CreatedCell = column.CreatedCell,
                 Data = column.Data,
                 DefaultContent = column.DefaultContent,
                 Name = column.Name,
                 Orderable = column.Orderable,
                 OrderData = column.OrderData,
                 OrderDataType = column.OrderDataType,
-                // Render = column.Render,
+                Render = column.Render,
                 Searchable = column.Searchable,
                 Title = column.Title,
                 Type = column.Type,

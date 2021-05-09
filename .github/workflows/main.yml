@@ -14,27 +14,49 @@ on:
       - master
 jobs:
 
-  # Build, test and publuish (if this is a push/merge).
-  build-test-and-publish:
+  # Build, test and publish (if this is a push/merge).
+  build-and-test:
     runs-on: ubuntu-latest
   
     steps:
       - uses: actions/checkout@v2
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.x
+
+      - name: Setup .NET Core 5.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
       - name: Install dependencies
         run: dotnet restore
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
+
       - name: Test
         run: dotnet test --no-restore --verbosity normal
+
+  publish-package:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
       - name: Pack
-        run: dotnet pack --no-build --configuration Release DataTables.Blazor/DataTables.Blazor.csproj --output .
+        run: dotnet pack --no-build --configuration Release Molecules/Molecules.csproj --output .
 
       - name: publish to nuget.org on version change
-        if: github.event_name == 'push'
         id: publish_nuget
         uses: brandedoutcast/publish-nuget@v2
         with:
@@ -45,7 +67,6 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_KEY}}
       
       - name: Publish to github packages
-        if: github.event_name == 'push'
         uses: tanaka-takayoshi/nuget-publish-to-github-packages-action@v2.1
         with:
           nupkg-path:  '*.nupkg'
