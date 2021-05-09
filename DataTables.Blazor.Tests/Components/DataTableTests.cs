@@ -65,6 +65,22 @@ namespace DataTables.Blazor.Tests.Components
         }
 
         [Fact]
+        public void DataTable_WithoutSourceUrl_WrapsInTableButRendersContentsAsIs()
+        {
+            // Arrange
+            using var context = CreateContext();
+
+            // Act
+            var datatable = context.RenderComponent<DataTable>(p => p.AddChildContent("<thead><tr><th>Title 1</th><th>Title 2</th><tr></thead><tbody><tr><td>Value 1</td><td>Value 2</td></tr></tbody>"));
+
+            // Assert
+            var headers = datatable.Find("table > thead > tr").Children;
+            var row = datatable.Find("table > tbody > tr").Children;
+            Assert.Collection(headers, x => Assert.Equal("Title 1", x.TextContent), y => Assert.Equal("Title 2", y.TextContent));
+            Assert.Collection(row, x => Assert.Equal("Value 1", x.TextContent), y => Assert.Equal("Value 2", y.TextContent));
+        }
+
+        [Fact]
         public void DataTable_WhenRendered_CallsInteropToInitialize()
         {
             // Arrange
