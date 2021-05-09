@@ -55,3 +55,6 @@ A Razor class library that brings the functionality of jquery Datatables into Bl
 
 ### DataTables.Blazor.Demo
 A client-side Blazor WebAssembly application to demo the package.
+
+### DataTables.Blazor.Tests
+Xunit/Bunit tests for the DataTables.Blazor project.

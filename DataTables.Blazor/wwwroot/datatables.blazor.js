@@ -8,6 +8,11 @@ window.datatablesInterop  = {
             col.render = this.assignCallback(col.render);
         }
 
+        if (opts.ajax != null) {
+            opts.ajax.data = this.assignCallback(opts.ajax.data);
+            opts.ajax.dataSrc = this.assignCallback(opts.ajax.data);
+        }
+
         $(tableElement).DataTable(opts);
     },
     destroyDataTable: function (tableElement) {

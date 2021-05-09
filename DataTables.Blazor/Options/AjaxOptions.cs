@@ -1,4 +1,5 @@
-﻿using DataTables.Blazor.Interop;
+﻿using DataTables.Blazor.Abstractions;
+using DataTables.Blazor.Interop;
 
 namespace DataTables.Blazor.Options
 {
@@ -14,8 +15,8 @@ namespace DataTables.Blazor.Options
 
         public string Url { get; set; }
 
-        public JavaScriptFunction Data { get; set; }
+        public DiscriminatedUnion<JavaScriptFunction, object> Data { get; set; }
 
-        public JavaScriptFunction DataSrc { get; set; }
+        public DiscriminatedUnion<JavaScriptFunction, string> DataSrc { get; set; }
     }
 }

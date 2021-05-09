@@ -1,3 +1,5 @@
+using DataTables.Blazor.Abstractions;
+using DataTables.Blazor.Abstractions.JsonConverters;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -45,7 +47,8 @@ namespace DataTables.Blazor.Interop
 #if DEBUG
             WriteIndented = true,
 #endif
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Converters = { new DiscriminatedUnionJsonConverter() }
         };
 
         /// <summary>

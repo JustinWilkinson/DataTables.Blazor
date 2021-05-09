@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataTables.Blazor.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -49,22 +50,7 @@ namespace DataTables.Blazor.Options
         #endregion
 
         #region Options
-        private object _deferLoading;
-        public object DeferLoading 
-        { 
-            get => _deferLoading; 
-            set
-            {
-                if (value is null || value is int || value is IEnumerable<int>)
-                {
-                    _deferLoading = value;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Value must be a integer or an integer array.");
-                }
-            }
-        }
+        public DiscriminatedUnion<int, IEnumerable<int>> DeferLoading { get; set; }
 
         public bool? Destroy { get; set; }
 

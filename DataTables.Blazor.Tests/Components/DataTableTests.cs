@@ -79,6 +79,21 @@ namespace DataTables.Blazor.Tests.Components
             interop.Verify(x => x.InitialiseAsync(It.IsAny<ElementReference>(), It.IsAny<DataTableOptions>()), Times.Once);
         }
 
+        [Fact]
+        public void DataTable_WhenDisposed_CallsInteropToDestroy()
+        {
+            // Arrange
+            using var context = new TestContext();
+            var interop = new Mock<IDataTablesInterop>();
+            context.Services.AddTransient(sp => interop.Object);
+
+            // Act
+            context.RenderComponent<DataTable>().Dispose();
+
+            // Assert
+            interop.Verify(x => x.InitialiseAsync(It.IsAny<ElementReference>(), It.IsAny<DataTableOptions>()), Times.Once);
+        }
+
         private static TestContext CreateContext()
         {
             var context = new TestContext();

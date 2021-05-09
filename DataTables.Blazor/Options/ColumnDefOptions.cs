@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DataTables.Blazor.Abstractions;
 using System.Collections.Generic;
 
 namespace DataTables.Blazor.Options
@@ -8,25 +8,9 @@ namespace DataTables.Blazor.Options
     /// </summary>
     public class ColumnDefOptions : ColumnOptions
     {
-        private object _targets;
-
         /// <summary>
         /// Can be an integer or integer array, or string.
         /// </summary>
-        public object Targets 
-        { 
-            get => _targets;
-            set
-            {
-                if (value is null || value is string || value is int || value is IEnumerable<int>)
-                {
-                    _targets = value;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Value must be a string, integer or an integer array.");
-                }
-            }
-        }
+        public DiscriminatedUnion<string, int, IEnumerable<int>> Targets { get; set; }
     }
 }
