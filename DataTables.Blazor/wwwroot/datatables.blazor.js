@@ -1,7 +1,7 @@
 window.datatablesInterop  = {
     initialiseDataTable: function(tableElement, options) {
         const opts = JSON.parse(options);
-        console.log(opts);
+
         if (opts.columns != null) {
             for (let i = 0; i < opts.columns.length; i++) {
                 const col = opts.columns[i];
