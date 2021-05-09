@@ -4,8 +4,49 @@
 
 <p>This component demonstrates use of a DataTable</p>
 
+<h3>Example with JSON sourced data</h3>
+
 <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
     <Column Title="Date" Data="Date" />
     <Column Title="Temp. (C)" Data="TemperatureC" />
     <Column Title="Summary" ClassName="dt-body-center" Data="Summary" />
+</DataTable>
+
+<h3>Example with DOM sourced data</h3>
+
+<DataTable Id="MyTableDomSourced" Class="table table-striped table-bordered w-100">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2018-05-06</td>
+            <td>1</td>
+            <td>Freezing</td>
+        </tr>
+        <tr>
+            <td>2018-05-07</td>
+            <td>14</td>
+            <td>Bracing</td>
+        </tr>
+        <tr>
+            <td>2018-05-08</td>
+            <td>-13</td>
+            <td>Freezing</td>
+        </tr>
+        <tr>
+            <td>2018-05-09</td>
+            <td>-16</td>
+            <td>Balmy</td>
+        </tr>
+        <tr>
+            <td>2018-05-10</td>
+            <td>-2</td>
+            <td>Chilly</td>
+        </tr>
+    </tbody>
 </DataTable>

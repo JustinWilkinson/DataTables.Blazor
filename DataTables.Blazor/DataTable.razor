@@ -2,10 +2,19 @@
 
 <CascadingValue Value="this">
     <table @ref="_tableReference" @attributes=TableAttributes>
-        <thead>
-            <tr>@ChildContent</tr>
-        </thead>
-        <tbody></tbody>
+        @if (!string.IsNullOrEmpty(SourceUrl))
+        {
+            @* If SourceUrl is provided, allow for the abbreviated syntax where all we need
+            inside the DataTable component is a collection of Column components *@
+            <thead>
+                <tr>@ChildContent</tr>
+            </thead>
+        }
+        else
+        {
+            @* We expect a full table structure inside the DataTable component *@
+            @ChildContent
+        }
     </table>
 </CascadingValue>
 
