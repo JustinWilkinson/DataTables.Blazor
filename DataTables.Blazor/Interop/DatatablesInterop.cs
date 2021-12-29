@@ -3,6 +3,9 @@ using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
+#if NET6_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
 using System.Threading.Tasks;
 
 namespace DataTables.Blazor.Interop
@@ -39,9 +42,13 @@ namespace DataTables.Blazor.Interop
         /// To do so, we serialize the options ourselves using the specified options.
         /// This is then deserialized in dataTablesInterop.js.
         /// </summary>
-        private static readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
+        private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
         {
+#if NET6_0_OR_GREATER
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+#else
             IgnoreNullValues = true,
+#endif
             PropertyNameCaseInsensitive = true,
 #if DEBUG
             WriteIndented = true,
@@ -61,7 +68,7 @@ namespace DataTables.Blazor.Interop
 
         /// <inheritdoc/>
         public ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options)
-            => _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, JsonSerializer.Serialize(options, _serializerOptions));
+            => _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, JsonSerializer.Serialize(options, SerializerOptions));
 
         /// <inheritdoc/>
         public ValueTask DestroyAsync(ElementReference tableReference)

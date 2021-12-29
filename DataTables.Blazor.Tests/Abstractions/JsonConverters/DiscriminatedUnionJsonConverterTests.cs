@@ -2,6 +2,7 @@
 using DataTables.Blazor.Abstractions.JsonConverters;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Xunit;
 
 namespace DataTables.Blazor.Tests.Abstractions.JsonConverters
@@ -10,7 +11,7 @@ namespace DataTables.Blazor.Tests.Abstractions.JsonConverters
     {
         private static readonly JsonSerializerOptions _serializerOptions = new()
         {
-            IgnoreNullValues = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = { new DiscriminatedUnionJsonConverter() }
@@ -28,7 +29,6 @@ namespace DataTables.Blazor.Tests.Abstractions.JsonConverters
             // Assert
             Assert.Equal("1", result);
         }
-
 
         [Fact]
         public void Write_DiscriminatedUnionAsBool_WritesValueAsJson()
@@ -106,7 +106,7 @@ namespace DataTables.Blazor.Tests.Abstractions.JsonConverters
             Assert.Equal(@"{""union"":[1,2,3]}", result);
         }
 
-        private class TestClass
+        private record TestClass
         {
             public string Property1 { get; set; }
 
