@@ -1,6 +1,7 @@
 ﻿using DataTables.Blazor.Extensions;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,7 +15,7 @@ namespace DataTables.Blazor.Abstractions.JsonConverters
     {
         private const int MaxDepth = 50;
 
-        private static readonly Dictionary<Type, Dictionary<string, Func<object, object>>> _getters = new Dictionary<Type, Dictionary<string, Func<object, object>>>();
+        private static readonly ConcurrentDictionary<Type, Dictionary<string, Func<object, object>>> Getters = new ConcurrentDictionary<Type, Dictionary<string, Func<object, object>>>();
 
         public override bool CanConvert(Type typeToConvert)
             => typeof(DiscriminatedUnion).IsAssignableFrom(typeToConvert);
@@ -88,11 +89,11 @@ namespace DataTables.Blazor.Abstractions.JsonConverters
             {
                 writer.WriteNumberValue(dc);
             }
-            else if (value is IEnumerable ie)
+            else if (value is IEnumerable enumerable)
             {
                 writer.WriteStartArray();
 
-                foreach (var item in ie)
+                foreach (var item in enumerable)
                 {
                     Write(writer, item, depth);
                 }
@@ -104,10 +105,10 @@ namespace DataTables.Blazor.Abstractions.JsonConverters
                 writer.WriteStartObject();
 
                 var type = value.GetType();
-                if (!_getters.TryGetValue(type, out var gettersByName))
+                if (!Getters.TryGetValue(type, out var gettersByName))
                 {
                     gettersByName = type.GetProperties().ToDictionary(x => x.Name, x => x.GetGetter(x.DeclaringType));
-                    _getters.Add(type, gettersByName);
+                    Getters.TryAdd(type, gettersByName);
                 }
 
                 foreach (var getter in gettersByName)
