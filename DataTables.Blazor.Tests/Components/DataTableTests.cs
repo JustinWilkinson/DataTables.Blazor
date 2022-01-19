@@ -1,4 +1,5 @@
 ﻿using Bunit;
+using DataTables.Blazor.Abstractions;
 using DataTables.Blazor.Extensions;
 using DataTables.Blazor.Interop;
 using DataTables.Blazor.Options;
@@ -65,7 +66,35 @@ namespace DataTables.Blazor.Tests.Components
         }
 
         [Fact]
-        public void DataTable_WithoutSourceUrl_WrapsInTableButRendersContentsAsIs()
+        public void DataTable_WithDatasetSetsOptionsData_RendersTwoColumnsWithCorrectTitlesAndSetsOptionsData()
+        {
+            // Arrange
+            using var context = CreateContext();
+            var dataset = new Dataset<TestObject>
+            {
+                new TestObject
+                {
+                    Field1 = "Value1",
+                    Field2 = "Value2"
+                }
+            };
+
+            // Act
+            var datatable = context.RenderComponent<DataTable>(parameters => parameters
+                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 1").Add(x => x.Data, "Field1"))
+                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 2").Add(x => x.Data, "Field2"))
+                .Add(x => x.Data, dataset));
+
+            var options = DataTableOptions.FromComponent(datatable.Instance);
+
+            // Assert
+            var headers = datatable.Find("tr").Children;
+            Assert.Collection(headers, x => Assert.Equal("Title 1", x.TextContent), y => Assert.Equal("Title 2", y.TextContent));
+            Assert.Equal(dataset, options.Data);
+        }
+
+        [Fact]
+        public void DataTable_WithoutSourceUrlOrDataset_WrapsInTableButRendersContentsAsIs()
         {
             // Arrange
             using var context = CreateContext();
@@ -116,6 +145,13 @@ namespace DataTables.Blazor.Tests.Components
             context.Services.AddDataTables();
             context.JSInterop.Mode = JSRuntimeMode.Loose;
             return context;
+        }
+
+        private record TestObject
+        {
+            public string Field1 { get; set; }
+
+            public string Field2 { get; set; }
         }
     }
 }

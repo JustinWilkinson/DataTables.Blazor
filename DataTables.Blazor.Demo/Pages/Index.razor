@@ -138,6 +138,39 @@
                     </TabItems>
                 </TabControl>
             </TabItem>
+            <TabItem Title="Object Sourced Data">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header" />
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of the initialization of a DataTable, with data coming from a C# code object.</h6>
+                                    <p class="text-muted">Note: Owing to the serialization, the Data attribute on the column must be the name of the field post serialization (i.e. in camelCase).</p>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                <DataTable Id="MyObjectSourceData" Class="table table-striped table-bordered w-100" Data=WeatherDataset>
+                                    <Column Title="Date" Data="date" />
+                                    <Column Title="Temp. (°C)" Data="temperatureC" />
+                                    <Column Title="Summary" ClassName="dt-body-center" Data="summary" />
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">&lt;DataTable Id=&quot;MyObjectSourceData&quot; Class=&quot;table table-striped table-bordered w-100&quot; Data=WeatherDataset&gt;
+    &lt;Column Title=&quot;Date&quot; Data=&quot;date&quot; /&gt;
+    &lt;Column Title=&quot;Temp. (°C)&quot; Data=&quot;temperatureC&quot; /&gt;
+    &lt;Column Title=&quot;Summary&quot; ClassName=&quot;dt-body-center&quot; Data=&quot;summary&quot; /&gt;
+&lt;/DataTable&gt;</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
             <TabItem Title="JavaScript Callbacks">
                 <TabControl>
                     <TabHeader>
@@ -223,3 +256,48 @@ window.demo = {
         </TabItems>
     </TabControl>
 </div>
+
+@code{
+    private static Dataset<Weather> WeatherDataset = new Dataset<Weather>
+    {
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 06),
+            TemperatureC = 1,
+            Summary = "Freezing"
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 07),
+            TemperatureC = 14,
+            Summary = "Bracing"
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 08),
+            TemperatureC = -13,
+            Summary = "Freezing"
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 09),
+            TemperatureC = -16,
+            Summary = "Balmy"
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 19),
+            TemperatureC = -2,
+            Summary = "Chilly"
+        }
+    };
+
+    private record Weather
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string Summary { get; set; }
+    } 
+}

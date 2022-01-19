@@ -106,10 +106,17 @@ namespace DataTables.Blazor.Options
             {
                 options.Columns = table.Columns.Select(ColumnOptions.FromComponent);
             }
+
             if (table.SourceUrl != null && options.Ajax == null)
             {
                 options.Ajax = new AjaxOptions(table.SourceUrl);
             }
+
+            if (table.Data != null)
+            {
+                options.Data = table.Data.GetData();
+            }
+
             return options;
         }
     }
