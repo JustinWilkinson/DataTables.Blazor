@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace DataTables.Blazor.Abstractions
 {
-    public abstract class Dataset
+    public interface IDataset
     {
-        public abstract IEnumerable<object> GetData();
+        IEnumerable<object> GetData();
     }
 
-    public class Dataset<T> : Dataset, IEnumerable<T>
+    public class Dataset<T> : IDataset, IEnumerable<T>
     {
         private readonly List<T> _data;
 
@@ -29,6 +29,6 @@ namespace DataTables.Blazor.Abstractions
 
         IEnumerator IEnumerable.GetEnumerator() => _data.GetEnumerator();
 
-        public override IEnumerable<object> GetData() => _data.Cast<object>();
+        public IEnumerable<object> GetData() => _data.Cast<object>();
     }
 }
