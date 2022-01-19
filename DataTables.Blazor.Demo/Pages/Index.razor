@@ -167,6 +167,54 @@
 &lt;/DataTable&gt;</pre>
                                 </div>
                             </TabItem>
+                            <TabItem Title="View C#">
+                                <div class="col-12">
+                                    <pre class="mb-0">@@code{
+    private static Dataset&lt;Weather&gt; WeatherDataset = new Dataset&lt;Weather&gt;
+    {
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 06),
+            TemperatureC = 1,
+            Summary = &quot;Freezing&quot;
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 07),
+            TemperatureC = 14,
+            Summary = &quot;Bracing&quot;
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 08),
+            TemperatureC = -13,
+            Summary = &quot;Freezing&quot;
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 09),
+            TemperatureC = -16,
+            Summary = &quot;Balmy&quot;
+        },
+        new Weather
+        {
+            Date = new DateTime(2018, 05, 19),
+            TemperatureC = -2,
+            Summary = &quot;Chilly&quot;
+        }
+    };
+
+    private record Weather
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string Summary { get; set; }
+    } 
+}</pre>
+                                </div>
+                            </TabItem>
                         </div>
                     </TabItems>
                 </TabControl>
