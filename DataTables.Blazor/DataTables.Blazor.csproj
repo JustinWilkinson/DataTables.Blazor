@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Description>A basic port for jquery DataTables into Blazor.</Description>
     <Copyright>Justin Wilkinson (2021)</Copyright>
     <Authors>Justin Wilkinson, Tim Larson</Authors>

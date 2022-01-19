@@ -3,9 +3,9 @@
 
 <CascadingValue Value="this">
     <table @ref="_tableReference" @attributes=TableAttributes>
-        @if (!string.IsNullOrEmpty(SourceUrl))
+        @if (!string.IsNullOrEmpty(SourceUrl) || Data != null)
         {
-            @* If SourceUrl is provided, allow for the abbreviated syntax where all we need
+            @* If SourceUrl or Data is provided, allow for the abbreviated syntax where all we need
             inside the DataTable component is a collection of Column components *@
             <thead>
                 <tr>@ChildContent</tr>
@@ -30,6 +30,9 @@
 
     [Parameter]
     public string SourceUrl { get; set; }
+
+    [Parameter]
+    public IDataset Data { get; set; }
 
     [Parameter]
     public DataTableOptions Options { get; set; }
