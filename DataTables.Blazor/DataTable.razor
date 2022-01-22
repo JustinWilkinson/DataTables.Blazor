@@ -37,7 +37,7 @@
     [Parameter]
     public DataTableOptions Options { get; set; }
 
-    public List<Column> Columns { get; set; } = new List<Column>();
+    public List<DataTableColumn> Columns { get; set; } = new List<DataTableColumn>();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

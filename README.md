@@ -57,3 +57,21 @@ A client-side Blazor WebAssembly application to demo the package.
 
 ### DataTables.Blazor.Tests
 Xunit/Bunit tests for the DataTables.Blazor project.
+
+
+## Release Notes:
+
+### 3.0.0
+* Rename `Column` component to `DataTableColumn` to reduce risk of naming clash.
+
+### 2.1.0
+* Added `Data` attribute to `DataTable` and `Dataset<T>` to allow specifying a C# object as a data source.
+
+### 2.0.0
+* Update packages for .NET 5 and add .NET 6 target.
+
+### 1.0.0
+* Add `JavaScriptFunction` to allow JS callbacks to be set where available in jQuery datatables.
+
+### 0.x.x
+* Early implementations with little functionality.

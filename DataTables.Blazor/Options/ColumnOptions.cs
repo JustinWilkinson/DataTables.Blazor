@@ -39,7 +39,7 @@ namespace DataTables.Blazor.Options
 
         public string Width { get; set; }
 
-        public static ColumnOptions FromComponent(Column column)
+        public static ColumnOptions FromComponent(DataTableColumn column)
         {
             return new ColumnOptions
             {
