@@ -57,8 +57,8 @@ namespace DataTables.Blazor.Tests.Components
 
             // Act
             var datatable = context.RenderComponent<DataTable>(p => p
-                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 1"))
-                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 2")));
+                .AddChildContent<DataTableColumn>(c => c.Add(x => x.Title, "Title 1"))
+                .AddChildContent<DataTableColumn>(c => c.Add(x => x.Title, "Title 2")));
 
             // Assert
             var headers = datatable.Find("tr").Children;
@@ -81,8 +81,8 @@ namespace DataTables.Blazor.Tests.Components
 
             // Act
             var datatable = context.RenderComponent<DataTable>(parameters => parameters
-                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 1").Add(x => x.Data, "Field1"))
-                .AddChildContent<Column>(c => c.Add(x => x.Title, "Title 2").Add(x => x.Data, "Field2"))
+                .AddChildContent<DataTableColumn>(c => c.Add(x => x.Title, "Title 1").Add(x => x.Data, "Field1"))
+                .AddChildContent<DataTableColumn>(c => c.Add(x => x.Title, "Title 2").Add(x => x.Data, "Field2"))
                 .Add(x => x.Data, dataset));
 
             var options = DataTableOptions.FromComponent(datatable.Instance);
