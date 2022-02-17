@@ -34,8 +34,8 @@ builder.Services.AddDataTables();
 You should now be ready to get started with DataTables.Blazor!
 
 #### Usage:
-* At the moment there are two basic components, `DataTable` and `Column`.
-* `Column` components should be nested inside the `DataTable` component.
+* At the moment there are two basic components, `DataTable` and `DataTableColumn`.
+* `DataTableColumn` components should be nested inside the `DataTable` component.
 * This is then transformed into a jquery DataTable configured with the DataTable defaults.
 As is shown in the demo, adding a datatable is then as easy as adding the below to your page/component.
 ```html
