@@ -58,6 +58,9 @@ namespace DataTables.Blazor.Options
         [JsonPropertyName("dom")]
         public string DOM { get; set; }
 
+        [JsonPropertyName("buttons")]
+        public IEnumerable<object> Buttons { get; set; }
+
         public IEnumerable<int> LengthMenu { get; set; }
 
         public IEnumerable<object[]> Order { get; set; }

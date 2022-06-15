@@ -1,4 +1,7 @@
-﻿namespace DataTables.Blazor.Options
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
+namespace DataTables.Blazor.Options
 {
     /// <summary>
     /// Represents the language options for a DataTable. See <a href="https://datatables.net/reference/option/language">DataTables Reference</a> for more info.
@@ -24,6 +27,9 @@
         public string LoadingRecords { get; set; }
 
         public PaginateOptions Paginate { get; set; }
+
+        [JsonPropertyName("buttons")]
+        public object Buttons { get; set; }
 
         public string Processing { get; set; }
 

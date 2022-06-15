@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using DataTables.Blazor.Options
+@using DataTables.Blazor
 
 <h1>Weather forecast</h1>
 
@@ -24,9 +26,9 @@
                             </div>
                             <TabItem Title="View Demo">
                                 <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
-                                    <DataTableColumn Title="Date" Data="Date" />
-                                    <DataTableColumn Title="Temp. (°C)" Data="TemperatureC" />
-                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="Summary" />
+                                    <DataTableColumn Title="Date" Data="Date"/>
+                                    <DataTableColumn Title="Temp. (°C)" Data="TemperatureC"/>
+                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="Summary"/>
                                 </DataTable>
                             </TabItem>
                             <TabItem Title="View Razor">
@@ -266,7 +268,42 @@ window.demo = {
                     </TabItems>
                 </TabControl>
             </TabItem>
-            <TabItem Title="A Larger Dataset">
+        <TabItem Title="A Larger Dataset">
+            <TabControl>
+                <TabHeader>
+                    <TabHeaderTemplate Class="card-header" />
+                </TabHeader>
+                <TabItems>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <h6>An example of the basic initialization of a DataTable, with a larger dataset to demonstrate its performance.</h6>
+                            </div>
+                        </div>
+                        <TabItem Title="View Demo">
+                            <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100">
+                                <DataTableColumn Title="Id" Data="id" />
+                                <DataTableColumn Title="First Name" Data="first_name" />
+                                <DataTableColumn Title="Last Name" Data="last_name" />
+                                <DataTableColumn Title="Email" Data="email" />
+                            </DataTable>
+                        </TabItem>
+                        <TabItem Title="View Razor">
+                            <div class="col-12">
+                                <pre class="mb-0">
+&lt;DataTable SourceUrl=&quot;sample-data/users.json&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
+	&lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;first_name&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;last_name&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot; /&gt;
+&lt;/DataTable&gt;</pre>
+                            </div>
+                        </TabItem>
+                    </div>
+                </TabItems>
+            </TabControl>
+        </TabItem>
+                    <TabItem Title="Buttons">
                 <TabControl>
                     <TabHeader>
                         <TabHeaderTemplate Class="card-header" />
@@ -275,11 +312,11 @@ window.demo = {
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col">
-                                    <h6>An example of the basic initialization of a DataTable, with a larger dataset to demonstrate its performance.</h6>
+                                    <h6>An example of the basic initialization of a DataTable with buttons.</h6>
                                 </div>
                             </div>
                             <TabItem Title="View Demo">
-                                <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100">
+                                <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100" Options="_buttonsDemoOptions">
                                     <DataTableColumn Title="Id" Data="id" />
                                     <DataTableColumn Title="First Name" Data="first_name" />
                                     <DataTableColumn Title="Last Name" Data="last_name" />
@@ -306,6 +343,30 @@ window.demo = {
 </div>
 
 @code{
+    DataTableOptions _buttonsDemoOptions;
+
+    protected override void OnInitialized()
+    {
+        _buttonsDemoOptions = new DataTableOptions
+        {
+            DOM = "Bfrtip",
+            Buttons = new List<object>
+            {
+                "colvis"
+            },
+            Language = new LanguageOptions
+            {
+                Buttons = new {
+                    colvis = "Column Visibility"
+                }
+            }
+        };
+
+        var optionsSerialized = System.Text.Json.JsonSerializer.Serialize(_buttonsDemoOptions);
+
+        base.OnInitialized();
+    }
+
     private static Dataset<Weather> WeatherDataset = new Dataset<Weather>
     {
         new Weather
