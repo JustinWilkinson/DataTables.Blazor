@@ -28,7 +28,6 @@ namespace DataTables.Blazor.Options
 
         public PaginateOptions Paginate { get; set; }
 
-        [JsonPropertyName("buttons")]
         public object Buttons { get; set; }
 
         public string Processing { get; set; }
