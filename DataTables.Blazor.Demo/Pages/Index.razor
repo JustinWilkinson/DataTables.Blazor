@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using DataTables.Blazor.Options
 
 <h1>Weather forecast</h1>
 
@@ -7,13 +8,13 @@
 <div class="row w-100 card border mb-2">
     <TabControl>
         <TabHeader>
-            <TabHeaderTemplate Class="card-header" ButtonGroupClass="w-100" />
+            <TabHeaderTemplate Class="card-header" ButtonGroupClass="w-100"/>
         </TabHeader>
         <TabItems>
             <TabItem Title="Basic Initialization">
                 <TabControl>
                     <TabHeader>
-                        <TabHeaderTemplate Class="card-header" />
+                        <TabHeaderTemplate Class="card-header"/>
                     </TabHeader>
                     <TabItems>
                         <div class="card-body">
@@ -24,9 +25,9 @@
                             </div>
                             <TabItem Title="View Demo">
                                 <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
-                                    <DataTableColumn Title="Date" Data="Date" />
-                                    <DataTableColumn Title="Temp. (°C)" Data="TemperatureC" />
-                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="Summary" />
+                                    <DataTableColumn Title="Date" Data="Date"/>
+                                    <DataTableColumn Title="Temp. (°C)" Data="TemperatureC"/>
+                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="Summary"/>
                                 </DataTable>
                             </TabItem>
                             <TabItem Title="View Razor">
@@ -46,7 +47,7 @@
             <TabItem Title="DOM Sourced Data">
                 <TabControl>
                     <TabHeader>
-                        <TabHeaderTemplate Class="card-header" />
+                        <TabHeaderTemplate Class="card-header"/>
                     </TabHeader>
                     <TabItems>
                         <div class="card-body">
@@ -141,7 +142,7 @@
             <TabItem Title="Object Sourced Data">
                 <TabControl>
                     <TabHeader>
-                        <TabHeaderTemplate Class="card-header" />
+                        <TabHeaderTemplate Class="card-header"/>
                     </TabHeader>
                     <TabItems>
                         <div class="card-body">
@@ -153,9 +154,9 @@
                             </div>
                             <TabItem Title="View Demo">
                                 <DataTable Id="MyObjectSourceData" Class="table table-striped table-bordered w-100" Data=WeatherDataset>
-                                    <DataTableColumn Title="Date" Data="date" />
-                                    <DataTableColumn Title="Temp. (°C)" Data="temperatureC" />
-                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="summary" />
+                                    <DataTableColumn Title="Date" Data="date"/>
+                                    <DataTableColumn Title="Temp. (°C)" Data="temperatureC"/>
+                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="summary"/>
                                 </DataTable>
                             </TabItem>
                             <TabItem Title="View Razor">
@@ -222,7 +223,7 @@
             <TabItem Title="JavaScript Callbacks">
                 <TabControl>
                     <TabHeader>
-                        <TabHeaderTemplate Class="card-header" />
+                        <TabHeaderTemplate Class="card-header"/>
                     </TabHeader>
                     <TabItems>
                         <div class="card-body">
@@ -236,9 +237,9 @@
                             </div>
                             <TabItem Title="View Demo">
                                 <DataTable SourceUrl="sample-data/weather.json" Class="table table-striped table-bordered w-100">
-                                    <DataTableColumn Title="Date" Data="Date" Render="@("demo.renderDate")" />
-                                    <DataTableColumn Title="Temp. (°C)" Data="TemperatureC" />
-                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="Summary" CreatedCell="@("demo.logSummary")" />
+                                    <DataTableColumn Title="Date" Data="Date" Render="@("demo.renderDate")"/>
+                                    <DataTableColumn Title="Temp. (°C)" Data="TemperatureC"/>
+                                    <DataTableColumn Title="Summary" ClassName="dt-body-center" Data="Summary" CreatedCell="@("demo.logSummary")"/>
                                 </DataTable>
                             </TabItem>
                             <TabItem Title="View Razor">
@@ -269,7 +270,7 @@ window.demo = {
             <TabItem Title="A Larger Dataset">
                 <TabControl>
                     <TabHeader>
-                        <TabHeaderTemplate Class="card-header" />
+                        <TabHeaderTemplate Class="card-header"/>
                     </TabHeader>
                     <TabItems>
                         <div class="card-body">
@@ -280,10 +281,45 @@ window.demo = {
                             </div>
                             <TabItem Title="View Demo">
                                 <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100">
-                                    <DataTableColumn Title="Id" Data="id" />
-                                    <DataTableColumn Title="First Name" Data="first_name" />
-                                    <DataTableColumn Title="Last Name" Data="last_name" />
-                                    <DataTableColumn Title="Email" Data="email" />
+                                    <DataTableColumn Title="Id" Data="id"/>
+                                    <DataTableColumn Title="First Name" Data="first_name"/>
+                                    <DataTableColumn Title="Last Name" Data="last_name"/>
+                                    <DataTableColumn Title="Email" Data="email"/>
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+&lt;DataTable SourceUrl=&quot;sample-data/users.json&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
+	&lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;first_name&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;last_name&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot; /&gt;
+&lt;/DataTable&gt;</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
+            <TabItem Title="Buttons">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header"/>
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of the basic initialization of a DataTable with buttons.</h6>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100" Options="_buttonsDemoOptions">
+                                    <DataTableColumn Title="Id" Data="id"/>
+                                    <DataTableColumn Title="First Name" Data="first_name"/>
+                                    <DataTableColumn Title="Last Name" Data="last_name"/>
+                                    <DataTableColumn Title="Email" Data="email"/>
                                 </DataTable>
                             </TabItem>
                             <TabItem Title="View Razor">
@@ -306,6 +342,29 @@ window.demo = {
 </div>
 
 @code{
+    DataTableOptions _buttonsDemoOptions;
+
+    protected override void OnInitialized()
+    {
+        _buttonsDemoOptions = new DataTableOptions
+        {
+            DOM = "Bfrtip",
+            Buttons = new List<object>
+            {
+                "colvis"
+            },
+            Language = new LanguageOptions
+            {
+                Buttons = new
+                {
+                    colvis = "Column Visibility"
+                }
+            }
+        };
+
+        base.OnInitialized();
+    }
+
     private static Dataset<Weather> WeatherDataset = new Dataset<Weather>
     {
         new Weather
@@ -347,5 +406,6 @@ window.demo = {
         public int TemperatureC { get; set; }
 
         public string Summary { get; set; }
-    } 
+    }
+
 }
