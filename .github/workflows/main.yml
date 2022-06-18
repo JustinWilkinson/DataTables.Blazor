@@ -68,12 +68,14 @@ jobs:
 
       - name: publish to nuget.org on version change
         id: publish_nuget
-        uses: brandedoutcast/publish-nuget@v2
+        uses: alirezanet/publish-nuget@v3
         with:
           PROJECT_FILE_PATH: DataTables.Blazor/DataTables.Blazor.csproj
           VERSION_REGEX: <Version>(.*)<\/Version>
           TAG_COMMIT: true
           TAG_FORMAT: v*
+          INCLUDE_SYMBOLS: true
+          NO_BUILD: true
           NUGET_KEY: ${{secrets.NUGET_KEY}}
       
       - name: Publish to github packages
