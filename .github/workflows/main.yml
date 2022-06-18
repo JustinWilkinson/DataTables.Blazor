@@ -68,7 +68,7 @@ jobs:
 
       - name: publish to nuget.org on version change
         id: publish_nuget
-        uses: alirezanet/publish-nuget@v3
+        uses: alirezanet/publish-nuget@v3.0.4
         with:
           PROJECT_FILE_PATH: DataTables.Blazor/DataTables.Blazor.csproj
           VERSION_REGEX: <Version>(.*)<\/Version>
