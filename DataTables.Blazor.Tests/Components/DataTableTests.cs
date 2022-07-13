@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DataTables.Blazor.Tests.Components
@@ -136,6 +137,93 @@ namespace DataTables.Blazor.Tests.Components
             context.RenderComponent<DataTable>().Dispose();
 
             // Assert
+            interop.Verify(x => x.InitialiseAsync(It.IsAny<ElementReference>(), It.IsAny<DataTableOptions>()), Times.Once);
+        }
+
+        [Fact]
+        public void DataTable_WithAutoReloadAndDOMSource_CallsInteropToDestroyAndReInitializeWhenParametersSet()
+        {
+            // Arrange
+            using var context = new TestContext();
+            var interop = new Mock<IDataTablesInterop>();
+            context.Services.AddTransient(sp => interop.Object);
+
+            var component = context.RenderComponent<DataTable>(parameters => parameters
+                .Add(x => x.Data, null)
+                .Add(x => x.SourceUrl, null)
+                .Add(x => x.AutoReload, true));
+
+            interop.Reset();
+
+            // Act
+            component.SetParametersAndRender(parameters => parameters.AddChildContent("<thead><tr><th>Title</th><tr></thead><tbody><tr><td>Value</td></tr></tbody>"));
+
+            // Assert
+            interop.Verify(x => x.DestroyAsync(It.IsAny<ElementReference>()), Times.Once);
+            interop.Verify(x => x.InitialiseAsync(It.IsAny<ElementReference>(), It.IsAny<DataTableOptions>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ReloadAsync_SourceUrlProvided_PerformsAjaxReload()
+        {
+            // Arrange
+            using var context = new TestContext();
+            var interop = new Mock<IDataTablesInterop>();
+            context.Services.AddTransient(sp => interop.Object);
+
+            var component = context.RenderComponent<DataTable>(parameters => parameters
+                .Add(x => x.Data, null)
+                .Add(x => x.SourceUrl, "SomeUrl"));
+
+            interop.Reset();
+
+            // Act
+            await component.Instance.ReloadAsync();
+
+            // Assert
+            interop.Verify(x => x.AjaxReloadAsync(It.IsAny<ElementReference>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ReloadAsync_DataProvided_PerformsReload()
+        {
+            // Arrange
+            using var context = new TestContext();
+            var interop = new Mock<IDataTablesInterop>();
+            context.Services.AddTransient(sp => interop.Object);
+
+            var component = context.RenderComponent<DataTable>(parameters => parameters
+                .Add(x => x.Data, new Dataset<object>())
+                .Add(x => x.SourceUrl, null));
+
+            interop.Reset();
+
+            // Act
+            await component.Instance.ReloadAsync();
+
+            // Assert
+            interop.Verify(x => x.ReloadAsync(It.IsAny<ElementReference>(), It.IsAny<Dataset<object>>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ReloadAsync_DomSourced_PerformsReinitialization()
+        {
+            // Arrange
+            using var context = new TestContext();
+            var interop = new Mock<IDataTablesInterop>();
+            context.Services.AddTransient(sp => interop.Object);
+
+            var component = context.RenderComponent<DataTable>(parameters => parameters
+                .Add(x => x.Data, null)
+                .Add(x => x.SourceUrl, null));
+
+            interop.Reset();
+
+            // Act
+            await component.Instance.ReloadAsync();
+
+            // Assert
+            interop.Verify(x => x.DestroyAsync(It.IsAny<ElementReference>()), Times.Once);
             interop.Verify(x => x.InitialiseAsync(It.IsAny<ElementReference>(), It.IsAny<DataTableOptions>()), Times.Once);
         }
 
