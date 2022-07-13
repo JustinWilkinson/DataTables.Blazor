@@ -87,7 +87,7 @@
         {
             if (AutoReload && IsDomSourced())
             {
-                await ReInitializeAsync(); 
+                await ReInitialiseAsync(); 
             }
         }
     }
@@ -105,16 +105,16 @@
         {
             await Datatables.ReloadAsync(_tableReference, Data);
         }
-        else if (!AutoReload && IsDomSourced()) // Don't reload DOM Sources - this is handled automatically when the child content changes.
+        else if (!AutoReload && IsDomSourced()) // Don't reload DOM Sources - this is handled automatically when the child content changes, and will result in duplicate reloads if this isn't here.
         {
-            await ReInitializeAsync();
+            await ReInitialiseAsync();
         }
     }
 
     /// <summary>
     /// Destroys the existing DataTable and initializes a new one in its place.
     /// </summary>
-    public async ValueTask ReInitializeAsync()
+    public async ValueTask ReInitialiseAsync()
     {
         await Datatables.DestroyAsync(_tableReference);
         await Datatables.InitialiseAsync(_tableReference, DataTableOptions.FromComponent(this));

@@ -95,8 +95,5 @@ namespace DataTables.Blazor.Interop
         /// <inheritdoc/>
         public ValueTask ReloadAsync(ElementReference tableReference, IDataset dataset)
             => _runtime.InvokeVoidAsync("datatablesInterop.reloadDataTable", tableReference, JsonSerializer.Serialize(dataset, SerializerOptions));
-
-        public ValueTask ReInitialiseAsync(ElementReference tableReference, DataTableOptions options)
-            => _runtime.InvokeVoidAsync("datatablesInterop.reInitialiseDataTable", tableReference, JsonSerializer.Serialize(options, SerializerOptions));
     }
 }
