@@ -1,3 +1,4 @@
+using DataTables.Blazor.Abstractions;
 using DataTables.Blazor.Abstractions.JsonConverters;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
@@ -27,10 +28,23 @@ namespace DataTables.Blazor.Interop
         /// </summary>
         /// <param name="tableReference">Reference of element to add DataTable to.</param>
         ValueTask DestroyAsync(ElementReference tableReference);
+
+        /// <summary>
+        /// Reload the DataTable for the provided element from the source url.
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable.</param>
+        ValueTask AjaxReloadAsync(ElementReference tableReference);
+
+        /// <summary>
+        /// Reload the DataTable for the provided element from an <see cref="IDataset"/> source.
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable.</param>
+        /// <param name="dataset">The dataset to use.</param>
+        ValueTask ReloadAsync(ElementReference tableReference, IDataset dataset);
     }
 
     /// <inheritdoc/>
-    internal class DataTablesInterop : IDataTablesInterop
+    internal sealed class DataTablesInterop : IDataTablesInterop
     {
         /// <summary>
         /// Runtime used by the interop.
@@ -67,16 +81,19 @@ namespace DataTables.Blazor.Interop
         }
 
         /// <inheritdoc/>
-        public ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options)
-        {
-            var serializedOptions = JsonSerializer.Serialize(options, SerializerOptions);
-
-            return _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, serializedOptions);
-        }
-        
+        public ValueTask InitialiseAsync(ElementReference tableReference, DataTableOptions options) 
+            => _runtime.InvokeVoidAsync("datatablesInterop.initialiseDataTable", tableReference, JsonSerializer.Serialize(options, SerializerOptions));
 
         /// <inheritdoc/>
         public ValueTask DestroyAsync(ElementReference tableReference)
             => _runtime.InvokeVoidAsync("datatablesInterop.destroyDataTable", tableReference);
+
+        /// <inheritdoc/>
+        public ValueTask AjaxReloadAsync(ElementReference tableReference)
+            => _runtime.InvokeVoidAsync("datatablesInterop.ajaxReloadDataTable", tableReference);
+
+        /// <inheritdoc/>
+        public ValueTask ReloadAsync(ElementReference tableReference, IDataset dataset)
+            => _runtime.InvokeVoidAsync("datatablesInterop.reloadDataTable", tableReference, JsonSerializer.Serialize(dataset, SerializerOptions));
     }
 }

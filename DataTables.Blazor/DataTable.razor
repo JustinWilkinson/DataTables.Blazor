@@ -3,7 +3,7 @@
 
 <CascadingValue Value="this">
     <table @ref="_tableReference" @attributes=TableAttributes>
-        @if (!string.IsNullOrEmpty(SourceUrl) || Data != null)
+        @if (!IsDomSourced())
         {
             @* If SourceUrl or Data is provided, allow for the abbreviated syntax where all we need
             inside the DataTable component is a collection of Column components *@
@@ -22,30 +22,108 @@
 @code{
     private ElementReference _tableReference;
 
+    /// <summary>
+    /// The child content of the component.
+    /// </summary>
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// HTML Attributes to apply to the table element.
+    /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> TableAttributes { get; set; }
 
+    /// <summary>
+    /// A URL to retrieve data from.
+    /// </summary>
     [Parameter]
     public string SourceUrl { get; set; }
 
+    /// <summary>
+    /// A C# object data source.
+    /// </summary>
     [Parameter]
     public IDataset Data { get; set; }
 
+    /// <summary>
+    /// Specifies whether to automatically reload the datatable from the source when <see cref="ComponentBase.StateHasChanged"/> runs.
+    /// </summary>
+    [Parameter]
+    public bool AutoReload { get; set; }
+
+    /// <summary>
+    /// The options for the <see cref="DataTable"/> component.
+    /// </summary>
     [Parameter]
     public DataTableOptions Options { get; set; }
 
+    /// <summary>
+    /// The child <see cref="DataTableColumn"/> of the <see cref="DataTable"/> component.
+    /// </summary>
     public List<DataTableColumn> Columns { get; set; } = new List<DataTableColumn>();
 
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             await Datatables.InitialiseAsync(_tableReference, DataTableOptions.FromComponent(this));
         }
+        else if (AutoReload)
+        {
+            await ReloadAsync();
+        }
     }
 
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        await base.SetParametersAsync(parameters);
+
+        // For DOM AutoReloads, we need to completely destroy the table, and start again.
+        // To do so, we need to update whenever the ChildContent parameter is changed.
+        if (parameters.TryGetValue<RenderFragment>(nameof(ChildContent), out var childContent))
+        {
+            if (AutoReload && IsDomSourced())
+            {
+                await ReInitialiseAsync(); 
+            }
+        }
+    }
+
+    /// <summary>
+    /// Manually reload the datatable from its source. See <see cref="AutoReload"/> to automatically keep the table up to date.
+    /// </summary>
+    public async ValueTask ReloadAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(SourceUrl))
+        {
+            await Datatables.AjaxReloadAsync(_tableReference);
+        }
+        else if (Data != null)
+        {
+            await Datatables.ReloadAsync(_tableReference, Data);
+        }
+        else if (!AutoReload && IsDomSourced()) // Don't reload DOM Sources - this is handled automatically when the child content changes, and will result in duplicate reloads if this isn't here.
+        {
+            await ReInitialiseAsync();
+        }
+    }
+
+    /// <summary>
+    /// Destroys the existing DataTable and initializes a new one in its place.
+    /// </summary>
+    public async ValueTask ReInitialiseAsync()
+    {
+        await Datatables.DestroyAsync(_tableReference);
+        await Datatables.InitialiseAsync(_tableReference, DataTableOptions.FromComponent(this));
+    }
+
+    /// <summary>
+    /// Destroys the datatable component.
+    /// </summary>
     public ValueTask DisposeAsync() => Datatables.DestroyAsync(_tableReference);
+
+    private bool IsDomSourced() => string.IsNullOrWhiteSpace(SourceUrl) && Data == null;
 }

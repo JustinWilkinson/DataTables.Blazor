@@ -15,10 +15,21 @@ window.datatablesInterop  = {
             opts.ajax.dataSrc = this.assignCallback(opts.ajax.data);
         }
 
-        $(tableElement).DataTable(opts);
+        if (!$.fn.DataTable.isDataTable(tableElement) || opts.destroy) {
+            $(tableElement).DataTable(opts);
+        }
     },
     destroyDataTable: function (tableElement) {
-        $(tableElement).DataTable().destroy();
+        if ($.fn.DataTable.isDataTable(tableElement)) {
+            $(tableElement).DataTable().destroy();
+        }
+    },
+    ajaxReloadDataTable: function (tableElement) {
+        $(tableElement).DataTable().ajax.reload().draw();
+    },
+    reloadDataTable: function (tableElement, jsonData) {
+        const data = JSON.parse(jsonData);
+        $(tableElement).DataTable().clear().rows.add(data).draw();
     },
     assignCallback: function (callback) {
         if (callback == null || callback.namespace == null || callback.function == null) {
