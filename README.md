@@ -3,7 +3,7 @@ A basic port for jquery [DataTables](https://datatables.net/) into Blazor.
 
 #### About:
 This was written purely for fun, if you'd like to use it you're welcome to do so, it's under an [MIT License](https://github.com/JustinWilkinson/DataTables.Blazor/blob/master/LICENSE).
-If you've found it useful, and want to say thanks, feel free to buy me a coffee, otherwise enjoy.
+If you've found it useful, and want to say thanks, feel free to buy me a coffee, otherwise enjoy.  
  [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/justinwilkinson)
 
 #### Disclaimer.
