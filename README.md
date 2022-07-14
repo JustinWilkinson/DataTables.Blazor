@@ -1,6 +1,11 @@
 # DataTables.Blazor
 A basic port for jquery [DataTables](https://datatables.net/) into Blazor.
 
+#### About:
+This was written purely for fun, if you'd like to use it you're welcome to do so, it's under an [MIT License](https://github.com/JustinWilkinson/DataTables.Blazor/blob/master/LICENSE).
+If you've found it useful, and want to say thanks, feel free to buy me a coffee, otherwise enjoy.
+ [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/justinwilkinson)
+
 #### Disclaimer.
 * This project is still pretty immature, and needs a lot of work and is liable to be buggy.
 * Its functionality may not yet fully replicate all the options available in DataTables.
@@ -60,6 +65,11 @@ Xunit/Bunit tests for the DataTables.Blazor project.
 
 
 ## Release Notes:
+### 3.2.0
+* Add reload and reinitialize methods as well as `AutoReload` for the `DataTable` component.
+
+### 3.1.0
+* Add support for datatables `Button` extension.
 
 ### 3.0.0
 * Rename `Column` component to `DataTableColumn` to reduce risk of naming clash.
