@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IJSRuntime JS
 @using DataTables.Blazor.Options
 
 <h1>Weather forecast</h1>
@@ -457,9 +458,102 @@ private record Weather
                     </TabItems>
                 </TabControl>
             </TabItem>
+            <TabItem Title="Events">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header"/>
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of the basic initialization of a DataTable with events.</h6>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <DataTable 
+                                                SourceUrl="sample-data/users.json" 
+                                                Class="table table-striped table-bordered w-100" 
+                                                Options="_buttonsDemoOptions"
+                                                OnRowClick="@(() => AddEventLog("Row clicked"))"
+                                                OnInit="@(() => AddEventLog("Datatables initialized"))"
+                                                OnChildRowChanged="@(() => AddEventLog("ChildRowChanged"))"
+                                                OnColumnSizing="@(() => AddEventLog("ColumnSizing"))"
+                                                OnColumnVisibility="@(() => AddEventLog("ColumnVisibility"))"
+                                                OnDestroy="@(() => AddEventLog("Destroy"))"
+                                                OnDraw="@(() => AddEventLog("Draw"))"
+                                                OnError="@(() => AddEventLog("Error"))"
+                                                OnLength="@(() => AddEventLog("Length"))"
+                                                OnOrder="@(() => AddEventLog("Order"))"
+                                                OnPage="@(() => AddEventLog("Page"))"
+                                                OnPreDraw="@(() => AddEventLog("PreDraw"))"
+                                                OnPreInit="@(() => AddEventLog("PreInit"))"
+                                                OnPreXhr="@(() => AddEventLog("PreXhr"))"
+                                                OnProcessing="@(() => AddEventLog("Processing"))"
+                                                OnRequestChild="@(() => AddEventLog("RequestChild"))"
+                                                OnSearch="@(() => AddEventLog("Search"))"
+                                                OnStateLoadParams="@(() => AddEventLog("StateLoadParams"))"
+                                                OnStateLoaded="@(() => AddEventLog("StateLoaded"))"
+                                                OnStateSaveParams="@(() => AddEventLog("StateSaveParams"))"
+                                                OnXhr="@(() => AddEventLog("Xhr"))">
+                                            <DataTableColumn Title="Id" Data="id"/>
+                                            <DataTableColumn Title="First Name" Data="first_name"/>
+                                            <DataTableColumn Title="Last Name" Data="last_name"/>
+                                            <DataTableColumn Title="Email" Data="email"/>
+                                        </DataTable>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4>Events log:</h4>
+                                        <textarea id="eventsLogs" value="@EventsLogs" style="width:90%;height:80%;"/>
+                                        <button type="button" @onclick="@(() => EventsLogs = "")">Clear</button>
+                                    </div>
+                                </div>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+&lt;DataTable 
+		SourceUrl=&quot;sample-data/users.json&quot; 
+		Class=&quot;table table-striped table-bordered w-100&quot; 
+		Options=&quot;_buttonsDemoOptions&quot;
+		OnRowClick=&quot;@@(() =&gt; AddEventLog(&quot;Row clicked&quot;))&quot;
+		OnInit=&quot;@@(() =&gt; AddEventLog(&quot;Datatables initialized&quot;))&quot;
+		OnChildRowChanged=&quot;@@(() =&gt; AddEventLog(&quot;ChildRowChanged&quot;))&quot;
+		OnColumnSizing=&quot;@@(() =&gt; AddEventLog(&quot;ColumnSizing&quot;))&quot;
+		OnColumnVisibility=&quot;@@(() =&gt; AddEventLog(&quot;ColumnVisibility&quot;))&quot;
+		OnDestroy=&quot;@@(() =&gt; AddEventLog(&quot;Destroy&quot;))&quot;
+		OnDraw=&quot;@@(() =&gt; AddEventLog(&quot;Draw&quot;))&quot;
+		OnError=&quot;@@(() =&gt; AddEventLog(&quot;Error&quot;))&quot;
+		OnLength=&quot;@@(() =&gt; AddEventLog(&quot;Length&quot;))&quot;
+		OnOrder=&quot;@@(() =&gt; AddEventLog(&quot;Order&quot;))&quot;
+		OnPage=&quot;@@(() =&gt; AddEventLog(&quot;Page&quot;))&quot;
+		OnPreDraw=&quot;@@(() =&gt; AddEventLog(&quot;PreDraw&quot;))&quot;
+		OnPreInit=&quot;@@(() =&gt; AddEventLog(&quot;PreInit&quot;))&quot;
+		OnPreXhr=&quot;@@(() =&gt; AddEventLog(&quot;PreXhr&quot;))&quot;
+		OnProcessing=&quot;@@(() =&gt; AddEventLog(&quot;Processing&quot;))&quot;
+		OnRequestChild=&quot;@@(() =&gt; AddEventLog(&quot;RequestChild&quot;))&quot;
+		OnSearch=&quot;@@(() =&gt; AddEventLog(&quot;Search&quot;))&quot;
+		OnStateLoadParams=&quot;@@(() =&gt; AddEventLog(&quot;StateLoadParams&quot;))&quot;
+		OnStateLoaded=&quot;@@(() =&gt; AddEventLog(&quot;StateLoaded&quot;))&quot;
+		OnStateSaveParams=&quot;@@(() =&gt; AddEventLog(&quot;StateSaveParams&quot;))&quot;
+		OnXhr=&quot;@@(() =&gt; AddEventLog(&quot;Xhr&quot;))&quot;&gt;
+	&lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot;/&gt;
+	&lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;first_name&quot;/&gt;
+	&lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;last_name&quot;/&gt;
+	&lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot;/&gt;
+&lt;/DataTable&gt;</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
         </TabItems>
     </TabControl>
 </div>
+ 
 
 @code{
     private readonly DataTableOptions _buttonsDemoOptions = new DataTableOptions
@@ -556,6 +650,14 @@ private record Weather
         }
     };
 
+    private string EventsLogs { get; set; }
+
+    void AddEventLog(string log)
+    {
+        EventsLogs +=  $"- {log}\n";
+        Task.Run(() => JS.InvokeVoidAsync("demo.scrollToBottom", "eventsLogs"));
+    }
+
     private record Weather
     {
         public DateTime Date { get; set; }
@@ -563,5 +665,5 @@ private record Weather
         public int TemperatureC { get; set; }
 
         public string Summary { get; set; }
-    }
+    } 
 }

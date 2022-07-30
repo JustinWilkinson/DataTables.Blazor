@@ -3,6 +3,7 @@ using DataTables.Blazor.Abstractions.JsonConverters;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Text.Json;
 #if NET6_0_OR_GREATER
 using System.Text.Json.Serialization;
@@ -41,6 +42,12 @@ namespace DataTables.Blazor.Interop
         /// <param name="tableReference">Reference to the DataTable.</param>
         /// <param name="dataset">The dataset to use.</param>
         ValueTask ReloadAsync(ElementReference tableReference, IDataset dataset);
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable.</param>
+        ValueTask AddEventListenerAsync(ElementReference tableReference, string eventName, Object dotNetCallback);
     }
 
     /// <inheritdoc/>
@@ -95,5 +102,9 @@ namespace DataTables.Blazor.Interop
         /// <inheritdoc/>
         public ValueTask ReloadAsync(ElementReference tableReference, IDataset dataset)
             => _runtime.InvokeVoidAsync("datatablesInterop.reloadDataTable", tableReference, JsonSerializer.Serialize(dataset, SerializerOptions));
+
+        /// <inheritdoc/>
+        public ValueTask AddEventListenerAsync(ElementReference tableReference, string eventName, Object dotNetCallback)
+            => _runtime.InvokeVoidAsync("datatablesInterop.addEventListener", tableReference, eventName, dotNetCallback);
     }
 }

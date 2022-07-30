@@ -1,5 +1,5 @@
-window.datatablesInterop  = {
-    initialiseDataTable: function(tableElement, options) {
+window.datatablesInterop = {
+    initialiseDataTable: function (tableElement, options) {
         const opts = JSON.parse(options);
 
         if (opts.columns != null) {
@@ -46,6 +46,18 @@ window.datatablesInterop  = {
             return func;
         } else {
             return undefined;
+        }
+    },
+    addEventListener: function (tableElement, eventName, dotNetCallback) {
+        if (eventName.normalize() === "onrowclick".normalize()) {
+            $(tableElement).on("click", "tbody tr", function (...args) {
+                return dotNetCallback.invokeMethodAsync("Invoke", {});
+            });
+        }
+        else {
+            $(tableElement).on(eventName, function (...args) {
+                return dotNetCallback.invokeMethodAsync("Invoke", {});
+            });
         }
     }
 };
