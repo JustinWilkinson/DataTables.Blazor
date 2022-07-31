@@ -47,17 +47,69 @@ window.datatablesInterop = {
         } else {
             return undefined;
         }
-    },
+    }, 
     addEventListener: function (tableElement, eventName, dotNetCallback) {
-        if (eventName.normalize() === "onrowclick".normalize()) {
+        if (isEqual(eventName, "onrowclick")) {
             $(tableElement).on("click", "tbody tr", function (...args) {
-                return dotNetCallback.invokeMethodAsync("Invoke", {});
+                var row = $(tableElement).DataTable().row(this);
+                var json = {
+                    "id": String(row.id()),
+                    "data": row.data()
+                };
+                return dotNetCallback.invokeMethodAsync("Invoke", json);
             });
         }
         else {
+            var json = {};
             $(tableElement).on(eventName, function (...args) {
-                return dotNetCallback.invokeMethodAsync("Invoke", {});
+                json = argsToJson(args);
+
+                if (isEqual(eventName, "page.dt")) {
+                    var info = $(tableElement).DataTable().page.info();
+                    json = {
+                        "page": info["page"],
+                        "pages": info["pages"],
+                        "start": info["start"],
+                        "end": info["end"],
+                        "length": info["length"]
+                    }
+                }
+
+                return dotNetCallback.invokeMethodAsync("Invoke", json);
             });
         }
-    }
+    } 
 };
+
+function argsToJson(_obj) {
+    var names = [],
+        args = arguments,
+        len = function (o) {
+            var a = [];
+
+            for (var i in o) a.push(i);
+
+            return a;
+        };
+
+    for (var i in _obj) {
+        names.push(i);
+    }
+
+    var jsonData = {};
+
+    [].forEach.call(len(_obj), function (a, b) {
+        if (!isEqual(names[b], "e") &&
+            !isEqual(names[b], "settings") &&
+            !isEqual(names[b], "dt") &&
+            !isEqual(names[b], "datatable") &&
+            (args[0][names[b]] instanceof Object) == false) {
+            jsonData[names[b]] = args[0][names[b]];
+        }
+    });
+
+    return jsonData;
+}
+function isEqual(str1, str2) {
+    return str1.normalize() === str2.normalize();
+}

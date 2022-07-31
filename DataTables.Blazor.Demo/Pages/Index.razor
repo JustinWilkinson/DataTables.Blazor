@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject IJSRuntime JS
 @using DataTables.Blazor.Options
+@using System.Text.Json
 
 <h1>Weather forecast</h1>
 
@@ -476,18 +477,18 @@ private record Weather
                                         <DataTable 
                                                 SourceUrl="sample-data/users.json" 
                                                 Class="table table-striped table-bordered w-100" 
-                                                Options="_buttonsDemoOptions"
-                                                OnRowClick="@(() => AddEventLog("Row clicked"))"
+                                                Options="_eventsDemoOptions"
+                                                OnRowClick="@((e) => AddEventLog($"Row {e.Id} clicked. Data: {Convert.ToString(e.Data)}"))"
                                                 OnInit="@(() => AddEventLog("Datatables initialized"))"
                                                 OnChildRowChanged="@(() => AddEventLog("ChildRowChanged"))"
                                                 OnColumnSizing="@(() => AddEventLog("ColumnSizing"))"
                                                 OnColumnVisibility="@(() => AddEventLog("ColumnVisibility"))"
                                                 OnDestroy="@(() => AddEventLog("Destroy"))"
                                                 OnDraw="@(() => AddEventLog("Draw"))"
-                                                OnError="@(() => AddEventLog("Error"))"
+                                                OnError="@((e) => AddEventLog($"Error. Data: {Convert.ToString(e)}"))"
                                                 OnLength="@(() => AddEventLog("Length"))"
                                                 OnOrder="@(() => AddEventLog("Order"))"
-                                                OnPage="@(() => AddEventLog("Page"))"
+                                                OnPage="@((e) => AddEventLog($"Page. Data: {JsonSerializer.Serialize(e)}"))"
                                                 OnPreDraw="@(() => AddEventLog("PreDraw"))"
                                                 OnPreInit="@(() => AddEventLog("PreInit"))"
                                                 OnPreXhr="@(() => AddEventLog("PreXhr"))"
@@ -498,7 +499,7 @@ private record Weather
                                                 OnStateLoaded="@(() => AddEventLog("StateLoaded"))"
                                                 OnStateSaveParams="@(() => AddEventLog("StateSaveParams"))"
                                                 OnXhr="@(() => AddEventLog("Xhr"))">
-                                            <DataTableColumn Title="Id" Data="id"/>
+                                            <DataTableColumn Title="Id" Data="id" Visible="false" />
                                             <DataTableColumn Title="First Name" Data="first_name"/>
                                             <DataTableColumn Title="Last Name" Data="last_name"/>
                                             <DataTableColumn Title="Email" Data="email"/>
@@ -563,6 +564,24 @@ private record Weather
         {
             "colvis"
         },
+        Language = new LanguageOptions
+        {
+            Buttons = new
+            {
+                colvis = "Column Visibility"
+            }
+        }
+    };
+
+    private readonly DataTableOptions _eventsDemoOptions = new DataTableOptions
+    {
+        DOM = "Bfrtip", 
+        RowId = "id",
+        Buttons = new List<object>
+        {
+            "colvis"
+        },
+        Paging =true,
         Language = new LanguageOptions
         {
             Buttons = new
@@ -656,8 +675,8 @@ private record Weather
     {
         EventsLogs +=  $"- {log}\n";
         Task.Run(() => JS.InvokeVoidAsync("demo.scrollToBottom", "eventsLogs"));
-    }
-
+    } 
+     
     private record Weather
     {
         public DateTime Date { get; set; }

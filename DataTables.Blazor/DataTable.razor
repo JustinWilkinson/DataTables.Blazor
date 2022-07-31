@@ -1,4 +1,5 @@
 ﻿@using System.Text.Json
+@using DataTables.Blazor.Events
 @inject IDataTablesInterop Datatables
 @inject IDomEventListener DomEventListener
 @implements IAsyncDisposable
@@ -191,7 +192,7 @@
     /// On row click.
     /// </summary>
     [Parameter]
-    public EventCallback OnRowClick { get; set; }
+    public EventCallback<RowClickEventArgs> OnRowClick { get; set; }
 
     #endregion
 
@@ -275,74 +276,79 @@
     private async Task AddEventListenersBeforeInitAsync()
     {
         if (OnInit.HasDelegate)
-            await AddEventListener(JsEventsConstants.Init, e => OnInit.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Init, e => OnInit.InvokeAsync(e));
 
         if (OnXhr.HasDelegate)
-            await AddEventListener(JsEventsConstants.Xhr, e => OnXhr.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Xhr, e => OnXhr.InvokeAsync(e));
 
         if (OnChildRowChanged.HasDelegate)
-            await AddEventListener(JsEventsConstants.ChildRow, e => OnChildRowChanged.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.ChildRow, e => OnChildRowChanged.InvokeAsync(e));
 
         if (OnRequestChild.HasDelegate)
-            await AddEventListener(JsEventsConstants.RequestChild, e => OnRequestChild.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.RequestChild, e => OnRequestChild.InvokeAsync(e));
 
         if (OnPreInit.HasDelegate)
-            await AddEventListener(JsEventsConstants.PreInit, e => OnPreInit.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.PreInit, e => OnPreInit.InvokeAsync(e));
 
         if (OnPreXhr.HasDelegate)
-            await AddEventListener(JsEventsConstants.PreXhr, e => OnPreXhr.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.PreXhr, e => OnPreXhr.InvokeAsync(e));
 
         if (OnError.HasDelegate)
-            await AddEventListener(JsEventsConstants.Error, e => OnError.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Error, e => OnError.InvokeAsync(e));
 
         if (OnProcessing.HasDelegate)
-            await AddEventListener(JsEventsConstants.Processing, e => OnProcessing.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Processing, e => OnProcessing.InvokeAsync(e));
     }
 
     private async Task AddEventListenersAfterInitAsync()
     {
         if (OnRowClick.HasDelegate)
-            await AddEventListener(JsEventsConstants.OnRowClick, e => OnRowClick.InvokeAsync(e));
+        { 
+            await AddEventListener<RowClickEventArgs>(JsEventsConstants.OnRowClick, e =>
+            {
+                OnRowClick.InvokeAsync(e);
+            });
+        }
 
         if (OnColumnSizing.HasDelegate)
-            await AddEventListener(JsEventsConstants.ColumnSizing, e => OnColumnSizing.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.ColumnSizing, e => OnColumnSizing.InvokeAsync(e));
 
         if (OnColumnVisibility.HasDelegate)
-            await AddEventListener(JsEventsConstants.ColumnVisibility, e => OnColumnVisibility.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.ColumnVisibility, e => OnColumnVisibility.InvokeAsync(e));
 
         if (OnDestroy.HasDelegate)
-            await AddEventListener(JsEventsConstants.Destroy, e => OnDestroy.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Destroy, e => OnDestroy.InvokeAsync(e));
 
         if (OnDraw.HasDelegate)
-            await AddEventListener(JsEventsConstants.Draw, e => OnDraw.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Draw, e => OnDraw.InvokeAsync(e));
 
         if (OnLength.HasDelegate)
-            await AddEventListener(JsEventsConstants.Length, e => OnLength.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Length, e => OnLength.InvokeAsync(e));
 
         if (OnOrder.HasDelegate)
-            await AddEventListener(JsEventsConstants.Order, e => OnOrder.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Order, e => OnOrder.InvokeAsync(e));
 
         if (OnPage.HasDelegate)
-            await AddEventListener(JsEventsConstants.Page, e => OnPage.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Page, e => OnPage.InvokeAsync(e));
 
         if (OnPreDraw.HasDelegate)
-            await AddEventListener(JsEventsConstants.PreDraw, e => OnPreDraw.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.PreDraw, e => OnPreDraw.InvokeAsync(e));
 
         if (OnSearch.HasDelegate)
-            await AddEventListener(JsEventsConstants.Search, e => OnSearch.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.Search, e => OnSearch.InvokeAsync(e));
 
         if (OnStateLoadParams.HasDelegate)
-            await AddEventListener(JsEventsConstants.StateLoadParams, e => OnStateLoadParams.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.StateLoadParams, e => OnStateLoadParams.InvokeAsync(e));
 
         if (OnStateLoaded.HasDelegate)
-            await AddEventListener(JsEventsConstants.StateLoaded, e => OnStateLoaded.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.StateLoaded, e => OnStateLoaded.InvokeAsync(e));
 
         if (OnStateSaveParams.HasDelegate)
-            await AddEventListener(JsEventsConstants.StateSaveParams, e => OnStateSaveParams.InvokeAsync(e));
+            await AddEventListener<JsonDocument>(JsEventsConstants.StateSaveParams, e => OnStateSaveParams.InvokeAsync(e));
     }
 
-    private async Task AddEventListener(string eventName, Action<JsonElement> callback)
+    private async Task AddEventListener<T>(string eventName, Action<T> callback)
     {
-        await DomEventListener.AddAsync<JsonElement>(_tableReference, eventName, callback);
+        await DomEventListener.AddAsync<T>(_tableReference, eventName, callback);
     }
 }
