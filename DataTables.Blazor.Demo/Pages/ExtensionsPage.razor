@@ -1,0 +1,43 @@
+﻿@page "/extensions"
+
+<h1>Extensions</h1>
+
+<p>This page demonstrates some of the uses of the DataTable component.</p>
+
+<div class="row w-100 card border mb-2">
+    <TabControl>
+        <TabHeader>
+            <TabHeaderTemplate Class="card-header" ButtonGroupClass="w-100"/>
+        </TabHeader>
+        <TabItems>
+            <TabItem Title="Scroller">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header"/>
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of using Scroller of a DataTable, Scroller is a virtual rendering plug-in for DataTables which allows large datasets to be drawn on screen very quickly.</h6>
+                                    <small>Please note - this property requires the Scroller extension for DataTables.</small>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                 <DataTable SourceUrl="/api/values" Class="display nowrap" Options="_buttonsDemoOptions">
+                                    <DataTableColumn Title="Id" Data="id"/>
+                                    <DataTableColumn Title="First Name" Data="firstName"/>
+                                    <DataTableColumn Title="Last Name" Data="lastName"/>
+                                    <DataTableColumn Title="Email" Data="email"/>
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                 
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
+        </TabItems>
+    </TabControl>
+</div>
