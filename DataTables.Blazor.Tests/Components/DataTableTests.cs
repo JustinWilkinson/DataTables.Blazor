@@ -118,6 +118,9 @@ namespace DataTables.Blazor.Tests.Components
             var interop = new Mock<IDataTablesInterop>();
             context.Services.AddTransient(sp => interop.Object);
 
+            var listener = new Mock<IDomEventListener>();
+            context.Services.AddTransient(sp => listener.Object);
+
             // Act
             var datatable = context.RenderComponent<DataTable>(parameters => parameters.Add(x => x.SourceUrl, "some url"));
 
@@ -133,6 +136,9 @@ namespace DataTables.Blazor.Tests.Components
             var interop = new Mock<IDataTablesInterop>();
             context.Services.AddTransient(sp => interop.Object);
 
+            var listener = new Mock<IDomEventListener>();
+            context.Services.AddTransient(sp => listener.Object);
+
             // Act
             context.RenderComponent<DataTable>().Dispose();
 
@@ -147,6 +153,9 @@ namespace DataTables.Blazor.Tests.Components
             using var context = new TestContext();
             var interop = new Mock<IDataTablesInterop>();
             context.Services.AddTransient(sp => interop.Object);
+
+            var listener = new Mock<IDomEventListener>();
+            context.Services.AddTransient(sp => listener.Object);
 
             var component = context.RenderComponent<DataTable>(parameters => parameters
                 .Add(x => x.Data, null)
@@ -171,6 +180,9 @@ namespace DataTables.Blazor.Tests.Components
             var interop = new Mock<IDataTablesInterop>();
             context.Services.AddTransient(sp => interop.Object);
 
+            var listener = new Mock<IDomEventListener>();
+            context.Services.AddTransient(sp => listener.Object);
+
             var component = context.RenderComponent<DataTable>(parameters => parameters
                 .Add(x => x.Data, null)
                 .Add(x => x.SourceUrl, "SomeUrl"));
@@ -192,6 +204,9 @@ namespace DataTables.Blazor.Tests.Components
             var interop = new Mock<IDataTablesInterop>();
             context.Services.AddTransient(sp => interop.Object);
 
+            var listener = new Mock<IDomEventListener>();
+            context.Services.AddTransient(sp => listener.Object);
+
             var component = context.RenderComponent<DataTable>(parameters => parameters
                 .Add(x => x.Data, new Dataset<object>())
                 .Add(x => x.SourceUrl, null));
@@ -212,6 +227,9 @@ namespace DataTables.Blazor.Tests.Components
             using var context = new TestContext();
             var interop = new Mock<IDataTablesInterop>();
             context.Services.AddTransient(sp => interop.Object);
+
+            var listener = new Mock<IDomEventListener>();
+            context.Services.AddTransient(sp => listener.Object);
 
             var component = context.RenderComponent<DataTable>(parameters => parameters
                 .Add(x => x.Data, null)
