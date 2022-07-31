@@ -485,7 +485,7 @@ private record Weather
                                                 OnColumnVisibility="@(() => AddEventLog("ColumnVisibility"))"
                                                 OnDestroy="@(() => AddEventLog("Destroy"))"
                                                 OnDraw="@(() => AddEventLog("Draw"))"
-                                                OnError="@((e) => AddEventLog($"Error. Data: {Convert.ToString(e)}"))"
+                                                OnError="@((e) => AddEventLog($"Error. Data: {JsonSerializer.Serialize(e)}"))"
                                                 OnLength="@(() => AddEventLog("Length"))"
                                                 OnOrder="@(() => AddEventLog("Order"))"
                                                 OnPage="@((e) => AddEventLog($"Page. Data: {JsonSerializer.Serialize(e)}"))"
@@ -515,21 +515,21 @@ private record Weather
                             <TabItem Title="View Razor">
                                 <div class="col-12">
                                     <pre class="mb-0">
-&lt;DataTable 
-		SourceUrl=&quot;sample-data/users.json&quot; 
+ &lt;DataTable 
+		SourceUrl=&quot;sample-data/users.json&quot;
 		Class=&quot;table table-striped table-bordered w-100&quot; 
-		Options=&quot;_buttonsDemoOptions&quot;
-		OnRowClick=&quot;@@(() =&gt; AddEventLog(&quot;Row clicked&quot;))&quot;
+		Options=&quot;_eventsDemoOptions&quot;
+		OnRowClick=&quot;@@((e) =&gt; AddEventLog($&quot;Row {e.Id} clicked. Data: {Convert.ToString(e.Data)}&quot;))&quot;
 		OnInit=&quot;@@(() =&gt; AddEventLog(&quot;Datatables initialized&quot;))&quot;
 		OnChildRowChanged=&quot;@@(() =&gt; AddEventLog(&quot;ChildRowChanged&quot;))&quot;
 		OnColumnSizing=&quot;@@(() =&gt; AddEventLog(&quot;ColumnSizing&quot;))&quot;
 		OnColumnVisibility=&quot;@@(() =&gt; AddEventLog(&quot;ColumnVisibility&quot;))&quot;
 		OnDestroy=&quot;@@(() =&gt; AddEventLog(&quot;Destroy&quot;))&quot;
 		OnDraw=&quot;@@(() =&gt; AddEventLog(&quot;Draw&quot;))&quot;
-		OnError=&quot;@@(() =&gt; AddEventLog(&quot;Error&quot;))&quot;
+		OnError=&quot;@@((e) =&gt; AddEventLog($&quot;Error. Data: {JsonSerializer.Serialize(e)}&quot;))&quot;
 		OnLength=&quot;@@(() =&gt; AddEventLog(&quot;Length&quot;))&quot;
 		OnOrder=&quot;@@(() =&gt; AddEventLog(&quot;Order&quot;))&quot;
-		OnPage=&quot;@@(() =&gt; AddEventLog(&quot;Page&quot;))&quot;
+		OnPage=&quot;@@((e) =&gt; AddEventLog($&quot;Page. Data: {JsonSerializer.Serialize(e)}&quot;))&quot;
 		OnPreDraw=&quot;@@(() =&gt; AddEventLog(&quot;PreDraw&quot;))&quot;
 		OnPreInit=&quot;@@(() =&gt; AddEventLog(&quot;PreInit&quot;))&quot;
 		OnPreXhr=&quot;@@(() =&gt; AddEventLog(&quot;PreXhr&quot;))&quot;
@@ -540,7 +540,7 @@ private record Weather
 		OnStateLoaded=&quot;@@(() =&gt; AddEventLog(&quot;StateLoaded&quot;))&quot;
 		OnStateSaveParams=&quot;@@(() =&gt; AddEventLog(&quot;StateSaveParams&quot;))&quot;
 		OnXhr=&quot;@@(() =&gt; AddEventLog(&quot;Xhr&quot;))&quot;&gt;
-	&lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot;/&gt;
+	&lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot; Visible=&quot;false&quot; /&gt;
 	&lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;first_name&quot;/&gt;
 	&lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;last_name&quot;/&gt;
 	&lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot;/&gt;

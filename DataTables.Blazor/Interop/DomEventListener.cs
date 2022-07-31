@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace DataTables.Blazor.Interop
 {
     /// <summary>
-    /// 
+    /// Controls the events between .NET and JS for DataTables.Blazor.
     /// </summary>
     public interface IDomEventListener
     {
         /// <summary>
-        /// 
+        /// Add event listener for datatable.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dom"></param>
@@ -22,12 +22,12 @@ namespace DataTables.Blazor.Interop
         Task AddAsync<T>(ElementReference dom, string eventName, Action<T> callback);
 
         /// <summary>
-        /// 
+        /// Clear all listeners and dispose.
         /// </summary>
         void Dispose();
 
         /// <summary>
-        /// 
+        /// Remove event listener by name
         /// </summary>
         /// <param name="dom"></param>
         /// <param name="eventName"></param>
