@@ -478,7 +478,8 @@ private record Weather
                                                 SourceUrl="sample-data/users.json"
                                                 Class="table table-striped table-bordered w-100" 
                                                 Options="_eventsDemoOptions"
-                                                OnRowClick="@((e) => AddEventLog($"Row {e.Id} clicked. Data: {Convert.ToString(e.Data)}"))"
+                                                OnRowClick="@((e) => AddEventLog($"Row {e.Index} clicked. Id: {e.Id} Data: {Convert.ToString(e.Data)}"))"
+                                                OnCellClick="@((e) => AddEventLog($"Cell {e.ColumnId} clicked. RowIndex: {e.RowIndex}, RowId: {e.RowId}, Value: {e.Data}"))"
                                                 OnInit="@(() => AddEventLog("Datatables initialized"))"
                                                 OnChildRowChanged="@(() => AddEventLog("ChildRowChanged"))"
                                                 OnColumnSizing="@(() => AddEventLog("ColumnSizing"))"
@@ -519,7 +520,8 @@ private record Weather
 		SourceUrl=&quot;sample-data/users.json&quot;
 		Class=&quot;table table-striped table-bordered w-100&quot; 
 		Options=&quot;_eventsDemoOptions&quot;
-		OnRowClick=&quot;@@((e) =&gt; AddEventLog($&quot;Row {e.Id} clicked. Data: {Convert.ToString(e.Data)}&quot;))&quot;
+		OnRowClick=&quot;@@((e) =&gt; AddEventLog($&quot;Row {e.Index} clicked. Id: {e.Id} Data: {Convert.ToString(e.Data)}&quot;))&quot;
+		OnCellClick=&quot;@@((e) =&gt; AddEventLog($&quot;Cell {e.ColumnId} clicked. RowIndex: {e.RowIndex}, RowId: {e.RowId}, Value: {e.Data}&quot;))&quot;
 		OnInit=&quot;@@(() =&gt; AddEventLog(&quot;Datatables initialized&quot;))&quot;
 		OnChildRowChanged=&quot;@@(() =&gt; AddEventLog(&quot;ChildRowChanged&quot;))&quot;
 		OnColumnSizing=&quot;@@(() =&gt; AddEventLog(&quot;ColumnSizing&quot;))&quot;

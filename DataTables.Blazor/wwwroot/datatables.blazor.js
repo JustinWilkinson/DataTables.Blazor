@@ -50,37 +50,64 @@ window.datatablesInterop = {
     }, 
     addEventListener: function (tableElement, eventName, dotNetCallback) {
         if (isEqual(eventName, "onrowclick")) {
-            $(tableElement).on("click", "tbody tr", function (...args) {
-                var row = $(tableElement).DataTable().row(this);
-                var json = {
-                    "id": String(row.id()),
-                    "data": row.data()
-                };
-                return dotNetCallback.invokeMethodAsync("Invoke", json);
-            });
+            addRowClickListener(tableElement, dotNetCallback);
+        }
+        else if (isEqual(eventName, "oncellclick")) {
+            addCellClickListener(tableElement, dotNetCallback);
         }
         else {
-            var json = {};
-            $(tableElement).on(eventName, function (...args) {
-                json = argsToJson(args);
-
-                if (isEqual(eventName, "page.dt")) {
-                    var info = $(tableElement).DataTable().page.info();
-                    json = {
-                        "page": info["page"],
-                        "pages": info["pages"],
-                        "start": info["start"],
-                        "end": info["end"],
-                        "length": info["length"]
-                    }
-                }
-
-                return dotNetCallback.invokeMethodAsync("Invoke", json);
-            });
+            addGenericListener(tableElement, eventName, dotNetCallback);
         }
     } 
 };
 
+function addRowClickListener(tableElement, dotNetCallback) {
+    $(tableElement).on("click", "tbody tr", function (...args) {
+        var row = $(tableElement).DataTable().row(this);
+        var json = {
+            "index": row.index(),
+            "id": String(row.id()),
+            "data": row.data()
+        };
+        return dotNetCallback.invokeMethodAsync("Invoke", json);
+    });
+}
+
+function addCellClickListener(tableElement, dotNetCallback) {
+    $(tableElement).on("click", "tbody td", function (...args) {
+        var table = $(tableElement).DataTable();
+        var cell = table.cell(this);
+        var row = table.row($(this).closest('tr'));
+        var json = {
+            "columnId": cell.index().column,
+            "rowIndex": String(cell.index().row),
+            "rowId": String(row.id()),
+            "data": cell.data()
+        };
+        return dotNetCallback.invokeMethodAsync("Invoke", json);
+    });
+}
+
+function addGenericListener(tableElement, eventName, dotNetCallback) {
+    var json = {};
+    $(tableElement).on(eventName, function (...args) {
+        json = argsToJson(args);
+
+        // prepare custom json args for page event
+        if (isEqual(eventName, "page.dt")) { 
+            var info = $(tableElement).DataTable().page.info();
+            json = {
+                "page": info["page"],
+                "pages": info["pages"],
+                "start": info["start"],
+                "end": info["end"],
+                "length": info["length"]
+            }
+        }
+
+        return dotNetCallback.invokeMethodAsync("Invoke", json);
+    });
+}
 function argsToJson(_obj) {
     var names = [],
         args = arguments,
