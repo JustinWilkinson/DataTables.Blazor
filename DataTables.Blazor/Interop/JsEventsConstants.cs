@@ -20,6 +20,11 @@ namespace DataTables.Blazor.Interop
         /// </summary>
         public const string OnRowClick = "onrowclick";
 
+        /// <summary>
+        /// On cell click.
+        /// </summary>
+        public const string OnCellClick = "oncellclick";
+
         #endregion
 
         #region "DataTables Group"
