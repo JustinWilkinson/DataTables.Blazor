@@ -47,5 +47,49 @@ window.datatablesInterop  = {
         } else {
             return undefined;
         }
+    },
+    addRowClass: function (tableElement, rowIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var rowByIndex = $(tableElement).DataTable().row(rowIndex);
+            $(rowByIndex.node()).addClass(className);
+        }
+    },
+    removeRowClass: function (tableElement, rowIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var rowByIndex = $(tableElement).DataTable().row(rowIndex);
+            $(rowByIndex.node()).removeClass(className);
+        }
+    },
+    addColumnClass: function (tableElement, columnIndex, className, header = false) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.nodes()).addClass(className);
+
+            if (header == true) {
+                this.addHeaderClass(tableElement, columnIndex, className);
+            }
+        }
+    },
+    removeColumnClass: function (tableElement, columnIndex, className, header = false) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.nodes()).removeClass(className);
+
+            if (header == true) {
+                this.removeHeaderClass(tableElement, columnIndex, className);
+            }
+        }
+    },
+    addHeaderClass: function (tableElement, columnIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.header()).addClass(className);
+        }
+    },
+    removeHeaderClass: function (tableElement, columnIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.header()).removeClass(className);
+        }
     }
 };
