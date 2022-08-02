@@ -339,84 +339,84 @@ window.demo = {
                             <TabItem Title="View Razor">
                                 <div class="col-12">
                                     <pre class="mb-0">
-                                        &lt;DataTable Id=&quot;MyTableDomSourcedWithAutoReload&quot; Class=&quot;table table-striped table-bordered w-100&quot; AutoReload=&quot;true&quot;&gt;
-                                        &lt;thead&gt;
-                                        &lt;tr&gt;
-                                        &lt;th&gt;Date&lt;/th&gt;
-                                        &lt;th&gt;Temp. (C)&lt;/th&gt;
-                                        &lt;th&gt;Summary&lt;/th&gt;
-                                        &lt;/tr&gt;
-                                        &lt;/thead&gt;
-                                        &lt;tbody&gt;
-                                        @@foreach (var row in _mutableWeatherDataset)
-                                        {
-                                        &lt;tr&gt;
-                                        &lt;td&gt;@@row.Date&lt;/td&gt;
-                                        &lt;td&gt;@@row.TemperatureC&lt;/td&gt;
-                                        &lt;td&gt;@@row.Summary&lt;/td&gt;
-                                        &lt;/tr&gt;
-                                        }
-                                        &lt;/tbody&gt;
-                                        &lt;/DataTable&gt;</pre>
+&lt;DataTable Id=&quot;MyTableDomSourcedWithAutoReload&quot; Class=&quot;table table-striped table-bordered w-100&quot; AutoReload=&quot;true&quot;&gt;
+    &lt;thead&gt;
+	    &lt;tr&gt;
+		    &lt;th&gt;Date&lt;/th&gt;
+		    &lt;th&gt;Temp. (C)&lt;/th&gt;
+		    &lt;th&gt;Summary&lt;/th&gt;
+	    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+	    @@foreach (var row in _mutableWeatherDataset)
+	    {
+		    &lt;tr&gt;
+			    &lt;td&gt;@@row.Date&lt;/td&gt;
+			    &lt;td&gt;@@row.TemperatureC&lt;/td&gt;
+			    &lt;td&gt;@@row.Summary&lt;/td&gt;
+		    &lt;/tr&gt;
+	    }
+    &lt;/tbody&gt;
+&lt;/DataTable&gt;</pre>
                                 </div>
                             </TabItem>
                             <TabItem Title="View C#">
-                                <div class="col-12">
+                               <div class="col-12">
                                     <pre class="mb-0">
-                                        private async Task AddData()
-                                        {
-                                        _mutableWeatherDataset.Add(new Weather
-                                        {
-                                        Date = DateTime.UtcNow.AddDays(-Random.Shared.Next(1, 7)),
-                                        TemperatureC = Random.Shared.Next(20, 25),
-                                        Summary = &quot;Toasty&quot;
-                                        });
-                                        }
+private async Task AddData()
+{
+	_mutableWeatherDataset.Add(new Weather
+	{
+		Date = DateTime.UtcNow.AddDays(-Random.Shared.Next(1, 7)),
+		TemperatureC = Random.Shared.Next(20, 25),
+		Summary = &quot;Toasty&quot;
+	});
+}
 
-                                        private Dataset&lt;Weather&gt; _mutableWeatherDataset = new Dataset&lt;Weather&gt;
-                                        {
-                                        new Weather
-                                        {
-                                        Date = new DateTime(2018, 05, 06),
-                                        TemperatureC = 1,
-                                        Summary = &quot;Freezing&quot;
-                                        },
-                                        new Weather
-                                        {
-                                        Date = new DateTime(2018, 05, 07),
-                                        TemperatureC = 14,
-                                        Summary = &quot;Bracing&quot;
-                                        },
-                                        new Weather
-                                        {
-                                        Date = new DateTime(2018, 05, 08),
-                                        TemperatureC = -13,
-                                        Summary = &quot;Freezing&quot;
-                                        },
-                                        new Weather
-                                        {
-                                        Date = new DateTime(2018, 05, 09),
-                                        TemperatureC = -16,
-                                        Summary = &quot;Balmy&quot;
-                                        },
-                                        new Weather
-                                        {
-                                        Date = new DateTime(2018, 05, 19),
-                                        TemperatureC = -2,
-                                        Summary = &quot;Chilly&quot;
-                                        }
-                                        };
+private Dataset&lt;Weather&gt; _mutableWeatherDataset = new Dataset&lt;Weather&gt;
+{
+	new Weather
+	{
+		Date = new DateTime(2018, 05, 06),
+		TemperatureC = 1,
+		Summary = &quot;Freezing&quot;
+	},
+	new Weather
+	{
+		Date = new DateTime(2018, 05, 07),
+		TemperatureC = 14,
+		Summary = &quot;Bracing&quot;
+	},
+	new Weather
+	{
+		Date = new DateTime(2018, 05, 08),
+		TemperatureC = -13,
+		Summary = &quot;Freezing&quot;
+	},
+	new Weather
+	{
+		Date = new DateTime(2018, 05, 09),
+		TemperatureC = -16,
+		Summary = &quot;Balmy&quot;
+	},
+	new Weather
+	{
+		Date = new DateTime(2018, 05, 19),
+		TemperatureC = -2,
+		Summary = &quot;Chilly&quot;
+	}
+};
 
-                                        private record Weather
-                                        {
-                                        public DateTime Date { get; set; }
+private record Weather
+{
+	public DateTime Date { get; set; }
 
-                                        public int TemperatureC { get; set; }
+	public int TemperatureC { get; set; }
 
-                                        public string Summary { get; set; }
-                                        }
+	public string Summary { get; set; }
+}
                                     </pre>
-                                </div>
+                               </div>
                             </TabItem>
                         </div>
                     </TabItems>
@@ -432,7 +432,7 @@ window.demo = {
                             <div class="row mb-3">
                                 <div class="col">
                                     <h6>An example of the basic initialization of a DataTable with buttons.</h6>
-                                    <p>
+                                     <p>
                                         <button @onclick="@(() => buttonsDatatable?.AddRowClassAsync(1, "myRow"))">Add class to row index 1</button>
                                         <button @onclick="@(() => buttonsDatatable?.RemoveRowClassAsync(1, "myRow"))">Remove class from row index 1</button>
                                         <button @onclick="@(() => buttonsDatatable?.AddColumnClassAsync(1, "myColumn", true))">Add class to column index 1</button>
@@ -451,12 +451,12 @@ window.demo = {
                             <TabItem Title="View Razor">
                                 <div class="col-12">
                                     <pre class="mb-0">
-                                        &lt;DataTable SourceUrl=&quot;sample-data/users.json&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
-                                        &lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot; /&gt;
-                                        &lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;first_name&quot; /&gt;
-                                        &lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;last_name&quot; /&gt;
-                                        &lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot; /&gt;
-                                        &lt;/DataTable&gt;</pre>
+&lt;DataTable SourceUrl=&quot;sample-data/users.json&quot; Class=&quot;table table-striped table-bordered w-100&quot;&gt;
+	&lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;first_name&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;last_name&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot; /&gt;
+&lt;/DataTable&gt;</pre>
                                 </div>
                             </TabItem>
                         </div>
@@ -466,6 +466,7 @@ window.demo = {
         </TabItems>
     </TabControl>
 </div>
+
 <style>
     .myColumn{
         color:red;
@@ -476,9 +477,10 @@ window.demo = {
         background: #ffffc5 !important;
     }
 </style>
+
 @code{
     private DataTable buttonsDatatable { get; set; }
-      
+
     private readonly DataTableOptions _buttonsDemoOptions = new DataTableOptions
     {
         DOM = "Bfrtip",
@@ -502,7 +504,7 @@ window.demo = {
             Date = DateTime.UtcNow.AddDays(-Random.Shared.Next(1, 7)),
             TemperatureC = Random.Shared.Next(20, 25),
             Summary = "Toasty"
-        }); 
+        });
     }
 
     private static Dataset<Weather> WeatherDataset = new Dataset<Weather>
