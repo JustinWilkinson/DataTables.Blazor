@@ -32,8 +32,8 @@ window.datatablesInterop  = {
             if ($(tableElement).prop('id')) {
                 tableId = $(tableElement).prop('id');
             }
-            else if ($(tableElement).parent().parent().offsetParent().prop('id')) {
-                tableId = $(tableElement).parent().parent().offsetParent().prop('id');
+            else if ($(tableElement).closest('.dataTables_wrapper').prop('id')) {
+                tableId = $(tableElement).closest('.dataTables_wrapper').prop('id');
             }
             if (tableId) {
                 wrapperId = '#' + tableId + (tableId.endsWith('_wrapper') ? '' : '_wrapper');
