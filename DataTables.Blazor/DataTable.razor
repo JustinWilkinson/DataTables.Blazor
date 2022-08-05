@@ -97,16 +97,16 @@
     /// </summary>
     /// <param name="rowIndex">Index of row.</param>
     /// <param name="className">Class name.</param>
-    public async ValueTask AddRowClassAsync(int rowIndex, string className)
-        => await Datatables.AddRowClassAsync(_tableReference, rowIndex, className);
+    public ValueTask AddRowClassAsync(int rowIndex, string className)
+        => Datatables.AddRowClassAsync(_tableReference, rowIndex, className);
 
     /// <summary>
     /// Remove class from row by index.
     /// </summary>
     /// <param name="rowIndex">Index of row.</param>
     /// <param name="className">Class name.</param>
-    public async ValueTask RemoveRowClassAsync(int rowIndex, string className)
-        => await Datatables.RemoveRowClassAsync(_tableReference, rowIndex, className);
+    public ValueTask RemoveRowClassAsync(int rowIndex, string className)
+        => Datatables.RemoveRowClassAsync(_tableReference, rowIndex, className);
 
     /// <summary>
     /// Add class to row by index.
@@ -114,8 +114,8 @@
     /// <param name="tableReference">Reference to the DataTable</param>
     /// <param name="rowIndex">Index of row.</param>
     /// <param name="className">Class name.</param>
-    public async ValueTask AddColumnClassAsync(int columnIndex, string className, bool alsoAddToHeader = false)
-        => await Datatables.AddColumnClassAsync(_tableReference, columnIndex, className, alsoAddToHeader);
+    public ValueTask AddColumnClassAsync(int columnIndex, string className, bool alsoAddToHeader = false)
+        => Datatables.AddColumnClassAsync(_tableReference, columnIndex, className, alsoAddToHeader);
     
     /// <summary>
     /// Remove class from row by index.
@@ -123,8 +123,8 @@
     /// <param name="tableReference">Reference to the DataTable</param>
     /// <param name="rowIndex">Index of row.</param>
     /// <param name="className">Class name.</param> 
-    public async ValueTask RemoveColumnClassAsync(int columnIndex, string className, bool alsoRemoveFromHeader = false)
-        => await Datatables.RemoveColumnClassAsync(_tableReference, columnIndex, className, alsoRemoveFromHeader);
+    public ValueTask RemoveColumnClassAsync(int columnIndex, string className, bool alsoRemoveFromHeader = false)
+        => Datatables.RemoveColumnClassAsync(_tableReference, columnIndex, className, alsoRemoveFromHeader);
 
     /// <summary>
     /// Manually reload the datatable from its source. See <see cref="AutoReload"/> to automatically keep the table up to date.
