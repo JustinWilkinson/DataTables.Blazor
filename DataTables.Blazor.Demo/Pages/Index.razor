@@ -593,7 +593,7 @@ private record Weather
         }
     };
 
-    private async Task AddData()
+    private void AddData()
     {
         _mutableWeatherDataset.Add(new Weather
         {
