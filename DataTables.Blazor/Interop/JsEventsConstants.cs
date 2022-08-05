@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace DataTables.Blazor.Interop
 {
     /// <summary>
-    /// DataTables Events interop constants
+    /// DataTables Events interop constants.
+    /// Details: https://datatables.net/reference/event/
     /// </summary>
     public static class JsEventsConstants
     {

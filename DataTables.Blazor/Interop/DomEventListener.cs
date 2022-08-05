@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataTables.Blazor.Interop
@@ -22,19 +23,26 @@ namespace DataTables.Blazor.Interop
         Task AddAsync<T>(ElementReference dom, string eventName, Action<T> callback);
 
         /// <summary>
+        /// For testing purpose only.
+        /// </summary>
+        /// <param name="dom"></param>
+        /// <param name="eventName"></param>
+        bool AnyEvent(string eventName);
+
+        /// <summary>
         /// Clear all listeners and dispose.
         /// </summary>
         void Dispose();
 
         /// <summary>
-        /// Remove event listener by name
+        /// Remove event listener by name.
         /// </summary>
         /// <param name="dom"></param>
         /// <param name="eventName"></param>
         void Remove(object dom, string eventName);
     }
 
-    public class DomEventListener : IDomEventListener
+    internal sealed class DomEventListener : IDomEventListener, IDisposable
     {
         private Dictionary<string, IDisposable> _dotNetObjectStore = new Dictionary<string, IDisposable>();
         private readonly IDataTablesInterop _jsRuntime;
@@ -65,6 +73,12 @@ namespace DataTables.Blazor.Interop
             await _jsRuntime.AddEventListenerAsync(dom, eventName, dotNetObject);
 
             _dotNetObjectStore.Add(key, dotNetObject);
+        }
+
+        /// <inheritdoc/>
+        public bool AnyEvent(string eventName)
+        { 
+            return _dotNetObjectStore.Any(x=>x.Key.EndsWith ($"-{eventName}"));
         }
 
         /// <inheritdoc/>
@@ -105,7 +119,7 @@ namespace DataTables.Blazor.Interop
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Invoker<T>
+    internal class Invoker<T>
     {
         private readonly Action<T> _action;
 

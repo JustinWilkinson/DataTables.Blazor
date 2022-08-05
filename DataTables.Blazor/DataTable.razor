@@ -196,6 +196,7 @@
 
     /// <summary>
     /// On cell click.
+    /// Will not work for hidden column cells.
     /// </summary>
     [Parameter]
     public EventCallback<CellClickEventArgs> OnCellClick { get; set; }
@@ -282,73 +283,117 @@
     private async Task AddEventListenersBeforeInitAsync()
     {
         if (OnInit.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Init, e => OnInit.InvokeAsync(e));
+        }
 
         if (OnXhr.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Xhr, e => OnXhr.InvokeAsync(e));
+        }
 
         if (OnChildRowChanged.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.ChildRow, e => OnChildRowChanged.InvokeAsync(e));
+        }
 
         if (OnRequestChild.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.RequestChild, e => OnRequestChild.InvokeAsync(e));
+        }
 
         if (OnPreInit.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.PreInit, e => OnPreInit.InvokeAsync(e));
+        }
 
         if (OnPreXhr.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.PreXhr, e => OnPreXhr.InvokeAsync(e));
+        }
 
         if (OnError.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Error, e => OnError.InvokeAsync(e));
+        }
 
         if (OnProcessing.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Processing, e => OnProcessing.InvokeAsync(e));
+        }
     }
 
     private async Task AddEventListenersAfterInitAsync()
     {
         if (OnRowClick.HasDelegate)
+        {
             await AddEventListener<RowClickEventArgs>(JsEventsConstants.OnRowClick, e => OnRowClick.InvokeAsync(e));
+        }
 
         if (OnCellClick.HasDelegate)
+        {
             await AddEventListener<CellClickEventArgs>(JsEventsConstants.OnCellClick, e => OnCellClick.InvokeAsync(e));
+        }
 
         if (OnColumnSizing.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.ColumnSizing, e => OnColumnSizing.InvokeAsync(e));
+        }
 
         if (OnColumnVisibility.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.ColumnVisibility, e => OnColumnVisibility.InvokeAsync(e));
+        }
 
         if (OnDestroy.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Destroy, e => OnDestroy.InvokeAsync(e));
+        }
 
         if (OnDraw.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Draw, e => OnDraw.InvokeAsync(e));
+        }
 
         if (OnLength.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Length, e => OnLength.InvokeAsync(e));
+        }
 
         if (OnOrder.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Order, e => OnOrder.InvokeAsync(e));
+        }
 
         if (OnPage.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Page, e => OnPage.InvokeAsync(e));
+        }
 
         if (OnPreDraw.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.PreDraw, e => OnPreDraw.InvokeAsync(e));
+        }
 
         if (OnSearch.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.Search, e => OnSearch.InvokeAsync(e));
+        }
 
         if (OnStateLoadParams.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.StateLoadParams, e => OnStateLoadParams.InvokeAsync(e));
+        }
 
         if (OnStateLoaded.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.StateLoaded, e => OnStateLoaded.InvokeAsync(e));
+        }
 
         if (OnStateSaveParams.HasDelegate)
+        {
             await AddEventListener<JsonDocument>(JsEventsConstants.StateSaveParams, e => OnStateSaveParams.InvokeAsync(e));
+        }
     }
 
     private async Task AddEventListener<T>(string eventName, Action<T> callback)

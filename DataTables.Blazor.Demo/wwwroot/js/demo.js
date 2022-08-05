@@ -5,6 +5,8 @@
     renderDate: data => new Date(data).toLocaleString('en-GB'),
     scrollToBottom: (elementId) => {
         var element = document.getElementById(elementId);
-        element.scrollTop = element.scrollHeight;
+        if (element) {
+            element.scrollTop = element.scrollHeight;
+        }
     }
 };

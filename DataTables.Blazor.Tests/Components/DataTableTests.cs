@@ -5,8 +5,10 @@ using DataTables.Blazor.Interop;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using Moq;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -126,6 +128,27 @@ namespace DataTables.Blazor.Tests.Components
 
             // Assert
             interop.Verify(x => x.InitialiseAsync(It.IsAny<ElementReference>(), It.IsAny<DataTableOptions>()), Times.Once);
+        }
+
+        [Fact]
+        public void DataTable_WhenRendered_CallsDomEventListenerToAddListener()
+        {
+            // Arrange
+            using var context = new TestContext();
+            context.JSInterop.Mode = JSRuntimeMode.Loose;
+            context.Services.AddTransient<IDataTablesInterop, DataTablesInterop>();
+            context.Services.AddSingleton<IDomEventListener, DomEventListener>();
+            var domEventListener = (IDomEventListener)context.Services.GetService(typeof(IDomEventListener));
+
+            // Act
+            var datatable = context.RenderComponent<DataTable>(parameters => parameters
+                .Add(x => x.SourceUrl, "some url")
+                .Add(x => x.OnInit, () => {
+                    // Never will fire.
+                }));
+
+            // Assert
+            Assert.True(domEventListener.AnyEvent(JsEventsConstants.Init));   
         }
 
         [Fact]

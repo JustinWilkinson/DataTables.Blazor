@@ -79,8 +79,8 @@ function addCellClickListener(tableElement, dotNetCallback) {
         var cell = table.cell(this);
         var row = table.row($(this).closest('tr'));
         var json = {
-            "columnId": cell.index().column,
-            "rowIndex": String(cell.index().row),
+            "columnIndex": cell.index().column,
+            "rowIndex": cell.index().row,
             "rowId": String(row.id()),
             "data": cell.data()
         };

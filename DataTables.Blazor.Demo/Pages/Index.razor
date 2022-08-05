@@ -478,28 +478,28 @@ private record Weather
                                                 SourceUrl="sample-data/users.json"
                                                 Class="table table-striped table-bordered w-100" 
                                                 Options="_eventsDemoOptions"
-                                                OnRowClick="@((e) => AddEventLog($"Row {e.Index} clicked. Id: {e.Id} Data: {Convert.ToString(e.Data)}"))"
-                                                OnCellClick="@((e) => AddEventLog($"Cell {e.ColumnId} clicked. RowIndex: {e.RowIndex}, RowId: {e.RowId}, Value: {e.Data}"))"
-                                                OnInit="@(() => AddEventLog("Datatables initialized"))"
-                                                OnChildRowChanged="@(() => AddEventLog("ChildRowChanged"))"
-                                                OnColumnSizing="@(() => AddEventLog("ColumnSizing"))"
-                                                OnColumnVisibility="@(() => AddEventLog("ColumnVisibility"))"
-                                                OnDestroy="@(() => AddEventLog("Destroy"))"
-                                                OnDraw="@(() => AddEventLog("Draw"))"
-                                                OnError="@((e) => AddEventLog($"Error. Data: {JsonSerializer.Serialize(e)}"))"
-                                                OnLength="@(() => AddEventLog("Length"))"
-                                                OnOrder="@(() => AddEventLog("Order"))"
-                                                OnPage="@((e) => AddEventLog($"Page. Data: {JsonSerializer.Serialize(e)}"))"
-                                                OnPreDraw="@(() => AddEventLog("PreDraw"))"
-                                                OnPreInit="@(() => AddEventLog("PreInit"))"
-                                                OnPreXhr="@(() => AddEventLog("PreXhr"))"
-                                                OnProcessing="@(() => AddEventLog("Processing"))"
-                                                OnRequestChild="@(() => AddEventLog("RequestChild"))"
-                                                OnSearch="@(() => AddEventLog("Search"))"
-                                                OnStateLoadParams="@(() => AddEventLog("StateLoadParams"))"
-                                                OnStateLoaded="@(() => AddEventLog("StateLoaded"))"
-                                                OnStateSaveParams="@(() => AddEventLog("StateSaveParams"))"
-                                                OnXhr="@(() => AddEventLog("Xhr"))">
+                                                OnRowClick="@((e) => OnDataTableEvent($"Row {e.Index} clicked. Id: {e.Id} Data: {Convert.ToString(e.Data)}"))"
+                                                OnCellClick="@((e) => OnDataTableEvent($"CellIndex {e.ColumnIndex} clicked. RowIndex: {e.RowIndex}, RowId: {e.RowId}, Value: {e.Data}"))"
+                                                OnInit="@(() => OnDataTableEvent("Datatables initialized"))"
+                                                OnChildRowChanged="@(() => OnDataTableEvent("ChildRowChanged"))"
+                                                OnColumnSizing="@(() => OnDataTableEvent("ColumnSizing"))"
+                                                OnColumnVisibility="@(() => OnDataTableEvent("ColumnVisibility"))"
+                                                OnDestroy="@(() => OnDataTableEvent("Destroy"))"
+                                                OnDraw="@(() => OnDataTableEvent("Draw"))"
+                                                OnError="@((e) => OnDataTableEvent($"Error. Data: {JsonSerializer.Serialize(e)}"))"
+                                                OnLength="@(() => OnDataTableEvent("Length"))"
+                                                OnOrder="@(() => OnDataTableEvent("Order"))"
+                                                OnPage="@((e) => OnDataTableEvent($"Page. Data: {JsonSerializer.Serialize(e)}"))"
+                                                OnPreDraw="@(() => OnDataTableEvent("PreDraw"))"
+                                                OnPreInit="@(() => OnDataTableEvent("PreInit"))"
+                                                OnPreXhr="@(() => OnDataTableEvent("PreXhr"))"
+                                                OnProcessing="@(() => OnDataTableEvent("Processing"))"
+                                                OnRequestChild="@(() => OnDataTableEvent("RequestChild"))"
+                                                OnSearch="@(() => OnDataTableEvent("Search"))"
+                                                OnStateLoadParams="@(() => OnDataTableEvent("StateLoadParams"))"
+                                                OnStateLoaded="@(() => OnDataTableEvent("StateLoaded"))"
+                                                OnStateSaveParams="@(() => OnDataTableEvent("StateSaveParams"))"
+                                                OnXhr="@(() => OnDataTableEvent("Xhr"))">
                                             <DataTableColumn Title="Id" Data="id" Visible="false" />
                                             <DataTableColumn Title="First Name" Data="first_name"/>
                                             <DataTableColumn Title="Last Name" Data="last_name"/>
@@ -673,12 +673,17 @@ private record Weather
 
     private string EventsLogs { get; set; }
 
-    void AddEventLog(string log)
+    async void OnDataTableEvent(string log)
+    {
+        await AddEventLog(log);
+    }
+
+    async Task AddEventLog(string log)
     {
         EventsLogs +=  $"- {log}\n";
-        Task.Run(() => JS.InvokeVoidAsync("demo.scrollToBottom", "eventsLogs"));
-    } 
-     
+        await JS.InvokeVoidAsync("demo.scrollToBottom", "eventsLogs");
+    }
+
     private record Weather
     {
         public DateTime Date { get; set; }
