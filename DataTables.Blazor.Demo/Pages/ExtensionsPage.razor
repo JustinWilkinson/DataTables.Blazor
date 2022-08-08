@@ -1,0 +1,71 @@
+﻿@page "/extensions"
+
+<h1>Extensions</h1>
+
+<p>This page demonstrates some of the uses of the DataTable component.</p>
+
+<div class="row w-100 card border mb-2">
+    <TabControl>
+        <TabHeader>
+            <TabHeaderTemplate Class="card-header" ButtonGroupClass="w-100"/>
+        </TabHeader>
+        <TabItems>
+            @*Scroller Tab Start*@
+            <TabItem Title="Scroller">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header"/>
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of using Scroller of a DataTable, Scroller is a virtual rendering plug-in for DataTables which allows large datasets to be drawn on screen very quickly.</h6>
+                                    <small>Please note - this property requires the Scroller extension for DataTables.</small>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                 <DataTable SourceUrl="/api/values" Class="display nowrap" Options="@scrollerDemoOptions">
+                                    <DataTableColumn Title="Id" Data="id"/>
+                                    <DataTableColumn Title="First Name" Data="firstName"/>
+                                    <DataTableColumn Title="Last Name" Data="lastName"/>
+                                    <DataTableColumn Title="Email" Data="email"/>
+                                </DataTable>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">  
+                                    <pre class="mb-0">
+&lt;DataTable SourceUrl=&quot;/api/values&quot; Class=&quot;display nowrap&quot; Options=&quot;_buttonsDemoOptions&quot;&gt;
+    &lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot;/&gt;
+    &lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;firstName&quot;/&gt;
+    &lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;lastName&quot;/&gt;
+    &lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot;/&gt;
+&lt;/DataTable&gt;
+
+@@code
+{
+    DataTableOptions _buttonsDemoOptions = new DataTableOptions
+    {
+        DOM = &quot;Bfrtip&quot;,
+        ServerSide = true,
+        ScrollY = &quot;200&quot;, 
+        DeferRender = true,
+        Ordering =  false,
+        Searching = false,
+        Scroller = new ScrollerOptions()
+        {
+            LoadingIndicator = true,
+            DisplayBuffer = &quot;15&quot;
+        }
+    }; 
+}</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
+            @*Scroller Tab End*@
+         </TabItems>
+    </TabControl>
+</div>
