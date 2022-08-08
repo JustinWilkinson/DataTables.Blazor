@@ -30,6 +30,17 @@
       "files": [
         "buttons.dataTables.min.css"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "datatables.net-scroller-dt@2.0.7",
+      "destination": "wwwroot/lib/datatables.net-scroller-dt/"
     }
-  ]
+  ,
+{
+  "provider": "cdnjs",
+  "library": "datatables.net-scroller@2.0.7",
+  "destination": "wwwroot/lib/datatables.net-scroller/"
+}
+]
 }

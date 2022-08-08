@@ -1,5 +1,5 @@
-window.datatablesInterop  = {
-    initialiseDataTable: function(tableElement, options) {
+window.datatablesInterop = {
+    initialiseDataTable: function (tableElement, options) {
         const opts = JSON.parse(options);
 
         if (opts.columns != null) {
@@ -66,5 +66,140 @@ window.datatablesInterop  = {
         } else {
             return undefined;
         }
-    }
+    },
+    addRowClass: function (tableElement, rowIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var rowByIndex = $(tableElement).DataTable().row(rowIndex);
+            $(rowByIndex.node()).addClass(className);
+        }
+    },
+    removeRowClass: function (tableElement, rowIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var rowByIndex = $(tableElement).DataTable().row(rowIndex);
+            $(rowByIndex.node()).removeClass(className);
+        }
+    },
+    addColumnClass: function (tableElement, columnIndex, className, header = false) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.nodes()).addClass(className);
+
+            if (header == true) {
+                this.addHeaderClass(tableElement, columnIndex, className);
+            }
+        }
+    },
+    removeColumnClass: function (tableElement, columnIndex, className, header = false) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.nodes()).removeClass(className);
+
+            if (header == true) {
+                this.removeHeaderClass(tableElement, columnIndex, className);
+            }
+        }
+    },
+    addHeaderClass: function (tableElement, columnIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.header()).addClass(className);
+        }
+    },
+    removeHeaderClass: function (tableElement, columnIndex, className) {
+        if ($(tableElement).DataTable()) {
+            var columnByIndex = $(tableElement).DataTable().column(columnIndex, { order: 'index' });
+            $(columnByIndex.header()).removeClass(className);
+        }
+    }, 
+    addEventListener: function (tableElement, eventName, dotNetCallback) {
+        if (isEqual(eventName, "onrowclick")) {
+            addRowClickListener(tableElement, dotNetCallback);
+        }
+        else if (isEqual(eventName, "oncellclick")) {
+            addCellClickListener(tableElement, dotNetCallback);
+        }
+        else {
+            addGenericListener(tableElement, eventName, dotNetCallback);
+        }
+    } 
 };
+
+function addRowClickListener(tableElement, dotNetCallback) {
+    $(tableElement).on("click", "tbody tr", function (...args) {
+        var row = $(tableElement).DataTable().row(this);
+        var json = {
+            "index": row.index(),
+            "id": String(row.id()),
+            "data": row.data()
+        };
+        return dotNetCallback.invokeMethodAsync("Invoke", json);
+    });
+}
+
+function addCellClickListener(tableElement, dotNetCallback) {
+    $(tableElement).on("click", "tbody td", function (...args) {
+        var table = $(tableElement).DataTable();
+        var cell = table.cell(this);
+        var row = table.row($(this).closest('tr'));
+        var json = {
+            "columnIndex": cell.index().column,
+            "rowIndex": cell.index().row,
+            "rowId": String(row.id()),
+            "data": cell.data()
+        };
+        return dotNetCallback.invokeMethodAsync("Invoke", json);
+    });
+}
+
+function addGenericListener(tableElement, eventName, dotNetCallback) {
+    var json = {};
+    $(tableElement).on(eventName, function (...args) {
+        json = argsToJson(args);
+
+        // prepare custom json args for page event
+        if (isEqual(eventName, "page.dt")) { 
+            var info = $(tableElement).DataTable().page.info();
+            json = {
+                "page": info["page"],
+                "pages": info["pages"],
+                "start": info["start"],
+                "end": info["end"],
+                "length": info["length"]
+            }
+        }
+
+        return dotNetCallback.invokeMethodAsync("Invoke", json);
+    });
+}
+function argsToJson(_obj) {
+    var names = [],
+        args = arguments,
+        len = function (o) {
+            var a = [];
+
+            for (var i in o) a.push(i);
+
+            return a;
+        };
+
+    for (var i in _obj) {
+        names.push(i);
+    }
+
+    var jsonData = {};
+
+    [].forEach.call(len(_obj), function (a, b) {
+        if (!isEqual(names[b], "e") &&
+            !isEqual(names[b], "settings") &&
+            !isEqual(names[b], "dt") &&
+            !isEqual(names[b], "datatable") &&
+            (args[0][names[b]] instanceof Object) == false) {
+            jsonData[names[b]] = args[0][names[b]];
+        }
+    });
+
+    return jsonData;
+}
+function isEqual(str1, str2) {
+    return str1.normalize() === str2.normalize();
+}

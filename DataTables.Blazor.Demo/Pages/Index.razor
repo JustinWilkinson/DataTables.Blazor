@@ -1,5 +1,7 @@
 ﻿@page "/"
+@inject IJSRuntime JS
 @using DataTables.Blazor.Options
+@using System.Text.Json
 
 <h1>Weather forecast</h1>
 
@@ -432,10 +434,16 @@ private record Weather
                             <div class="row mb-3">
                                 <div class="col">
                                     <h6>An example of the basic initialization of a DataTable with buttons.</h6>
+                                     <p>
+                                        <button @onclick="@(() => buttonsDatatable?.AddRowClassAsync(1, "myRow"))">Add class to row index 1</button>
+                                        <button @onclick="@(() => buttonsDatatable?.RemoveRowClassAsync(1, "myRow"))">Remove class from row index 1</button>
+                                        <button @onclick="@(() => buttonsDatatable?.AddColumnClassAsync(1, "myColumn", true))">Add class to column index 1</button>
+                                        <button @onclick="@(() => buttonsDatatable?.RemoveColumnClassAsync(1, "myColumn", true))">Remove class from column index 1</button>
+                                    </p>
                                 </div>
                             </div>
                             <TabItem Title="View Demo">
-                                <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100" Options="_buttonsDemoOptions">
+                                <DataTable @ref="buttonsDatatable" SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100" Options="_buttonsDemoOptions">
                                     <DataTableColumn Title="Id" Data="id"/>
                                     <DataTableColumn Title="First Name" Data="first_name"/>
                                     <DataTableColumn Title="Last Name" Data="last_name"/>
@@ -457,11 +465,119 @@ private record Weather
                     </TabItems>
                 </TabControl>
             </TabItem>
+            <TabItem Title="Events">
+                <TabControl>
+                    <TabHeader>
+                        <TabHeaderTemplate Class="card-header"/>
+                    </TabHeader>
+                    <TabItems>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <h6>An example of the basic initialization of a DataTable with events.</h6>
+                                </div>
+                            </div>
+                            <TabItem Title="View Demo">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <DataTable 
+                                                SourceUrl="sample-data/users.json"
+                                                Class="table table-striped table-bordered w-100" 
+                                                Options="_eventsDemoOptions"
+                                                OnRowClick="@((e) => OnDataTableEvent($"Row {e.Index} clicked. Id: {e.Id} Data: {Convert.ToString(e.Data)}"))"
+                                                OnCellClick="@((e) => OnDataTableEvent($"CellIndex {e.ColumnIndex} clicked. RowIndex: {e.RowIndex}, RowId: {e.RowId}, Value: {e.Data}"))"
+                                                OnInit="@(() => OnDataTableEvent("Datatables initialized"))"
+                                                OnChildRowChanged="@(() => OnDataTableEvent("ChildRowChanged"))"
+                                                OnColumnSizing="@(() => OnDataTableEvent("ColumnSizing"))"
+                                                OnColumnVisibility="@(() => OnDataTableEvent("ColumnVisibility"))"
+                                                OnDestroy="@(() => OnDataTableEvent("Destroy"))"
+                                                OnDraw="@(() => OnDataTableEvent("Draw"))"
+                                                OnError="@((e) => OnDataTableEvent($"Error. Data: {JsonSerializer.Serialize(e)}"))"
+                                                OnLength="@(() => OnDataTableEvent("Length"))"
+                                                OnOrder="@(() => OnDataTableEvent("Order"))"
+                                                OnPage="@((e) => OnDataTableEvent($"Page. Data: {JsonSerializer.Serialize(e)}"))"
+                                                OnPreDraw="@(() => OnDataTableEvent("PreDraw"))"
+                                                OnPreInit="@(() => OnDataTableEvent("PreInit"))"
+                                                OnPreXhr="@(() => OnDataTableEvent("PreXhr"))"
+                                                OnProcessing="@(() => OnDataTableEvent("Processing"))"
+                                                OnRequestChild="@(() => OnDataTableEvent("RequestChild"))"
+                                                OnSearch="@(() => OnDataTableEvent("Search"))"
+                                                OnStateLoadParams="@(() => OnDataTableEvent("StateLoadParams"))"
+                                                OnStateLoaded="@(() => OnDataTableEvent("StateLoaded"))"
+                                                OnStateSaveParams="@(() => OnDataTableEvent("StateSaveParams"))"
+                                                OnXhr="@(() => OnDataTableEvent("Xhr"))">
+                                            <DataTableColumn Title="Id" Data="id" Visible="false" />
+                                            <DataTableColumn Title="First Name" Data="first_name"/>
+                                            <DataTableColumn Title="Last Name" Data="last_name"/>
+                                            <DataTableColumn Title="Email" Data="email"/>
+                                        </DataTable>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4>Events log:</h4>
+                                        <textarea id="eventsLogs" value="@EventsLogs" style="width:90%;height:80%;"/>
+                                        <button type="button" @onclick="@(() => EventsLogs = "")">Clear</button>
+                                    </div>
+                                </div>
+                            </TabItem>
+                            <TabItem Title="View Razor">
+                                <div class="col-12">
+                                    <pre class="mb-0">
+ &lt;DataTable 
+		SourceUrl=&quot;sample-data/users.json&quot;
+		Class=&quot;table table-striped table-bordered w-100&quot; 
+		Options=&quot;_eventsDemoOptions&quot;
+		OnRowClick=&quot;@@((e) =&gt; AddEventLog($&quot;Row {e.Index} clicked. Id: {e.Id} Data: {Convert.ToString(e.Data)}&quot;))&quot;
+		OnCellClick=&quot;@@((e) =&gt; AddEventLog($&quot;Cell {e.ColumnId} clicked. RowIndex: {e.RowIndex}, RowId: {e.RowId}, Value: {e.Data}&quot;))&quot;
+		OnInit=&quot;@@(() =&gt; AddEventLog(&quot;Datatables initialized&quot;))&quot;
+		OnChildRowChanged=&quot;@@(() =&gt; AddEventLog(&quot;ChildRowChanged&quot;))&quot;
+		OnColumnSizing=&quot;@@(() =&gt; AddEventLog(&quot;ColumnSizing&quot;))&quot;
+		OnColumnVisibility=&quot;@@(() =&gt; AddEventLog(&quot;ColumnVisibility&quot;))&quot;
+		OnDestroy=&quot;@@(() =&gt; AddEventLog(&quot;Destroy&quot;))&quot;
+		OnDraw=&quot;@@(() =&gt; AddEventLog(&quot;Draw&quot;))&quot;
+		OnError=&quot;@@((e) =&gt; AddEventLog($&quot;Error. Data: {JsonSerializer.Serialize(e)}&quot;))&quot;
+		OnLength=&quot;@@(() =&gt; AddEventLog(&quot;Length&quot;))&quot;
+		OnOrder=&quot;@@(() =&gt; AddEventLog(&quot;Order&quot;))&quot;
+		OnPage=&quot;@@((e) =&gt; AddEventLog($&quot;Page. Data: {JsonSerializer.Serialize(e)}&quot;))&quot;
+		OnPreDraw=&quot;@@(() =&gt; AddEventLog(&quot;PreDraw&quot;))&quot;
+		OnPreInit=&quot;@@(() =&gt; AddEventLog(&quot;PreInit&quot;))&quot;
+		OnPreXhr=&quot;@@(() =&gt; AddEventLog(&quot;PreXhr&quot;))&quot;
+		OnProcessing=&quot;@@(() =&gt; AddEventLog(&quot;Processing&quot;))&quot;
+		OnRequestChild=&quot;@@(() =&gt; AddEventLog(&quot;RequestChild&quot;))&quot;
+		OnSearch=&quot;@@(() =&gt; AddEventLog(&quot;Search&quot;))&quot;
+		OnStateLoadParams=&quot;@@(() =&gt; AddEventLog(&quot;StateLoadParams&quot;))&quot;
+		OnStateLoaded=&quot;@@(() =&gt; AddEventLog(&quot;StateLoaded&quot;))&quot;
+		OnStateSaveParams=&quot;@@(() =&gt; AddEventLog(&quot;StateSaveParams&quot;))&quot;
+		OnXhr=&quot;@@(() =&gt; AddEventLog(&quot;Xhr&quot;))&quot;&gt;
+	&lt;DataTableColumn Title=&quot;Id&quot; Data=&quot;id&quot; Visible=&quot;false&quot; /&gt;
+	&lt;DataTableColumn Title=&quot;First Name&quot; Data=&quot;first_name&quot;/&gt;
+	&lt;DataTableColumn Title=&quot;Last Name&quot; Data=&quot;last_name&quot;/&gt;
+	&lt;DataTableColumn Title=&quot;Email&quot; Data=&quot;email&quot;/&gt;
+&lt;/DataTable&gt;</pre>
+                                </div>
+                            </TabItem>
+                        </div>
+                    </TabItems>
+                </TabControl>
+            </TabItem>
         </TabItems>
     </TabControl>
 </div>
+ 
+
+<style>
+    .myColumn{
+        color:red;
+        background: #dcdcff !important;
+    }
+     .myRow{
+        color:green;
+        background: #ffffc5 !important;
+    }
+</style>
 
 @code{
+    private DataTable buttonsDatatable { get; set; }
+
     private readonly DataTableOptions _buttonsDemoOptions = new DataTableOptions
     {
         DOM = "Bfrtip",
@@ -478,7 +594,25 @@ private record Weather
         }
     };
 
-    private async Task AddData()
+    private readonly DataTableOptions _eventsDemoOptions = new DataTableOptions
+    {
+        DOM = "Bfrtip", 
+        RowId = "id",
+        Buttons = new List<object>
+        {
+            "colvis"
+        },
+        Paging =true,
+        Language = new LanguageOptions
+        {
+            Buttons = new
+            {
+                colvis = "Column Visibility"
+            }
+        }
+    };
+
+    private void AddData()
     {
         _mutableWeatherDataset.Add(new Weather
         {
@@ -556,6 +690,19 @@ private record Weather
         }
     };
 
+    private string EventsLogs { get; set; }
+
+    async void OnDataTableEvent(string log)
+    {
+        await AddEventLog(log);
+    }
+
+    async Task AddEventLog(string log)
+    {
+        EventsLogs +=  $"- {log}\n";
+        await JS.InvokeVoidAsync("demo.scrollToBottom", "eventsLogs");
+    }
+
     private record Weather
     {
         public DateTime Date { get; set; }
@@ -563,5 +710,5 @@ private record Weather
         public int TemperatureC { get; set; }
 
         public string Summary { get; set; }
-    }
+    } 
 }

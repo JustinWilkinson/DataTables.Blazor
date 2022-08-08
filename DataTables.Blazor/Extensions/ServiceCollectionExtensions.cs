@@ -24,7 +24,11 @@ namespace DataTables.Blazor.Extensions
                 throw new InvalidOperationException($"DataTables.Blazor requires an implementation of {typeof(IJSRuntime).FullName} to be registered in order to run.");
             }
 
-            return services.AddTransient<IDataTablesInterop, DataTablesInterop>();
+            services.AddTransient<IDataTablesInterop, DataTablesInterop>();
+            
+            services.AddTransient<IDomEventListener, DomEventListener>();
+
+            return services;
         }
     }
 }
