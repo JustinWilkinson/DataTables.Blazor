@@ -19,9 +19,28 @@ window.datatablesInterop = {
             $(tableElement).DataTable(opts);
         }
     },
-    destroyDataTable: function (tableElement) {
-        if ($.fn.DataTable.isDataTable(tableElement)) {
+    destroyDataTable: function (tableElement) { 
+        if ($.fn.DataTable.isDataTable(tableElement)) {  
             $(tableElement).DataTable().destroy();
+
+            // When a table is initialized with any given ScrollY parameter after 
+            // the .destroy() command is called, the interface is not cleared of 
+            // the destroyed table. It is not yet known why, so I manually remove
+            // the table wrapper from the DOM
+            tableId = null;
+
+            if ($(tableElement).prop('id')) {
+                tableId = $(tableElement).prop('id');
+            }
+            else if ($(tableElement).closest('.dataTables_wrapper').prop('id')) {
+                tableId = $(tableElement).closest('.dataTables_wrapper').prop('id');
+            }
+            if (tableId) {
+                wrapperId = '#' + tableId + (tableId.endsWith('_wrapper') ? '' : '_wrapper');
+                if ($(wrapperId)) {
+                    $(wrapperId).remove();
+                }
+            }
         }
     },
     ajaxReloadDataTable: function (tableElement) {
