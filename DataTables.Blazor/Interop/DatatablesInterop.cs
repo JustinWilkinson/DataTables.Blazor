@@ -44,6 +44,41 @@ namespace DataTables.Blazor.Interop
         ValueTask ReloadAsync(ElementReference tableReference, IDataset dataset);
 
         /// <summary>
+        /// Add class to row by index.
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable</param>
+        /// <param name="rowIndex">Index of row.</param>
+        /// <param name="className">Class name.</param>
+        /// <returns></returns>
+        ValueTask AddRowClassAsync(ElementReference tableReference, int rowIndex, string className);
+
+        /// <summary>
+        /// Remove class from row by index.
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable</param>
+        /// <param name="rowIndex">Index of row.</param>
+        /// <param name="className">Class name.</param>
+        /// <returns></returns>
+        ValueTask RemoveRowClassAsync(ElementReference tableReference, int rowIndex, string className);
+
+        /// <summary>
+        /// Add class to row by index.
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable</param>
+        /// <param name="columnIndex">Index of row.</param>
+        /// <param name="className">Class name.</param>
+        /// <returns></returns>
+        ValueTask AddColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoAddToHeader = false);
+
+        /// <summary>
+        /// Remove class from row by index.
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable</param>
+        /// <param name="columnIndex">Index of row.</param>
+        /// <param name="className">Class name.</param>
+        /// <returns></returns>
+        ValueTask RemoveColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoRemoveFromHeader = false);
+    
         ///  
         /// </summary>
         /// <param name="tableReference">Reference to the DataTable.</param>
@@ -103,6 +138,22 @@ namespace DataTables.Blazor.Interop
         public ValueTask ReloadAsync(ElementReference tableReference, IDataset dataset)
             => _runtime.InvokeVoidAsync("datatablesInterop.reloadDataTable", tableReference, JsonSerializer.Serialize(dataset, SerializerOptions));
 
+        /// <inheritdoc/>
+        public ValueTask AddRowClassAsync(ElementReference tableReference, int rowIndex, string className) 
+            => _runtime.InvokeVoidAsync("datatablesInterop.addRowClass", tableReference, rowIndex, className);
+
+        /// <inheritdoc/>
+        public ValueTask RemoveRowClassAsync(ElementReference tableReference, int rowIndex, string className)
+            => _runtime.InvokeVoidAsync("datatablesInterop.removeRowClass", tableReference, rowIndex, className);
+
+        /// <inheritdoc/>
+        public ValueTask AddColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoAddToHeader = false)
+            => _runtime.InvokeVoidAsync("datatablesInterop.addColumnClass", tableReference, columnIndex, className, alsoAddToHeader);
+
+        /// <inheritdoc/>
+        public ValueTask RemoveColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoRemoveFromHeader = false)
+              => _runtime.InvokeVoidAsync("datatablesInterop.removeColumnClass", tableReference, columnIndex, className, alsoRemoveFromHeader);
+        
         /// <inheritdoc/>
         public ValueTask AddEventListenerAsync(ElementReference tableReference, string eventName, Object dotNetCallback)
             => _runtime.InvokeVoidAsync("datatablesInterop.addEventListener", tableReference, eventName, dotNetCallback);

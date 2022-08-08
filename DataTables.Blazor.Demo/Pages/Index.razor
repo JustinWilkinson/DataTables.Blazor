@@ -434,10 +434,16 @@ private record Weather
                             <div class="row mb-3">
                                 <div class="col">
                                     <h6>An example of the basic initialization of a DataTable with buttons.</h6>
+                                     <p>
+                                        <button @onclick="@(() => buttonsDatatable?.AddRowClassAsync(1, "myRow"))">Add class to row index 1</button>
+                                        <button @onclick="@(() => buttonsDatatable?.RemoveRowClassAsync(1, "myRow"))">Remove class from row index 1</button>
+                                        <button @onclick="@(() => buttonsDatatable?.AddColumnClassAsync(1, "myColumn", true))">Add class to column index 1</button>
+                                        <button @onclick="@(() => buttonsDatatable?.RemoveColumnClassAsync(1, "myColumn", true))">Remove class from column index 1</button>
+                                    </p>
                                 </div>
                             </div>
                             <TabItem Title="View Demo">
-                                <DataTable SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100" Options="_buttonsDemoOptions">
+                                <DataTable @ref="buttonsDatatable" SourceUrl="sample-data/users.json" Class="table table-striped table-bordered w-100" Options="_buttonsDemoOptions">
                                     <DataTableColumn Title="Id" Data="id"/>
                                     <DataTableColumn Title="First Name" Data="first_name"/>
                                     <DataTableColumn Title="Last Name" Data="last_name"/>
@@ -558,7 +564,20 @@ private record Weather
 </div>
  
 
+<style>
+    .myColumn{
+        color:red;
+        background: #dcdcff !important;
+    }
+     .myRow{
+        color:green;
+        background: #ffffc5 !important;
+    }
+</style>
+
 @code{
+    private DataTable buttonsDatatable { get; set; }
+
     private readonly DataTableOptions _buttonsDemoOptions = new DataTableOptions
     {
         DOM = "Bfrtip",
