@@ -1,4 +1,5 @@
 ﻿using DataTables.Blazor.Abstractions;
+using DataTables.Blazor.Options.ExtensionsOptions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -95,6 +96,12 @@ namespace DataTables.Blazor.Options
         public string StripeClasses { get; set; }
 
         public int? TabIndex { get; set; }
+        #endregion
+
+        #region "Extensions Options"
+         
+        public ScrollerOptions Scroller { get; set; }    
+
         #endregion
 
         public LanguageOptions Language { get; set; }

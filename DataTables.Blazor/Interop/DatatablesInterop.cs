@@ -3,6 +3,7 @@ using DataTables.Blazor.Abstractions.JsonConverters;
 using DataTables.Blazor.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
 using System.Text.Json;
 #if NET6_0_OR_GREATER
 using System.Text.Json.Serialization;
@@ -77,7 +78,12 @@ namespace DataTables.Blazor.Interop
         /// <param name="className">Class name.</param>
         /// <returns></returns>
         ValueTask RemoveColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoRemoveFromHeader = false);
-    } 
+    
+        ///  
+        /// </summary>
+        /// <param name="tableReference">Reference to the DataTable.</param>
+        ValueTask AddEventListenerAsync(ElementReference tableReference, string eventName, Object dotNetCallback);
+    }
 
     /// <inheritdoc/>
     internal sealed class DataTablesInterop : IDataTablesInterop
@@ -147,5 +153,9 @@ namespace DataTables.Blazor.Interop
         /// <inheritdoc/>
         public ValueTask RemoveColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoRemoveFromHeader = false)
               => _runtime.InvokeVoidAsync("datatablesInterop.removeColumnClass", tableReference, columnIndex, className, alsoRemoveFromHeader);
+        
+        /// <inheritdoc/>
+        public ValueTask AddEventListenerAsync(ElementReference tableReference, string eventName, Object dotNetCallback)
+            => _runtime.InvokeVoidAsync("datatablesInterop.addEventListener", tableReference, eventName, dotNetCallback);
     }
 }

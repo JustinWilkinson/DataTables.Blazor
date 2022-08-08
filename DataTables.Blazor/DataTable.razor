@@ -1,4 +1,7 @@
-﻿@inject IDataTablesInterop Datatables
+﻿@using System.Text.Json
+@using DataTables.Blazor.Events
+@inject IDataTablesInterop Datatables
+@inject IDomEventListener DomEventListener
 @implements IAsyncDisposable
 
 <CascadingValue Value="this">
@@ -63,12 +66,149 @@
     /// </summary>
     public List<DataTableColumn> Columns { get; set; } = new List<DataTableColumn>();
 
+    #region "Events DataTable"
+
+    /// <summary>
+    /// A child row has been added or removed from the table.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChildRowChanged { get; set; }
+
+    /// <summary>
+    /// Column sizing event - fired when the column widths are recalculated.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnColumnSizing { get; set; }
+
+    /// <summary>
+    /// Column visibility event - fired when the visibility of a column changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnColumnVisibility { get; set; }
+
+    /// <summary>
+    /// Table destroy event - fired when a table is destroyed.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnDestroy { get; set; }
+
+    /// <summary>
+    /// Draw event - fired once the table has completed a draw.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnDraw { get; set; }
+
+    /// <summary>
+    /// Error event - An error has occurred during DataTables' processing of data.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnError { get; set; }
+
+    /// <summary>
+    /// Initialisation complete event - fired when DataTables has been fully initialised and data loaded.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnInit { get; set; }
+
+    /// <summary>
+    ///Page length change event - fired when the page length is changed.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnLength { get; set; }
+
+    /// <summary>
+    /// Order event - fired when the data contained in the table is ordered.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnOrder { get; set; }
+
+    /// <summary>
+    /// Page change event - fired when the table's paging is updated.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnPage { get; set; }
+
+    /// <summary>
+    /// Pre-draw event - triggered as the table is about to be redrawn.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnPreDraw { get; set; }
+
+    /// <summary>
+    /// Initialisation started event - triggered immediately before data load.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnPreInit { get; set; }
+
+    /// <summary>
+    /// Ajax event - fired before an Ajax request is made.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnPreXhr { get; set; }
+
+    /// <summary>
+    /// Processing event - fired when DataTables is processing data.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnProcessing { get; set; }
+
+    /// <summary>
+    /// DataTables wants to display a child row.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnRequestChild { get; set; }
+
+    /// <summary>
+    /// Search event - fired when the table is filtered.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnSearch { get; set; }
+
+    /// <summary>
+    /// State load event - fired when loading state from storage.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnStateLoadParams { get; set; }
+
+    /// <summary>
+    /// State loaded event - fired once state has been loaded and applied.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnStateLoaded { get; set; }
+
+    /// <summary>
+    /// State save event - fired when saving table state information.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnStateSaveParams { get; set; }
+
+    /// <summary>
+    /// Ajax event - fired when an Ajax request is completed
+    /// </summary>
+    [Parameter]
+    public EventCallback OnXhr { get; set; }
+
+    /// <summary>
+    /// On row click.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RowClickEventArgs> OnRowClick { get; set; }
+
+    /// <summary>
+    /// On cell click.
+    /// Will not work for hidden column cells.
+    /// </summary>
+    [Parameter]
+    public EventCallback<CellClickEventArgs> OnCellClick { get; set; }
+
+    #endregion
+
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await Datatables.InitialiseAsync(_tableReference, DataTableOptions.FromComponent(this));
+            await InitialiseAsync();
         }
         else if (AutoReload)
         {
@@ -146,12 +286,25 @@
     }
 
     /// <summary>
+    /// Initializes a new one Datatable.
+    /// </summary>
+    public async ValueTask InitialiseAsync()
+    {
+        await AddEventListenersBeforeInitAsync();
+
+        await Datatables.InitialiseAsync(_tableReference, DataTableOptions.FromComponent(this));
+
+        await AddEventListenersAfterInitAsync();
+    }
+
+
+    /// <summary>
     /// Destroys the existing DataTable and initializes a new one in its place.
     /// </summary>
     public async ValueTask ReInitialiseAsync()
     {
         await Datatables.DestroyAsync(_tableReference);
-        await Datatables.InitialiseAsync(_tableReference, DataTableOptions.FromComponent(this));
+        await InitialiseAsync();
     }
 
     /// <summary>
@@ -160,4 +313,125 @@
     public ValueTask DisposeAsync() => Datatables.DestroyAsync(_tableReference);
 
     private bool IsDomSourced() => string.IsNullOrWhiteSpace(SourceUrl) && Data == null;
+
+    private async Task AddEventListenersBeforeInitAsync()
+    {
+        if (OnInit.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Init, e => OnInit.InvokeAsync(e));
+        }
+
+        if (OnXhr.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Xhr, e => OnXhr.InvokeAsync(e));
+        }
+
+        if (OnChildRowChanged.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.ChildRow, e => OnChildRowChanged.InvokeAsync(e));
+        }
+
+        if (OnRequestChild.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.RequestChild, e => OnRequestChild.InvokeAsync(e));
+        }
+
+        if (OnPreInit.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.PreInit, e => OnPreInit.InvokeAsync(e));
+        }
+
+        if (OnPreXhr.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.PreXhr, e => OnPreXhr.InvokeAsync(e));
+        }
+
+        if (OnError.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Error, e => OnError.InvokeAsync(e));
+        }
+
+        if (OnProcessing.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Processing, e => OnProcessing.InvokeAsync(e));
+        }
+    }
+
+    private async Task AddEventListenersAfterInitAsync()
+    {
+        if (OnRowClick.HasDelegate)
+        {
+            await AddEventListener<RowClickEventArgs>(JsEventsConstants.OnRowClick, e => OnRowClick.InvokeAsync(e));
+        }
+
+        if (OnCellClick.HasDelegate)
+        {
+            await AddEventListener<CellClickEventArgs>(JsEventsConstants.OnCellClick, e => OnCellClick.InvokeAsync(e));
+        }
+
+        if (OnColumnSizing.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.ColumnSizing, e => OnColumnSizing.InvokeAsync(e));
+        }
+
+        if (OnColumnVisibility.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.ColumnVisibility, e => OnColumnVisibility.InvokeAsync(e));
+        }
+
+        if (OnDestroy.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Destroy, e => OnDestroy.InvokeAsync(e));
+        }
+
+        if (OnDraw.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Draw, e => OnDraw.InvokeAsync(e));
+        }
+
+        if (OnLength.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Length, e => OnLength.InvokeAsync(e));
+        }
+
+        if (OnOrder.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Order, e => OnOrder.InvokeAsync(e));
+        }
+
+        if (OnPage.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Page, e => OnPage.InvokeAsync(e));
+        }
+
+        if (OnPreDraw.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.PreDraw, e => OnPreDraw.InvokeAsync(e));
+        }
+
+        if (OnSearch.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.Search, e => OnSearch.InvokeAsync(e));
+        }
+
+        if (OnStateLoadParams.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.StateLoadParams, e => OnStateLoadParams.InvokeAsync(e));
+        }
+
+        if (OnStateLoaded.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.StateLoaded, e => OnStateLoaded.InvokeAsync(e));
+        }
+
+        if (OnStateSaveParams.HasDelegate)
+        {
+            await AddEventListener<JsonDocument>(JsEventsConstants.StateSaveParams, e => OnStateSaveParams.InvokeAsync(e));
+        }
+    }
+
+    private async Task AddEventListener<T>(string eventName, Action<T> callback)
+    {
+        await DomEventListener.AddAsync<T>(_tableReference, eventName, callback);
+    }
 }
