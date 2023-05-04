@@ -1,7 +1,6 @@
-﻿namespace DataTables.Blazor.Extensions
+﻿namespace DataTables.Blazor.Extensions;
+
+public static class StringExtensions
 {
-    public static class StringExtensions
-    {
-        public static string ToCamelCase(this string str) => $"{char.ToLower(str[0])}{str[1..]}";
-    }
+    public static string ToCamelCase(this string str) => $"{char.ToLower(str[0])}{str[1..]}";
 }

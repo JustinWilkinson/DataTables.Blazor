@@ -5,19 +5,18 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace DataTables.Blazor.Demo
+namespace DataTables.Blazor.Demo;
+
+internal static class Program
 {
-    internal static class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddDataTables();
+        builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        builder.Services.AddDataTables();
 
-            await builder.Build().RunAsync();
-        }
+        await builder.Build().RunAsync();
     }
 }

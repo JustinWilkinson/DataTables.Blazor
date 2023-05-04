@@ -5,133 +5,132 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataTables.Blazor.Interop
+namespace DataTables.Blazor.Interop;
+
+/// <summary>
+/// Controls the events between .NET and JS for DataTables.Blazor.
+/// </summary>
+public interface IDomEventListener
 {
     /// <summary>
-    /// Controls the events between .NET and JS for DataTables.Blazor.
+    /// Add event listener for datatable.
     /// </summary>
-    public interface IDomEventListener
+    /// <typeparam name="T"></typeparam>
+    /// <param name="dom"></param>
+    /// <param name="eventName"></param>
+    /// <param name="callback"></param>
+    /// <returns></returns>
+    Task AddAsync<T>(ElementReference dom, string eventName, Action<T> callback);
+
+    /// <summary>
+    /// For testing purpose only.
+    /// </summary>
+    /// <param name="dom"></param>
+    /// <param name="eventName"></param>
+    bool AnyEvent(string eventName);
+
+    /// <summary>
+    /// Clear all listeners and dispose.
+    /// </summary>
+    void Dispose();
+
+    /// <summary>
+    /// Remove event listener by name.
+    /// </summary>
+    /// <param name="dom"></param>
+    /// <param name="eventName"></param>
+    void Remove(object dom, string eventName);
+}
+
+internal sealed class DomEventListener : IDomEventListener, IDisposable
+{
+    private readonly Dictionary<string, IDisposable> _dotNetObjectStore = new Dictionary<string, IDisposable>();
+    private readonly IDataTablesInterop _jsRuntime;
+    private readonly string _id;
+
+    public DomEventListener(IDataTablesInterop jsRuntime)
     {
-        /// <summary>
-        /// Add event listener for datatable.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dom"></param>
-        /// <param name="eventName"></param>
-        /// <param name="callback"></param>
-        /// <returns></returns>
-        Task AddAsync<T>(ElementReference dom, string eventName, Action<T> callback);
-
-        /// <summary>
-        /// For testing purpose only.
-        /// </summary>
-        /// <param name="dom"></param>
-        /// <param name="eventName"></param>
-        bool AnyEvent(string eventName);
-
-        /// <summary>
-        /// Clear all listeners and dispose.
-        /// </summary>
-        void Dispose();
-
-        /// <summary>
-        /// Remove event listener by name.
-        /// </summary>
-        /// <param name="dom"></param>
-        /// <param name="eventName"></param>
-        void Remove(object dom, string eventName);
+        _jsRuntime = jsRuntime;
+        _id = Guid.NewGuid().ToString();
     }
 
-    internal sealed class DomEventListener : IDomEventListener, IDisposable
+    /// <inheritdoc/>
+    public async Task AddAsync<T>(ElementReference dom, string eventName, Action<T> callback)
     {
-        private Dictionary<string, IDisposable> _dotNetObjectStore = new Dictionary<string, IDisposable>();
-        private readonly IDataTablesInterop _jsRuntime;
-        private readonly string _id;
-
-        public DomEventListener(IDataTablesInterop jsRuntime)
+        if (string.IsNullOrEmpty(eventName))
         {
-            _jsRuntime = jsRuntime;
-            _id = Guid.NewGuid().ToString();
+            throw new ArgumentNullException(nameof(eventName));
         }
 
-        /// <inheritdoc/>
-        public async Task AddAsync<T>(ElementReference dom, string eventName, Action<T> callback)
+        var key = FormatKey(dom, eventName);
+        if (_dotNetObjectStore.ContainsKey(key))
         {
-            if (string.IsNullOrEmpty(eventName))
-            {
-                throw new ArgumentNullException(nameof(eventName));
-            }
-
-            var key = FormatKey(dom, eventName);
-            if (_dotNetObjectStore.ContainsKey(key))
-            {
-                return;
-            }
-
-            var dotNetObject = DotNetObjectReference.Create(new Invoker<T>(callback));
-
-            await _jsRuntime.AddEventListenerAsync(dom, eventName, dotNetObject);
-
-            _dotNetObjectStore.Add(key, dotNetObject);
+            return;
         }
 
-        /// <inheritdoc/>
-        public bool AnyEvent(string eventName)
-        { 
-            return _dotNetObjectStore.Any(x=>x.Key.EndsWith ($"-{eventName}"));
-        }
+        var dotNetObject = DotNetObjectReference.Create(new Invoker<T>(callback));
 
-        /// <inheritdoc/>
-        public void Remove(object dom, string eventName)
+        await _jsRuntime.AddEventListenerAsync(dom, eventName, dotNetObject);
+
+        _dotNetObjectStore.Add(key, dotNetObject);
+    }
+
+    /// <inheritdoc/>
+    public bool AnyEvent(string eventName)
+    { 
+        return _dotNetObjectStore.Any(x=>x.Key.EndsWith ($"-{eventName}"));
+    }
+
+    /// <inheritdoc/>
+    public void Remove(object dom, string eventName)
+    {
+        var key = FormatKey(dom, eventName);
+        if (_dotNetObjectStore.TryGetValue(key, out IDisposable value))
         {
-            var key = FormatKey(dom, eventName);
-            if (_dotNetObjectStore.TryGetValue(key, out IDisposable value))
-            {
-                value?.Dispose();
-            }
-            _dotNetObjectStore.Remove(key);
+            value?.Dispose();
         }
+        _dotNetObjectStore.Remove(key);
+    }
 
-        /// <inheritdoc/>
-        public void Dispose()
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        foreach (var (k, v) in _dotNetObjectStore)
         {
-            foreach (var (k, v) in _dotNetObjectStore)
-            {
-                v?.Dispose();
-            }
-            _dotNetObjectStore.Clear();
+            v?.Dispose();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dom"></param>
-        /// <param name="eventName"></param>
-        /// <returns></returns>
-        private string FormatKey(object dom, string eventName)
-        {
-            var selector = dom is ElementReference eleRef ? eleRef.Id : dom.ToString();
-            return $"DEL-{_id}-{selector}-{eventName}";
-        }
+        _dotNetObjectStore.Clear();
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    internal class Invoker<T>
+    /// <param name="dom"></param>
+    /// <param name="eventName"></param>
+    /// <returns></returns>
+    private string FormatKey(object dom, string eventName)
     {
-        private readonly Action<T> _action;
+        var selector = dom is ElementReference eleRef ? eleRef.Id : dom.ToString();
+        return $"DEL-{_id}-{selector}-{eventName}";
+    }
+}
 
-        public Invoker(Action<T> invoker)
-        {
-            _action = invoker;
-        } 
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+internal class Invoker<T>
+{
+    private readonly Action<T> _action;
 
-        [JSInvokable]
-        public void Invoke(T args)
-        {
-            _action(args); 
-        }
+    public Invoker(Action<T> invoker)
+    {
+        _action = invoker;
+    } 
+
+    [JSInvokable]
+    public void Invoke(T args)
+    {
+        _action(args); 
     }
 }

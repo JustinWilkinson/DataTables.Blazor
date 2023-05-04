@@ -297,7 +297,6 @@
         await AddEventListenersAfterInitAsync();
     }
 
-
     /// <summary>
     /// Destroys the existing DataTable and initializes a new one in its place.
     /// </summary>
@@ -314,7 +313,7 @@
 
     private bool IsDomSourced() => string.IsNullOrWhiteSpace(SourceUrl) && Data == null;
 
-    private async Task AddEventListenersBeforeInitAsync()
+    private async ValueTask AddEventListenersBeforeInitAsync()
     {
         if (OnInit.HasDelegate)
         {
@@ -357,7 +356,7 @@
         }
     }
 
-    private async Task AddEventListenersAfterInitAsync()
+    private async ValueTask AddEventListenersAfterInitAsync()
     {
         if (OnRowClick.HasDelegate)
         {
@@ -430,8 +429,8 @@
         }
     }
 
-    private async Task AddEventListener<T>(string eventName, Action<T> callback)
+    private Task AddEventListener<T>(string eventName, Action<T> callback)
     {
-        await DomEventListener.AddAsync<T>(_tableReference, eventName, callback);
+        return DomEventListener.AddAsync(_tableReference, eventName, callback);
     }
 }
