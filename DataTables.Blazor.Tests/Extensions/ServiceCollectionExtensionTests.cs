@@ -7,38 +7,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DataTables.Blazor.Tests.Extensions
+namespace DataTables.Blazor.Tests.Extensions;
+
+public class ServiceCollectionExtensionTests
 {
-    public class ServiceCollectionExtensionTests
+    [Fact]
+    public void AddDataTables_WhenCalledWithJSRuntime_ShouldAddRequiredServices()
     {
-        [Fact]
-        public void AddDataTables_WhenCalledWithJSRuntime_ShouldAddRequiredServices()
-        {
-            // Arrange
-            var provider = new ServiceCollection().AddTransient<IJSRuntime, StubJSRuntime>().AddDataTables().BuildServiceProvider();
+        // Arrange
+        var provider = new ServiceCollection().AddTransient<IJSRuntime, StubJSRuntime>().AddDataTables().BuildServiceProvider();
 
-            // Act
-            var service = provider.GetService<IDataTablesInterop>();
+        // Act
+        var service = provider.GetService<IDataTablesInterop>();
 
-            // Assert
-            Assert.NotNull(service);
-        }
-
-        [Fact]
-        public void AddDataTables_WhenCalledWithoutJSRuntime_ShouldThrowException()
-        {
-            // Arrange
-            var services = new ServiceCollection();
-
-            // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => services.AddDataTables());
-        }
+        // Assert
+        Assert.NotNull(service);
     }
 
-    internal class StubJSRuntime : IJSRuntime
+    [Fact]
+    public void AddDataTables_WhenCalledWithoutJSRuntime_ShouldThrowException()
     {
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object[] args) => default;
+        // Arrange
+        var services = new ServiceCollection();
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object[] args) => default;
+        // Act/Assert
+        Assert.Throws<InvalidOperationException>(() => services.AddDataTables());
     }
+}
+
+internal class StubJSRuntime : IJSRuntime
+{
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object[] args) => default;
+
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object[] args) => default;
 }

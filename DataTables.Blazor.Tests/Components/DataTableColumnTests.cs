@@ -1,22 +1,21 @@
 ﻿using Bunit;
 using Xunit;
 
-namespace DataTables.Blazor.Tests.Components
+namespace DataTables.Blazor.Tests.Components;
+
+public class DataTableColumnTests
 {
-    public class DataTableColumnTests
+    [Fact]
+    public void DataTableColumn_WhenRendered_ShouldHaveTitleAsContent()
     {
-        [Fact]
-        public void DataTableColumn_WhenRendered_ShouldHaveTitleAsContent()
-        {
-            // Arrange
-            using var context = new TestContext();
+        // Arrange
+        using var context = new TestContext();
 
-            // Act
-            var column = context.RenderComponent<DataTableColumn>(parameters => parameters.Add(x => x.Table, new DataTable()).Add(x => x.Title, "Hello World"));
+        // Act
+        var column = context.RenderComponent<DataTableColumn>(parameters => parameters.Add(x => x.Table, new DataTable()).Add(x => x.Title, "Hello World"));
 
-            // Assert
-            var content = column.Find("th").TextContent;
-            Assert.Equal("Hello World", content);
-        }
+        // Assert
+        var content = column.Find("th").TextContent;
+        Assert.Equal("Hello World", content);
     }
 }
