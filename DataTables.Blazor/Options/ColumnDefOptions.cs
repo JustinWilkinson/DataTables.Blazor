@@ -11,5 +11,5 @@ public class ColumnDefOptions : ColumnOptions
     /// <summary>
     /// Can be an integer or integer array, or string.
     /// </summary>
-    public DiscriminatedUnion<string, int, IEnumerable<int>> Targets { get; set; }
+    public DiscriminatedUnion<string, int, IEnumerable<int>>? Targets { get; set; }
 }

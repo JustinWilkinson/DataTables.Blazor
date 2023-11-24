@@ -67,6 +67,7 @@ public interface IDataTablesInterop
     /// <param name="tableReference">Reference to the DataTable</param>
     /// <param name="columnIndex">Index of row.</param>
     /// <param name="className">Class name.</param>
+    /// <param name="alsoAddToHeader"></param>
     /// <returns></returns>
     ValueTask AddColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoAddToHeader = false);
 
@@ -76,10 +77,13 @@ public interface IDataTablesInterop
     /// <param name="tableReference">Reference to the DataTable</param>
     /// <param name="columnIndex">Index of row.</param>
     /// <param name="className">Class name.</param>
+    /// <param name="alsoRemoveFromHeader"></param>
     /// <returns></returns>
     ValueTask RemoveColumnClassAsync(ElementReference tableReference, int columnIndex, string className, bool alsoRemoveFromHeader = false);
-        
+
     /// <param name="tableReference">Reference to the DataTable.</param>
+    /// <param name="eventName"></param>
+    /// <param name="dotNetCallback"></param>
     ValueTask AddEventListenerAsync(ElementReference tableReference, string eventName, Object dotNetCallback);
 }
 

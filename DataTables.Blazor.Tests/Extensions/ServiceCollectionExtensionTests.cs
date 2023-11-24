@@ -37,7 +37,7 @@ public class ServiceCollectionExtensionTests
 
 internal class StubJSRuntime : IJSRuntime
 {
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object[] args) => default;
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => default;
 
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object[] args) => default;
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => default;
 }

@@ -16,7 +16,7 @@ public abstract class DiscriminatedUnion
 
     protected abstract Type[] AllowedTypes { get; }
 
-    private object _value;
+    private object? _value;
     public object Value
     {
         get => _value;
