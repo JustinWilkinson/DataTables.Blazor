@@ -65,6 +65,9 @@ Xunit/Bunit tests for the DataTables.Blazor project.
 
 
 ## Release Notes:
+### 3.6.0
+* Adds .NET 8 support.
+
 ### 3.2.0
 * Add reload and reinitialize methods as well as `AutoReload` for the `DataTable` component.
 
