@@ -8,14 +8,14 @@ namespace DataTables.Blazor.Options;
 /// </summary>
 public class AjaxOptions
 {
+    public string? Url { get; set; }
+
+    public DiscriminatedUnion<JavaScriptFunction, object>? Data { get; set; }
+
+    public DiscriminatedUnion<JavaScriptFunction, string>? DataSrc { get; set; }
+
     public AjaxOptions(string source)
     {
         Url = source;
     }
-
-    public string Url { get; set; }
-
-    public DiscriminatedUnion<JavaScriptFunction, object> Data { get; set; }
-
-    public DiscriminatedUnion<JavaScriptFunction, string> DataSrc { get; set; }
 }

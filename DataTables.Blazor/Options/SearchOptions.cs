@@ -9,7 +9,7 @@ public class SearchOptions
 
     public bool? Regex { get; set; }
 
-    public string Search { get; set; }
+    public string? Search { get; set; }
 
     public bool? Smart { get; set; }
 }

@@ -11,8 +11,8 @@ internal static class ReflectionExtensions
     /// <summary>
     /// Gets the getter for the specified property on the class.
     /// </summary>
-    /// <typeparam name="T">Type of instance.</typeparam>
     /// <param name="property">Property to obtain setter of.</param>
+    /// <param name="type">Type of instance.</param>
     /// <returns>A delegate that invokes the property setter.</returns>
     public static Func<object, object> GetGetter(this PropertyInfo property, Type type) => CreateGetDelegate(property.GetMethod, type);
 
@@ -22,8 +22,8 @@ internal static class ReflectionExtensions
     /// <summary>
     /// Helper method that returns a getter for a property using the object class.
     /// </summary>
-    /// <typeparam name="T">Type of instance</typeparam>
     /// <param name="method">Method Info to pass</param>
+    /// <param name="type">Type of instance</param>
     /// <returns></returns>
     private static Func<object, object> CreateGetDelegate(MethodInfo method, Type type)
     {

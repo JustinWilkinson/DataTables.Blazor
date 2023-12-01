@@ -19,10 +19,10 @@ public class CellClickEventArgs : EventArgs
     /// <summary>
     /// The id of the row this cell is on. The value will be null if no <see href="https://datatables.net/reference/option/rowId">rowId</see> option is specified.
     /// </summary>
-    public string RowId { get; set; }
+    public string? RowId { get; set; }
 
     /// <summary>
     /// Value of cell.
     /// </summary>
-    public string Data { get; set; } 
+    public string? Data { get; set; } 
 }

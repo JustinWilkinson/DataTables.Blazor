@@ -108,7 +108,7 @@ public class DiscriminatedUnionJsonConverterTests
 
     private record TestClass
     {
-        public string Property1 { get; set; }
+        public string Property1 { get; set; } = default!;
 
         public int Property2 { get; set; }
 
@@ -116,6 +116,6 @@ public class DiscriminatedUnionJsonConverterTests
 
         public bool Property4 { get; set; }
 
-        public int[] Property5 { get; set; }
+        public int[] Property5 { get; set; } = default!;
     }
 }

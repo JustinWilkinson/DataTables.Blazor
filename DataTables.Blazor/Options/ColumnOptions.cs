@@ -2,42 +2,43 @@
 
 namespace DataTables.Blazor.Options;
 
+
 /// <summary>
 /// Represents a DataTable column. See <a href="https://datatables.net/reference/option/columns">DataTables Reference</a> for more info.
 /// </summary>
 public class ColumnOptions
 {
-    public string CellType { get; set; }
+    public string? CellType { get; set; }
 
-    public string ClassName { get; set; }
+    public string? ClassName { get; set; }
 
-    public string ContentPadding { get; set; }
+    public string? ContentPadding { get; set; }
 
-    public JavaScriptFunction CreatedCell { get; set; }
+    public JavaScriptFunction? CreatedCell { get; set; }
 
-    public string Data { get; set; }
+    public string? Data { get; set; }
 
-    public string DefaultContent { get; set; }
+    public string? DefaultContent { get; set; }
 
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public bool? Orderable { get; set; }
 
-    public string OrderData { get; set; }
+    public string? OrderData { get; set; }
 
-    public string OrderDataType { get; set; }
+    public string? OrderDataType { get; set; }
 
-    public JavaScriptFunction Render { get; set; }
+    public JavaScriptFunction? Render { get; set; }
 
     public bool? Searchable { get; set; }
 
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     public bool? Visible { get; set; }
 
-    public string Width { get; set; }
+    public string? Width { get; set; }
 
     public static ColumnOptions FromComponent(DataTableColumn column)
     {

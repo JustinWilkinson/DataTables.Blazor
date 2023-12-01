@@ -9,12 +9,12 @@ public class ScrollerOptions
     /// <summary>
     /// Set the point at which new data will be loaded and drawn.
     /// </summary>
-    public string BoundaryScale { get; set; }
+    public string? BoundaryScale { get; set; }
 
     /// <summary>
     /// The amount of data that Scroller should pre-buffer to ensure smooth scrolling.
     /// </summary>
-    public string DisplayBuffer { get; set; }
+    public string? DisplayBuffer { get; set; }
 
     /// <summary> 
     /// Display a loading message while Scroller is loading additional data.

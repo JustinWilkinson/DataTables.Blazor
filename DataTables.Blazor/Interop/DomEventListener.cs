@@ -25,7 +25,6 @@ public interface IDomEventListener
     /// <summary>
     /// For testing purpose only.
     /// </summary>
-    /// <param name="dom"></param>
     /// <param name="eventName"></param>
     bool AnyEvent(string eventName);
 
@@ -85,7 +84,7 @@ internal sealed class DomEventListener : IDomEventListener, IDisposable
     public void Remove(object dom, string eventName)
     {
         var key = FormatKey(dom, eventName);
-        if (_dotNetObjectStore.TryGetValue(key, out IDisposable value))
+        if (_dotNetObjectStore.TryGetValue(key, out IDisposable? value))
         {
             value?.Dispose();
         }

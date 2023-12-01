@@ -5,9 +5,9 @@
 /// </summary>
 public class AriaOptions
 {
-    public PaginateOptions Paginate { get; set; }
+    public PaginateOptions? Paginate { get; set; }
 
-    public string SortAscending { get; set; }
+    public string? SortAscending { get; set; }
 
-    public string SortDescending { get; set; }
+    public string? SortDescending { get; set; }
 }

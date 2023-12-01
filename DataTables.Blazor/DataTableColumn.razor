@@ -2,28 +2,28 @@
 
 @code {
     [CascadingParameter]
-    public DataTable Table { get; set; }
+    public DataTable? Table { get; set; }
 
     [Parameter]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Parameter]
-    public string Data { get; set; }
+    public string? Data { get; set; }
 
     [Parameter]
-    public string DefaultContent { get; set; }
+    public string? DefaultContent { get; set; }
 
     [Parameter]
-    public string ClassName { get; set; }
+    public string? ClassName { get; set; }
 
     [Parameter]
-    public string CellType { get; set; }
+    public string? CellType { get; set; }
 
     [Parameter]
-    public string ContentPadding { get; set; }
+    public string? ContentPadding { get; set; }
 
     [Parameter]
     public bool? Searchable { get; set; }
@@ -32,25 +32,25 @@
     public bool? Orderable { get; set; }
 
     [Parameter]
-    public string OrderData { get; set; }
+    public string? OrderData { get; set; }
 
     [Parameter]
-    public string OrderDataType { get; set; }
+    public string? OrderDataType { get; set; }
 
     [Parameter]
-    public JavaScriptFunction CreatedCell { get; set; }
+    public JavaScriptFunction? CreatedCell { get; set; }
 
     [Parameter]
-    public JavaScriptFunction Render { get; set; }
+    public JavaScriptFunction? Render { get; set; }
 
     [Parameter]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [Parameter]
     public bool? Visible { get; set; }
 
     [Parameter]
-    public string Width { get; set; }
+    public string? Width { get; set; }
 
-    protected override void OnInitialized() => Table.Columns.Add(this);
+    protected override void OnInitialized() => Table?.Columns.Add(this);
 }
