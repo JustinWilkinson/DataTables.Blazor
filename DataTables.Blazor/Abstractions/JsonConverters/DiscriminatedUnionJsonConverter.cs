@@ -15,7 +15,7 @@ internal class DiscriminatedUnionJsonConverter : JsonConverter<DiscriminatedUnio
 {
     private const int MaxDepth = 50;
 
-    private static readonly ConcurrentDictionary<Type, Dictionary<string, Func<object, object>>> Getters = new ConcurrentDictionary<Type, Dictionary<string, Func<object, object>>>();
+    private static readonly ConcurrentDictionary<Type, Dictionary<string, Func<object, object?>>> Getters = new();
 
     public override bool CanConvert(Type typeToConvert)
         => typeof(DiscriminatedUnion).IsAssignableFrom(typeToConvert);
@@ -26,7 +26,7 @@ internal class DiscriminatedUnionJsonConverter : JsonConverter<DiscriminatedUnio
     public override void Write(Utf8JsonWriter writer, DiscriminatedUnion value, JsonSerializerOptions options)
         => Write(writer, value.Value);
 
-    private static void Write(Utf8JsonWriter writer, object value, int depth = 0)
+    private static void Write(Utf8JsonWriter writer, object? value, int depth = 0)
     {
         if (++depth >= MaxDepth)
         {
@@ -107,7 +107,7 @@ internal class DiscriminatedUnionJsonConverter : JsonConverter<DiscriminatedUnio
             var type = value.GetType();
             if (!Getters.TryGetValue(type, out var gettersByName))
             {
-                gettersByName = type.GetProperties().ToDictionary(x => x.Name, x => x.GetGetter(x.DeclaringType));
+                gettersByName = type.GetProperties().ToDictionary(x => x.Name, x => x.GetGetter(x.DeclaringType!));
                 Getters.TryAdd(type, gettersByName);
             }
 

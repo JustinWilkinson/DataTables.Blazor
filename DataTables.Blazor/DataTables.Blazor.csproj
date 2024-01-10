@@ -10,7 +10,7 @@
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Version>3.6.0</Version>
+        <Version>3.6.1</Version>
         <AssemblyName>DataTables.Blazor</AssemblyName>
         <PackageId>DataTables.Blazor</PackageId>
         <Description>A basic port for jquery DataTables into Blazor.</Description>
@@ -19,7 +19,7 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <IsPackable>true</IsPackable>
-        <Copyright>Justin Wilkinson (2023)</Copyright>
+        <Copyright>Justin Wilkinson (2024)</Copyright>
         <Authors>Justin Wilkinson, Tim Larson, Jake Soenneker</Authors>
         <Company />
         <PackageTags>blazor datatables interops</PackageTags>
@@ -35,16 +35,16 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.6" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.16" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.16" />
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.26" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.26" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.13" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.15" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.1" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\LICENSE">
