@@ -10,7 +10,7 @@
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Version>3.6.0</Version>
+        <Version>3.6.1</Version>
         <AssemblyName>DataTables.Blazor</AssemblyName>
         <PackageId>DataTables.Blazor</PackageId>
         <Description>A basic port for jquery DataTables into Blazor.</Description>
@@ -19,7 +19,7 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <IsPackable>true</IsPackable>
-        <Copyright>Justin Wilkinson (2023)</Copyright>
+        <Copyright>Justin Wilkinson (2024)</Copyright>
         <Authors>Justin Wilkinson, Tim Larson, Jake Soenneker</Authors>
         <Company />
         <PackageTags>blazor datatables interops</PackageTags>
