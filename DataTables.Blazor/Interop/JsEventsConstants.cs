@@ -14,6 +14,11 @@ public static class JsEventsConstants
     public const string OnRowClick = "onrowclick";
 
     /// <summary>
+    /// On row click.
+    /// </summary>
+    public const string OnRowDoubleClick = "onrowdoubleclick";
+
+    /// <summary>
     /// On cell click.
     /// </summary>
     public const string OnCellClick = "oncellclick";

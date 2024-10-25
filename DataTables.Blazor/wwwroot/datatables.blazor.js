@@ -115,6 +115,9 @@ window.datatablesInterop = {
         if (isEqual(eventName, "onrowclick")) {
             addRowClickListener(tableElement, dotNetCallback);
         }
+        else if (isEqual(eventName, "onrowdoubleclick")) {
+            addRowDoubleClickListener(tableElement, dotNetCallback);
+        }
         else if (isEqual(eventName, "oncellclick")) {
             addCellClickListener(tableElement, dotNetCallback);
         }
@@ -132,6 +135,19 @@ function addRowClickListener(tableElement, dotNetCallback) {
             "id": String(row.id()),
             "data": row.data()
         };
+        return dotNetCallback.invokeMethodAsync("Invoke", json);
+    });
+}
+
+function addRowDoubleClickListener(tableElement, dotNetCallback) {
+    $(tableElement).on("dblclick", "tbody tr", function (...args) {
+        var row = $(tableElement).DataTable().row(this);
+        var json = {
+            "index": row.index(),
+            "id": String(row.id()),
+            "data": row.data()
+        };
+        console.log(json);
         return dotNetCallback.invokeMethodAsync("Invoke", json);
     });
 }
