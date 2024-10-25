@@ -147,7 +147,6 @@ function addRowDoubleClickListener(tableElement, dotNetCallback) {
             "id": String(row.id()),
             "data": row.data()
         };
-        console.log(json);
         return dotNetCallback.invokeMethodAsync("Invoke", json);
     });
 }
