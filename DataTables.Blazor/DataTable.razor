@@ -195,6 +195,12 @@
     public EventCallback<RowClickEventArgs> OnRowClick { get; set; }
 
     /// <summary>
+    /// On row double click.
+    /// </summary>
+    [Parameter]
+    public EventCallback<RowClickEventArgs> OnRowDoubleClick { get; set; }
+
+    /// <summary>
     /// On cell click.
     /// Will not work for hidden column cells.
     /// </summary>
@@ -361,6 +367,11 @@
         if (OnRowClick.HasDelegate)
         {
             await AddEventListener<RowClickEventArgs>(JsEventsConstants.OnRowClick, e => OnRowClick.InvokeAsync(e));
+        }
+
+        if (OnRowDoubleClick.HasDelegate)
+        {
+            await AddEventListener<RowClickEventArgs>(JsEventsConstants.OnRowDoubleClick, e => OnRowDoubleClick.InvokeAsync(e));
         }
 
         if (OnCellClick.HasDelegate)
