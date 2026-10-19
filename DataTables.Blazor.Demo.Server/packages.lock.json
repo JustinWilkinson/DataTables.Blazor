@@ -4,9 +4,9 @@
     "net9.0": {
       "Microsoft.AspNetCore.Components.WebAssembly.Server": {
         "type": "Direct",
-        "requested": "[9.0.5, )",
-        "resolved": "9.0.5",
-        "contentHash": "0wd1TntwHreZVcOvhtlaw2K8OBW61m/H2D3BaPhhDbwlxno4BF8DyVmiATaXautIfZuVJ3zAPz0wUKOdSZZMiQ=="
+        "requested": "[9.0.21, )",
+        "resolved": "9.0.21",
+        "contentHash": "z7bZ/1KaXAiYpiLHkqR7wEjp37ma2sfw4hJDk0VCnNN1XvA8XrmyqNoM+6pbp/HnWXA4fWk4nk5XbLr/2j7ijg=="
       },
       "Microsoft.AspNetCore.Authorization": {
         "type": "Transitive",
@@ -217,7 +217,7 @@
       "datatables.blazor.demo": {
         "type": "Project",
         "dependencies": {
-          "DataTables.Blazor": "[3.6.2, )",
+          "DataTables.Blazor": "[3.6.3, )",
           "Microsoft.AspNetCore.Components.WebAssembly": "[9.0.5, )",
           "RazorTabs": "[2.0.0, )"
         }
